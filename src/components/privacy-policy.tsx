@@ -2,14 +2,14 @@ const PrivacyPolicyComponent = () => {
   return (
     <div>
       <div className="mainContainer">
-        <h1>QRganiz Privacy Policy</h1>
+        <h1>Paws At Home Privacy Policy</h1>
 
         <section>
           <h2>1. Introduction</h2>
           <p>
-            Welcome to QRganiz. This Privacy Policy explains how we collect,
+            Welcome to Paws At Home. This Privacy Policy explains how we collect,
             use, disclose, and safeguard your information when you visit our
-            website and use our services. By using QRganiz, you agree to the
+            website and use our services. By using Paws At Home, you agree to the
             terms of this Privacy Policy. If you do not agree with the terms,
             please do not access our services.
           </p>
@@ -91,7 +91,7 @@ const PrivacyPolicyComponent = () => {
             You have the right to access, update, or delete your personal
             information. You can do this by logging into your account or
             contacting us at
-            <a href="mailto:support@qrganiz.com">support@qrganiz.com</a>. You
+            <a href="mailto:hello@pawsathome.com">hello@pawsathome.com</a>. You
             may also opt out of receiving promotional communications from us by
             following the unsubscribe instructions provided in those emails.
           </p>
@@ -124,7 +124,7 @@ const PrivacyPolicyComponent = () => {
           <p>
             If you have any questions about this Privacy Policy, please contact
             us at
-            <a href="mailto:support@qrganiz.com">support@qrganiz.com</a>.
+            <a href="mailto:hello@pawsathome.com">hello@pawsathome.com</a>.
           </p>
         </section>
       </div>

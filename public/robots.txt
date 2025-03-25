@@ -7,7 +7,7 @@ User-agent: Googlebot
 Allow: /
 
 # Host
-Host: https://www.qrganiz.com
+Host: https://www.pawsathome.com
 
 # Sitemaps
-Sitemap: https://www.qrganiz.com/sitemap.xml
+Sitemap: https://www.pawsathome.com/sitemap.xml

@@ -22,7 +22,7 @@ export default function Post({ post }: { post: any }) {
               src={
                 post.hasCoverImage
                   ? `/posts/${post.slug}/cover.jpg`
-                  : `/qrganiz-social.jpg`
+                  : `/about-image.jpeg`
               }
               alt={post.title}
               fill

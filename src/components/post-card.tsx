@@ -11,7 +11,7 @@ export const PostCardCompoent = ({ post }: { post: Post }) => {
             src={
               post.hasCoverImage
                 ? `/posts/${post.slug}/cover.jpg`
-                : `/qrganiz-social.jpg`
+                : `/about-image.jpeg`
             }
             alt={post.title}
             fill
