@@ -28,7 +28,7 @@ function LandingComponent() {
               Professional Pet Care in the Comfort of Your Home
             </h1>
             <p className="text-xl md:text-2xl mb-8">
-              Loving attention for your furry family members while you're away
+              Loving attention for your furry family members while you&apos;re away
             </p>
             <button className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300">
               Book Now
@@ -46,7 +46,7 @@ function LandingComponent() {
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               We offer a variety of pet care services tailored to meet your
-              pet's individual needs and your schedule.
+              pet&apos;s individual needs and your schedule.
             </p>
           </div>
 
@@ -225,11 +225,11 @@ function LandingComponent() {
                 About Us
               </h2>
               <p className="text-lg text-gray-700 mb-6">
-                Hello! I'm Johny, the founder of Paws At Home. My journey into
+                Hello! I&apos;m Johny, the founder of Paws At Home. My journey into
                 professional pet sitting began after 15 years of volunteering at
-                local shelters and rescuing strays. I've always had a special
-                connection with animals, and I understand that they're more than
-                just pets—they're family.
+                local shelters and rescuing strays. I&apos;ve always had a special
+                connection with animals, and I understand that they&apos;re more than
+                just pets—they&apos;re family.
               </p>
               <p className="text-lg text-gray-700 mb-8">
                 I started Paws At Home because I believe all pets deserve
@@ -357,7 +357,7 @@ function LandingComponent() {
                 Personalized Care
               </h3>
               <p className="text-gray-600">
-                We create customized pet care plans based on your pet's unique
+                We create customized pet care plans based on your pet&apos;s unique
                 personality, preferences, and needs.
               </p>
             </div>
@@ -418,7 +418,7 @@ function LandingComponent() {
               </h3>
               <p className="text-gray-600">
                 Our services are fully insured and bonded, providing protection
-                and peace of mind while you're away.
+                and peace of mind while you&apos;re away.
               </p>
             </div>
 
@@ -526,7 +526,7 @@ function LandingComponent() {
               What Our Clients Say
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Don't just take our word for it - here's what pet parents have to
+              Don&apos;t just take our word for it - here&apos;s what pet parents have to
               say about our services.
             </p>
           </div>
@@ -593,9 +593,9 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "Johny is amazing with my anxious golden retriever! She sends
+                &quot;Johny is amazing with my anxious golden retriever! She sends
                 photos every visit and follows his routine perfectly. I never
-                worry when I'm away because I know Max is in great hands."
+                worry when I&apos;m away because I know Max is in great hands.&quot;
               </p>
             </motion.div>
 
@@ -662,10 +662,10 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "I've tried several pet sitting services, but Paws At Home is by
+                &quot;I&apos;ve tried several pet sitting services, but Paws At Home is by
                 far the best. My cat Bella is usually shy around strangers, but
                 she immediately warmed up to her sitter. The overnight stays
-                give me such peace of mind."
+                give me such peace of mind.&quot;
               </p>
             </motion.div>
 
@@ -732,10 +732,10 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "The peace of mind I get from knowing my senior dog Cooper is
+                &quot;The peace of mind I get from knowing my senior dog Cooper is
                 being cared for in his own home is priceless. Our sitter
                 understands his medications and special needs perfectly. We
-                couldn't be happier!"
+                couldn&apos;t be happier!&quot;
               </p>
             </motion.div>
           </div>
@@ -749,7 +749,7 @@ function LandingComponent() {
             Ready to give your pets the care they deserve?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            We're here to provide professional, loving care for your furry
+            We&apos;re here to provide professional, loving care for your furry
             family members whenever you need us.
           </p>
           <div className="mb-8">

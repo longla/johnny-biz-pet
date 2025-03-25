@@ -126,24 +126,24 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => (
             <h3 className="text-xl font-semibold mb-4">Our Services</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/#services" className="hover:text-[#F28C38]">
+                <Link href="/#services" className="hover:text-[#F28C38]">
                   Daily Visits
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#services" className="hover:text-[#F28C38]">
+                <Link href="/#services" className="hover:text-[#F28C38]">
                   Overnight Stays
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#services" className="hover:text-[#F28C38]">
+                <Link href="/#services" className="hover:text-[#F28C38]">
                   Dog Walking
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#services" className="hover:text-[#F28C38]">
+                <Link href="/#services" className="hover:text-[#F28C38]">
                   Pet Taxi
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

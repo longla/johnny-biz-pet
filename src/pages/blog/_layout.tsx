@@ -16,7 +16,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => (
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <Link href="/">
-            <Image src="/logo.png" alt="Paws At Home Logo" width={150} height={50} className="mr-2" />
+            <Image src="/logo.svg" alt="Paws At Home Logo" width={150} height={50} className="mr-2" />
           </Link>
         </div>
         <nav className="hidden md:flex space-x-8">
@@ -67,10 +67,10 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => (
           <div>
             <h3 className="text-xl font-semibold mb-4">Our Services</h3>
             <ul className="space-y-2">
-              <li><a href="/#services" className="hover:text-[#F28C38]">Daily Visits</a></li>
-              <li><a href="/#services" className="hover:text-[#F28C38]">Overnight Stays</a></li>
-              <li><a href="/#services" className="hover:text-[#F28C38]">Dog Walking</a></li>
-              <li><a href="/#services" className="hover:text-[#F28C38]">Pet Taxi</a></li>
+              <li><Link href="/#services" className="hover:text-[#F28C38]">Daily Visits</Link></li>
+              <li><Link href="/#services" className="hover:text-[#F28C38]">Overnight Stays</Link></li>
+              <li><Link href="/#services" className="hover:text-[#F28C38]">Dog Walking</Link></li>
+              <li><Link href="/#services" className="hover:text-[#F28C38]">Pet Taxi</Link></li>
             </ul>
           </div>
           
