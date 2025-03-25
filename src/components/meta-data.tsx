@@ -20,7 +20,7 @@ export const DefaultMetaData = () => (
     />
     <meta
       name="twitter:image"
-      content="https://pawsathome.com/qrganiz-social.jpg"
+      content="https://pawsathome.com/pawsathome-social.jpg"
     />
 
     {/* Open Graph Metadata */}
@@ -34,7 +34,7 @@ export const DefaultMetaData = () => (
     />
     <meta
       property="og:image"
-      content="https://pawsathome.com/qrganiz-social.jpg"
+      content="https://pawsathome.com/pawsathome-social.jpg"
     />
     <meta property="og:type" content="website" />
 
@@ -46,13 +46,14 @@ export const DefaultMetaData = () => (
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Paws At Home",
-          "image": "https://pawsathome.com/qrganiz-social.jpg",
+          "image": "https://pawsathome.com/pawsathome-social.jpg",
           "url": "https://pawsathome.com",
           "telephone": "(555) 123-4567",
           "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Your City",
-            "addressRegion": "Your State",
+            "streetAddress": "123 Pet Care Lane",
+            "addressLocality": "Anytown",
+            "addressRegion": "ST",
             "postalCode": "12345",
             "addressCountry": "US"
           },
@@ -105,7 +106,7 @@ export const BlogMetaData = () => (
     />
     <meta
       name="twitter:image"
-      content="https://pawsathome.com/qrganiz-social.jpg"
+      content="https://pawsathome.com/pawsathome-social.jpg"
     />
 
     {/* Open Graph Metadata */}
@@ -119,7 +120,7 @@ export const BlogMetaData = () => (
     />
     <meta
       property="og:image"
-      content="https://pawsathome.com/qrganiz-social.jpg"
+      content="https://pawsathome.com/pawsathome-social.jpg"
     />
     <meta property="og:type" content="website" />
   </Head>
@@ -142,7 +143,7 @@ export const BlogPostMetaData = ({
 }: BlogPostMetaDataProps) => {
   const imageUrl = hasCoverImage
     ? `https://pawsathome.com/posts/${slug}/cover.jpg`
-    : "https://pawsathome.com/qrganiz-social.jpg";
+    : "https://pawsathome.com/pawsathome-social.jpg";
 
   const fullTitle = `${title} - Paws At Home Blog`;
 
