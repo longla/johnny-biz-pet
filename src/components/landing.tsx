@@ -27,6 +27,9 @@ function LandingComponent() {
   const bookingRef = useRef<HTMLElement>(null);
   const meetGreetRef = useRef<HTMLElement>(null);
 
+  // Add state to track Calendly loading status
+  const [isCalendlyLoading, setIsCalendlyLoading] = useState(true);
+
   // Add state for date validation and nights calculation
   const [dateError, setDateError] = useState("");
   const [nightsCount, setNightsCount] = useState<number | null>(null);
@@ -156,6 +159,25 @@ function LandingComponent() {
     const script = document.createElement("script");
     script.src = "https://assets.calendly.com/assets/external/widget.js";
     script.async = true;
+
+    // Set up event listener to detect when Calendly is loaded
+    script.onload = () => {
+      // Calendly needs a bit of time to initialize after script loads
+      const checkCalendlyLoaded = setInterval(() => {
+        // Check if Calendly widget is initialized
+        if (document.querySelector(".calendly-inline-widget iframe")) {
+          setIsCalendlyLoading(false);
+          clearInterval(checkCalendlyLoaded);
+        }
+      }, 300);
+
+      // Fallback timeout in case the iframe check doesn't work
+      setTimeout(() => {
+        setIsCalendlyLoading(false);
+        clearInterval(checkCalendlyLoaded);
+      }, 5000);
+    };
+
     document.body.appendChild(script);
 
     return () => {
@@ -375,34 +397,6 @@ function LandingComponent() {
                 Learn More →
               </a>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Meet & Greet Section */}
-      <section id="meet-greet" ref={meetGreetRef} className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Schedule a Meet & Greet
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We believe in building trust before service begins. Schedule a
-              free 30-minute Meet & Greet session to introduce your pets to
-              their future caregiver and discuss your specific needs.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/pawsathome/meet-and-greet"
-              style={{ minWidth: "320px", height: "700px" }}
-            >
-              <p className="text-center py-16 text-gray-500">
-                Loading calendar...
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -1292,6 +1286,36 @@ function LandingComponent() {
               </form>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Meet & Greet Section */}
+      <section id="meet-greet" ref={meetGreetRef} className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              Schedule a Meet & Greet
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We believe in building trust before service begins. Schedule a
+              free 30-minute Meet & Greet session to introduce your pets to
+              their future caregiver and discuss your specific needs.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <div
+              className="calendly-inline-widget"
+              data-url="https://calendly.com/baolonguit/30min"
+              style={{ minWidth: "320px", height: "700px" }}
+            >
+              {isCalendlyLoading && (
+                <p className="text-center py-16 text-gray-500">
+                  Loading calendar...
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
