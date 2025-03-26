@@ -230,7 +230,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  123 Pet Care Lane, Anytown, ST 12345
+                  12207 Pintado, Irvine, CA, 92618
                 </p>
                 <p className="flex items-center mb-2">
                   <svg

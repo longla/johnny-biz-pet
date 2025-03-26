@@ -1396,6 +1396,46 @@ function LandingComponent() {
               hello@pawsathome.com
             </a>
           </div>
+
+          {/* Location Information */}
+          <div className="mt-12">
+            <div className="flex items-center justify-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="text-xl">12207 Pintado, Irvine, CA, 92618</span>
+            </div>
+
+            <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.9727388869344!2d-117.74094292357964!3d33.65830823932711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dce780a7a164f9%3A0xef1ed94c97fe61b0!2s12207%20Pintado%2C%20Irvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1715195402075!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Paws At Home Location"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1412,10 +1452,10 @@ function LandingComponent() {
             telephone: "(555) 123-4567",
             address: {
               "@type": "PostalAddress",
-              streetAddress: "123 Pet Care Lane",
-              addressLocality: "Anytown",
-              addressRegion: "ST",
-              postalCode: "12345",
+              streetAddress: "12207 Pintado",
+              addressLocality: "Irvine",
+              addressRegion: "CA",
+              postalCode: "92618",
               addressCountry: "US",
             },
             priceRange: "$$",

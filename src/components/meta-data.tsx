@@ -45,42 +45,42 @@ export const DefaultMetaData = () => (
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          "name": "Paws At Home",
-          "image": "https://pawsathome.com/pawsathome-social.jpg",
-          "url": "https://pawsathome.com",
-          "telephone": "(555) 123-4567",
-          "address": {
+          name: "Paws At Home",
+          image: "https://pawsathome.com/pawsathome-social.jpg",
+          url: "https://pawsathome.com",
+          telephone: "(555) 123-4567",
+          address: {
             "@type": "PostalAddress",
-            "streetAddress": "123 Pet Care Lane",
-            "addressLocality": "Anytown",
-            "addressRegion": "ST",
-            "postalCode": "12345",
-            "addressCountry": "US"
+            streetAddress: "12207 Pintado",
+            addressLocality: "Irvine",
+            addressRegion: "CA",
+            postalCode: "92618",
+            addressCountry: "US",
           },
-          "geo": {
+          geo: {
             "@type": "GeoCoordinates",
-            "latitude": 40.7128,
-            "longitude": -74.0060
+            latitude: 33.6583,
+            longitude: -117.7384,
           },
-          "openingHoursSpecification": {
+          openingHoursSpecification: {
             "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
+            dayOfWeek: [
               "Monday",
               "Tuesday",
               "Wednesday",
               "Thursday",
               "Friday",
               "Saturday",
-              "Sunday"
+              "Sunday",
             ],
-            "opens": "07:00",
-            "closes": "21:00"
+            opens: "07:00",
+            closes: "21:00",
           },
-          "sameAs": [
+          sameAs: [
             "https://www.facebook.com/pawsathome",
-            "https://www.instagram.com/pawsathome"
-          ]
-        })
+            "https://www.instagram.com/pawsathome",
+          ],
+        }),
       }}
     />
   </Head>
