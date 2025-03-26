@@ -1,7 +1,150 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 function LandingComponent() {
+  // Booking form state
+  const [bookingForm, setBookingForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    petName: "",
+    petType: "dog",
+    startDate: "",
+    endDate: "",
+    addons: {
+      extraWalk: false,
+      medicationAdmin: false,
+      plantWatering: false,
+      houseSitting: false,
+    },
+    notes: "",
+  });
+
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const bookingRef = useRef<HTMLElement>(null);
+
+  // Add state for date validation and nights calculation
+  const [dateError, setDateError] = useState("");
+  const [nightsCount, setNightsCount] = useState<number | null>(null);
+
+  // Calculate nights when dates change
+  useEffect(() => {
+    if (bookingForm.startDate && bookingForm.endDate) {
+      const start = new Date(bookingForm.startDate);
+      const end = new Date(bookingForm.endDate);
+
+      // Check if end date is after start date
+      if (end < start) {
+        setDateError("End date must be after start date");
+        setNightsCount(null);
+      } else {
+        setDateError("");
+        // Calculate nights between dates
+        const diffTime = Math.abs(end.getTime() - start.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        setNightsCount(diffDays);
+      }
+    } else {
+      setNightsCount(null);
+    }
+  }, [bookingForm.startDate, bookingForm.endDate]);
+
+  // Handle input changes
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setBookingForm({
+      ...bookingForm,
+      [name]: value,
+    });
+  };
+
+  // Handle checkbox changes
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setBookingForm({
+      ...bookingForm,
+      addons: {
+        ...bookingForm.addons,
+        [name]: checked,
+      },
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate dates before submission
+    if (dateError) {
+      alert("Please correct the date error before submitting");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Send the booking request to our API endpoint
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingForm),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "An error occurred while submitting your booking request"
+        );
+      }
+
+      // Show success message
+      setFormSubmitted(true);
+
+      // Reset form
+      setBookingForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        petName: "",
+        petType: "dog",
+        startDate: "",
+        endDate: "",
+        addons: {
+          extraWalk: false,
+          medicationAdmin: false,
+          plantWatering: false,
+          houseSitting: false,
+        },
+        notes: "",
+      });
+      setNightsCount(null);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert(
+        "There was an error submitting your booking request. Please try again later."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Scroll to booking section when "Book Now" is clicked
+  const scrollToBooking = () => {
+    bookingRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="font-poppins">
       {/* Hero Section */}
@@ -28,9 +171,13 @@ function LandingComponent() {
               Professional Pet Care in the Comfort of Your Home
             </h1>
             <p className="text-xl md:text-2xl mb-8">
-              Loving attention for your furry family members while you&apos;re away
+              Loving attention for your furry family members while you&apos;re
+              away
             </p>
-            <button className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300">
+            <button
+              onClick={scrollToBooking}
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+            >
               Book Now
             </button>
           </motion.div>
@@ -225,11 +372,11 @@ function LandingComponent() {
                 About Us
               </h2>
               <p className="text-lg text-gray-700 mb-6">
-                Hello! I&apos;m Johny, the founder of Paws At Home. My journey into
-                professional pet sitting began after 15 years of volunteering at
-                local shelters and rescuing strays. I&apos;ve always had a special
-                connection with animals, and I understand that they&apos;re more than
-                just pets—they&apos;re family.
+                Hello! I&apos;m Johny, the founder of Paws At Home. My journey
+                into professional pet sitting began after 15 years of
+                volunteering at local shelters and rescuing strays. I&apos;ve
+                always had a special connection with animals, and I understand
+                that they&apos;re more than just pets—they&apos;re family.
               </p>
               <p className="text-lg text-gray-700 mb-8">
                 I started Paws At Home because I believe all pets deserve
@@ -357,8 +504,8 @@ function LandingComponent() {
                 Personalized Care
               </h3>
               <p className="text-gray-600">
-                We create customized pet care plans based on your pet&apos;s unique
-                personality, preferences, and needs.
+                We create customized pet care plans based on your pet&apos;s
+                unique personality, preferences, and needs.
               </p>
             </div>
 
@@ -526,8 +673,8 @@ function LandingComponent() {
               What Our Clients Say
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Don&apos;t just take our word for it - here&apos;s what pet parents have to
-              say about our services.
+              Don&apos;t just take our word for it - here&apos;s what pet
+              parents have to say about our services.
             </p>
           </div>
 
@@ -593,9 +740,10 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;Johny is amazing with my anxious golden retriever! She sends
-                photos every visit and follows his routine perfectly. I never
-                worry when I&apos;m away because I know Max is in great hands.&quot;
+                &quot;Johny is amazing with my anxious golden retriever! She
+                sends photos every visit and follows his routine perfectly. I
+                never worry when I&apos;m away because I know Max is in great
+                hands.&quot;
               </p>
             </motion.div>
 
@@ -662,10 +810,10 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;I&apos;ve tried several pet sitting services, but Paws At Home is by
-                far the best. My cat Bella is usually shy around strangers, but
-                she immediately warmed up to her sitter. The overnight stays
-                give me such peace of mind.&quot;
+                &quot;I&apos;ve tried several pet sitting services, but Paws At
+                Home is by far the best. My cat Bella is usually shy around
+                strangers, but she immediately warmed up to her sitter. The
+                overnight stays give me such peace of mind.&quot;
               </p>
             </motion.div>
 
@@ -732,13 +880,364 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;The peace of mind I get from knowing my senior dog Cooper is
-                being cared for in his own home is priceless. Our sitter
+                &quot;The peace of mind I get from knowing my senior dog Cooper
+                is being cared for in his own home is priceless. Our sitter
                 understands his medications and special needs perfectly. We
                 couldn&apos;t be happier!&quot;
               </p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Booking Section */}
+      <section id="booking" ref={bookingRef} className="py-20 bg-[#F4F4F9]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              Book Our Services
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Fill out the form below to request pet care services. We'll get
+              back to you within 24 hours to confirm your booking.
+            </p>
+          </div>
+
+          {formSubmitted ? (
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-3xl mx-auto text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-green-500 rounded-full flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Booking Request Received!
+              </h3>
+              <p className="text-lg text-gray-600 mb-6">
+                Thank you for your request. We've received your booking details
+                and will contact you shortly to confirm your reservation.
+              </p>
+              <button
+                onClick={() => setFormSubmitted(false)}
+                className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-2 px-6 rounded-full text-lg transition-colors duration-300"
+              >
+                Make Another Booking
+              </button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label
+                      htmlFor="firstName"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      First Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      required
+                      value={bookingForm.firstName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="lastName"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Last Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      required
+                      value={bookingForm.lastName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={bookingForm.email}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      value={bookingForm.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label
+                      htmlFor="petName"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Pet Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="petName"
+                      name="petName"
+                      required
+                      value={bookingForm.petName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="petType"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Pet Type *
+                    </label>
+                    <select
+                      id="petType"
+                      name="petType"
+                      required
+                      value={bookingForm.petType}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    >
+                      <option value="dog">Dog</option>
+                      <option value="cat">Cat</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label
+                      htmlFor="startDate"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      Start Date *
+                    </label>
+                    <input
+                      type="date"
+                      id="startDate"
+                      name="startDate"
+                      required
+                      value={bookingForm.startDate}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split("T")[0]} // Prevent past dates
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="endDate"
+                      className="block text-gray-700 font-medium mb-2"
+                    >
+                      End Date *
+                    </label>
+                    <input
+                      type="date"
+                      id="endDate"
+                      name="endDate"
+                      required
+                      value={bookingForm.endDate}
+                      onChange={handleInputChange}
+                      min={
+                        bookingForm.startDate ||
+                        new Date().toISOString().split("T")[0]
+                      } // Make end date after start date
+                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0] ${
+                        dateError ? "border-red-500" : "border-gray-300"
+                      }`}
+                    />
+                    {dateError && (
+                      <p className="text-red-500 text-sm mt-1">{dateError}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Display number of nights */}
+                {nightsCount !== null && !dateError && (
+                  <div className="mb-6 p-4 bg-[#F4F9F9] rounded-lg">
+                    <p className="text-center text-gray-700 font-medium">
+                      {nightsCount === 1
+                        ? "Your booking is for 1 night"
+                        : `Your booking is for ${nightsCount} nights`}
+                    </p>
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-3">
+                    Additional Services (Optional)
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="extraWalk"
+                        name="extraWalk"
+                        checked={bookingForm.addons.extraWalk}
+                        onChange={handleCheckboxChange}
+                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                      />
+                      <label htmlFor="extraWalk" className="ml-2 text-gray-700">
+                        Extra Walk (+$10/day)
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="medicationAdmin"
+                        name="medicationAdmin"
+                        checked={bookingForm.addons.medicationAdmin}
+                        onChange={handleCheckboxChange}
+                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                      />
+                      <label
+                        htmlFor="medicationAdmin"
+                        className="ml-2 text-gray-700"
+                      >
+                        Medication Administration (+$5/day)
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="plantWatering"
+                        name="plantWatering"
+                        checked={bookingForm.addons.plantWatering}
+                        onChange={handleCheckboxChange}
+                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                      />
+                      <label
+                        htmlFor="plantWatering"
+                        className="ml-2 text-gray-700"
+                      >
+                        Plant Watering (+$5/visit)
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="houseSitting"
+                        name="houseSitting"
+                        checked={bookingForm.addons.houseSitting}
+                        onChange={handleCheckboxChange}
+                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                      />
+                      <label
+                        htmlFor="houseSitting"
+                        className="ml-2 text-gray-700"
+                      >
+                        House Sitting (+$15/day)
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <label
+                    htmlFor="notes"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Additional Notes
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    rows={4}
+                    value={bookingForm.notes}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    placeholder="Tell us about any special requirements, your pet's routine, or other important details..."
+                  ></textarea>
+                </div>
+
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !!dateError}
+                    className={`${
+                      isSubmitting || dateError
+                        ? "bg-gray-400"
+                        : "bg-[#F28C38] hover:bg-[#e07a26]"
+                    } text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 relative paw-button`}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center">
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Processing...
+                      </span>
+                    ) : (
+                      "Request Booking"
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       </section>
 
@@ -753,7 +1252,10 @@ function LandingComponent() {
             family members whenever you need us.
           </p>
           <div className="mb-8">
-            <button className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4">
+            <button
+              onClick={scrollToBooking}
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4"
+            >
               Book a Consultation
             </button>
           </div>
