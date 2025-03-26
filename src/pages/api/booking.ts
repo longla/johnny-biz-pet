@@ -13,43 +13,6 @@ const EMAIL_CONFIG = {
   subject: "New Booking Request",
 };
 
-// Helper function to log environment variables safely
-function logEnvironmentVars() {
-  const safeEnv: Record<string, string> = {};
-
-  for (const [key, value] of Object.entries(process.env)) {
-    if (value !== undefined) {
-      // Mask sensitive values but log EMAIL variables fully for debugging
-      if (
-        key.includes("KEY") ||
-        key.includes("SECRET") ||
-        (key.includes("PASS") && !key.includes("EMAIL_PASS")) ||
-        key.includes("TOKEN")
-      ) {
-        safeEnv[key] =
-          value.substring(0, 3) + "..." + value.substring(value.length - 3);
-      } else {
-        safeEnv[key] = value;
-      }
-    } else {
-      safeEnv[key] = "undefined";
-    }
-  }
-
-  console.log("Email-related environment variables:");
-  console.log("EMAIL_HOST:", process.env.EMAIL_HOST);
-  console.log("EMAIL_PORT:", process.env.EMAIL_PORT);
-  console.log("EMAIL_SECURE:", process.env.EMAIL_SECURE);
-  console.log("EMAIL_USER:", process.env.EMAIL_USER);
-  console.log(
-    "EMAIL_PASS:",
-    process.env.EMAIL_PASS ? "[PROVIDED]" : "[MISSING]"
-  );
-  console.log("EMAIL_FROM:", process.env.EMAIL_FROM);
-
-  return safeEnv;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
@@ -62,10 +25,6 @@ export default async function handler(
   }
 
   try {
-    // Log environment variables for debugging
-    console.log("Processing booking request with the following environment:");
-    const safeEnv = logEnvironmentVars();
-
     const {
       firstName,
       lastName,
@@ -181,17 +140,6 @@ export default async function handler(
       }
     `;
 
-    console.log("Creating nodemailer transport with the following settings:");
-    console.log({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT || "587"),
-      secure: process.env.EMAIL_SECURE === "true",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS ? "[PROVIDED]" : "[MISSING]",
-      },
-    });
-
     // Setup nodemailer transporter
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST || "smtp-relay.brevo.com",
@@ -203,18 +151,8 @@ export default async function handler(
       },
     });
 
-    console.log("Verifying SMTP connection...");
-    try {
-      await transporter.verify();
-      console.log("SMTP connection verified successfully");
-    } catch (verifyError) {
-      console.error("SMTP verification failed:", verifyError);
-      // Continue anyway, as some providers don't support verification
-    }
-
     // Send email
-    console.log("Attempting to send email...");
-    const mailOptions = {
+    await transporter.sendMail({
       from: `"Paws At Home Website" <${
         process.env.EMAIL_FROM || "book@qrganiz.com"
       }>`,
@@ -222,11 +160,7 @@ export default async function handler(
       subject: EMAIL_CONFIG.subject,
       html: emailContent,
       replyTo: email,
-    };
-    console.log("Mail options:", { ...mailOptions, html: "[EMAIL CONTENT]" });
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully:", info.messageId);
+    });
 
     // Return success response
     return res
