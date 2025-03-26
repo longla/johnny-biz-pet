@@ -141,6 +141,9 @@ export default async function handler(
     `;
 
     // Setup nodemailer transporter
+    // IMPORTANT: EMAIL_SECURE must be set to 'false' in production
+    // Setting it to 'true' will cause email sending to fail with most SMTP providers
+    // when using port 587 with STARTTLS
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST || "smtp-relay.brevo.com",
       port: parseInt(process.env.EMAIL_PORT || "587"),

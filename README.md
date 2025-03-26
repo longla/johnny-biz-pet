@@ -19,6 +19,27 @@ This is the official website for Paws At Home, a professional pet sitting servic
 - [Gray Matter](https://github.com/jonschlinkert/gray-matter) - Parsing markdown front-matter
 - [React Markdown](https://github.com/remarkjs/react-markdown) - Rendering markdown content
 
+## Environment Variables
+
+The application uses the following environment variables:
+
+```
+# Google Gemini AI API Key
+GOOGLE_API_KEY=your_api_key
+
+# Email Configuration
+EMAIL_HOST=smtp_host
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=your_email_username
+EMAIL_PASS=your_email_password
+EMAIL_FROM=sending_email_address
+```
+
+### ⚠️ IMPORTANT EMAIL CONFIGURATION NOTE ⚠️
+
+Make sure `EMAIL_SECURE` is set to `false` in production. If set to `true`, the booking email functionality will not work properly. This is because many SMTP providers (including Brevo) require that secure connection is set to false when using port 587 with STARTTLS.
+
 ## Development
 
 ```bash
