@@ -115,6 +115,11 @@ function LandingComponent() {
       // Show success message
       setFormSubmitted(true);
 
+      // Ensure we stay on the booking section
+      setTimeout(() => {
+        bookingRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+
       // Reset form
       setBookingForm({
         firstName: "",
@@ -977,7 +982,13 @@ function LandingComponent() {
                 and will contact you shortly to confirm your reservation.
               </p>
               <button
-                onClick={() => setFormSubmitted(false)}
+                onClick={() => {
+                  setFormSubmitted(false);
+                  // Ensure we stay on the booking section
+                  setTimeout(() => {
+                    bookingRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
                 className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-2 px-6 rounded-full text-lg transition-colors duration-300"
               >
                 Make Another Booking
