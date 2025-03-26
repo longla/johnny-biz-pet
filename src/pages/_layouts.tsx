@@ -89,7 +89,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             </button>
           </div>
         </div>
-        
+
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t shadow-md">
@@ -151,8 +151,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <div>
               <h3 className="text-xl font-semibold mb-4">Paws At Home</h3>
               <p className="mb-4">
-                Professional pet sitting and dog walking services providing loving
-                care in the comfort of your home.
+                Professional pet sitting and dog walking services providing
+                loving care in the comfort of your home.
               </p>
               <div className="flex space-x-4">
                 <a href="#" className="text-white hover:text-[#F28C38]">
@@ -202,19 +202,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     Pet Taxi
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* Column 3 - Service Areas */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Service Areas</h3>
-              <ul className="space-y-2">
-                <li>Downtown</li>
-                <li>North Hills</li>
-                <li>West Side</li>
-                <li>Eastwood</li>
-                <li>Brookside</li>
-                <li>Oakdale</li>
               </ul>
             </div>
 
@@ -284,7 +271,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           </div>
 
           <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between">
-            <p>© {new Date().getFullYear()} Paws At Home. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} Paws At Home. All rights reserved.
+            </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="/privacy-policy" className="hover:text-[#F28C38]">
                 Privacy Policy

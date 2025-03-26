@@ -9,7 +9,7 @@ type ResponseData = {
 
 // Configure email settings
 const EMAIL_CONFIG = {
-  recipientEmail: "hello@pawsathome.com", // Change this to your actual email
+  recipientEmail: "baolonguit@gmail.com", // Change this to your actual email
   subject: "New Booking Request",
 };
 
@@ -163,8 +163,9 @@ export default async function handler(
       html: emailContent,
       replyTo: email,
     });
-
+    console.log(process.env.EMAIL_HOST);
     // Return success response
+    console.log(res);
     return res
       .status(200)
       .json({ success: true, message: "Booking request sent successfully" });
