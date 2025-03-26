@@ -25,6 +25,7 @@ function LandingComponent() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const bookingRef = useRef<HTMLElement>(null);
+  const meetGreetRef = useRef<HTMLElement>(null);
 
   // Add state for date validation and nights calculation
   const [dateError, setDateError] = useState("");
@@ -145,6 +146,23 @@ function LandingComponent() {
     bookingRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Scroll to meet & greet section when "Meet & Greet" is clicked
+  const scrollToMeetGreet = () => {
+    meetGreetRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Load Calendly script once component is mounted
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="font-poppins">
       {/* Hero Section */}
@@ -174,12 +192,20 @@ function LandingComponent() {
               Loving attention for your furry family members while you&apos;re
               away
             </p>
-            <button
-              onClick={scrollToBooking}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
-            >
-              Book Now
-            </button>
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={scrollToBooking}
+                className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+              >
+                Book Now
+              </button>
+              <button
+                onClick={scrollToMeetGreet}
+                className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+              >
+                Meet & Greet
+              </button>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -349,6 +375,34 @@ function LandingComponent() {
                 Learn More →
               </a>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Meet & Greet Section */}
+      <section id="meet-greet" ref={meetGreetRef} className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              Schedule a Meet & Greet
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We believe in building trust before service begins. Schedule a
+              free 30-minute Meet & Greet session to introduce your pets to
+              their future caregiver and discuss your specific needs.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <div
+              className="calendly-inline-widget"
+              data-url="https://calendly.com/pawsathome/meet-and-greet"
+              style={{ minWidth: "320px", height: "700px" }}
+            >
+              <p className="text-center py-16 text-gray-500">
+                Loading calendar...
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -1251,12 +1305,18 @@ function LandingComponent() {
             We&apos;re here to provide professional, loving care for your furry
             family members whenever you need us.
           </p>
-          <div className="mb-8">
+          <div className="mb-8 flex flex-wrap justify-center gap-4">
             <button
               onClick={scrollToBooking}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4"
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
             >
-              Book a Consultation
+              Book Now
+            </button>
+            <button
+              onClick={scrollToMeetGreet}
+              className="bg-white hover:bg-gray-100 text-[#1A9CB0] font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+            >
+              Meet & Greet
             </button>
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
