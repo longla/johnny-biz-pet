@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import PhotoGallery from "./photo-gallery";
 
 function LandingComponent() {
   // Booking form state
@@ -419,6 +420,9 @@ function LandingComponent() {
           </div>
         </div>
       </section>
+
+      {/* Photo Gallery Section */}
+      <PhotoGallery />
 
       {/* About Us Section */}
       <section id="about" className="py-20">
