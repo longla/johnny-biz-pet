@@ -89,3 +89,22 @@ a {
     --background-end-rgb: 0, 0, 0;
   }
 } */
+
+.text-logo {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1a9cb0;
+  line-height: 1.2;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.25rem 0;
+}
+
+.text-logo .highlight {
+  color: #f28c38;
+}
+
+.text-logo:hover {
+  text-decoration: none;
+}

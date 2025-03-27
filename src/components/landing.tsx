@@ -1500,7 +1500,7 @@ function LandingComponent() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             name: "Ruh-Roh Retreat",
-            image: "/logo.png",
+            image: "https://www.ruhrohrretreat.com",
             url: "https://www.ruhrohrretreat.com",
             telephone: "+17143294534",
             address: {

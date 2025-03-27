@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -22,14 +21,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <header className="sticky top-0 z-50 bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/">
-              <Image
-                src="/logo.svg"
-                alt="Ruh-Roh Retreat Logo"
-                width={150}
-                height={50}
-                className="mr-2"
-              />
+            <Link href="/" className="text-logo">
+              Ruh-Roh <span className="highlight">Retreat</span>
             </Link>
           </div>
           <nav className="hidden md:flex space-x-8">
