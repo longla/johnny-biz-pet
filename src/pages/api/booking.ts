@@ -9,7 +9,7 @@ type ResponseData = {
 
 // Configure email settings
 const EMAIL_CONFIG = {
-  recipientEmail: "baolonguit@gmail.com", // Change this to your actual email
+  recipientEmail: "hello@ruhrohretreat.com", // Updated email address
   subject: "New Booking Request",
 };
 

@@ -91,9 +91,7 @@ const PrivacyPolicyComponent = () => {
             You have the right to access, update, or delete your personal
             information. You can do this by logging into your account or
             contacting us at
-            <a href="mailto:hello@ruhrohrretreat.com">
-              hello@ruhrohrretreat.com
-            </a>
+            <a href="mailto:hello@ruhrohretreat.com">hello@ruhrohretreat.com</a>
             . You may also opt out of receiving promotional communications from
             us by following the unsubscribe instructions provided in those
             emails.
@@ -127,9 +125,7 @@ const PrivacyPolicyComponent = () => {
           <p>
             If you have any questions about this Privacy Policy, please contact
             us at
-            <a href="mailto:hello@ruhrohrretreat.com">
-              hello@ruhrohrretreat.com
-            </a>
+            <a href="mailto:hello@ruhrohretreat.com">hello@ruhrohretreat.com</a>
             .
           </p>
         </section>

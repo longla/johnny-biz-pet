@@ -56,8 +56,8 @@ const TermsOfUseComponent: React.FC = () => {
       <h2 className="text-2xl font-semibold mt-6 mb-2">7. Contact Us</h2>
       <p className="mb-4">
         If you have any questions about these Terms of Use, please contact us at{" "}
-        <a href="mailto:hello@ruhrohrretreat.com" className="text-blue-500">
-          hello@ruhrohrretreat.com
+        <a href="mailto:hello@ruhrohretreat.com" className="text-blue-500">
+          hello@ruhrohretreat.com
         </a>
         .
       </p>
