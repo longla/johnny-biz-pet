@@ -820,7 +820,7 @@ function LandingComponent() {
                   objectFit="cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-[#333333]">Sarah & Max</h4>
+                  <h4 className="font-semibold text-[#333333]">Michaela K.</h4>
                   <div className="flex text-yellow-400">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -866,10 +866,13 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;Johny is amazing with my anxious golden retriever! She
-                sends photos every visit and follows his routine perfectly. I
-                never worry when I&apos;m away because I know Max is in great
-                hands.&quot;
+                We couldn’t have asked for a better dog sitter than Johnny! He
+                took incredible care of our dog, Silva, while we were out of
+                town. Johnny was attentive, reliable, and always prompt in
+                communicating with us, giving us peace of mind throughout our
+                trip. Silva was happy and well-cared for, and it was clear she
+                was in great hands. We highly recommend Johnny to anyone looking
+                for a trustworthy and caring pet sitter. Thank you, Johnny! 😊🐾
               </p>
             </motion.div>
 
@@ -880,7 +883,7 @@ function LandingComponent() {
             >
               <div className="flex items-center mb-4">
                 <Image
-                  src="/testimonial-pet-1.jpeg"
+                  src="/testimonial-pet-2.jpeg"
                   alt="Client's pet"
                   width={60}
                   height={60}
@@ -888,9 +891,7 @@ function LandingComponent() {
                   objectFit="cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-[#333333]">
-                    Michael & Bella
-                  </h4>
+                  <h4 className="font-semibold text-[#333333]">Yixie L.</h4>
                   <div className="flex text-yellow-400">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -936,10 +937,13 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;I&apos;ve tried several pet sitting services, but Ruh-Roh
-                Retreat is by far the best. My cat Bella is usually shy around
-                strangers, but she immediately warmed up to her sitter. The
-                overnight stays give me such peace of mind.&quot;
+                We had a pleasant experience leaving our dog with Johnny. She
+                didn’t even wonna come home when we picked her up. We can see
+                that she liked the stay and Johnny kept us updated with daily
+                photo and video. He’s also very thorough in understanding what
+                would be good for my dog when it comes to whether she’s a hiking
+                dog, dog park dog, etc. We are very happy and would use Johnny’s
+                service again.
               </p>
             </motion.div>
 
@@ -950,7 +954,7 @@ function LandingComponent() {
             >
               <div className="flex items-center mb-4">
                 <Image
-                  src="/testimonial-pet-1.jpeg"
+                  src="/testimonial-pet-3.jpeg"
                   alt="Client's pet"
                   width={60}
                   height={60}
@@ -958,9 +962,7 @@ function LandingComponent() {
                   objectFit="cover"
                 />
                 <div>
-                  <h4 className="font-semibold text-[#333333]">
-                    Jennifer & Cooper
-                  </h4>
+                  <h4 className="font-semibold text-[#333333]">Alice G.</h4>
                   <div className="flex text-yellow-400">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1006,10 +1008,13 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;The peace of mind I get from knowing my senior dog Cooper
-                is being cared for in his own home is priceless. Johnny
-                understands his medications and special needs perfectly. We
-                couldn&apos;t be happier!&quot;
+                We had a great experience with Johnny, during our first meetup
+                he immediately gained the trust of our very shy dog which is not
+                an easy feat, and took the time to address our concerns, ask
+                questions and listen to our instructions. During the stay he was
+                very responsive and sent multiple updates. Our dogs had a
+                wonderful time and we will definitely come back to him for our
+                future travels.
               </p>
             </motion.div>
           </div>
