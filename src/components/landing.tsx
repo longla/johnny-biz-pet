@@ -252,10 +252,10 @@ function LandingComponent() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Our Services
+              My Services
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We offer premium overnight boarding with luxury accommodations and
+              I offer premium overnight boarding with luxury accommodations and
               specialized add-on services tailored to your pet's needs.
             </p>
           </div>
@@ -286,9 +286,9 @@ function LandingComponent() {
                 Luxury Overnight Boarding
               </h3>
               <p className="text-gray-600 mb-5">
-                Premium overnight care in our cozy retreat. Your pet will enjoy
+                Premium overnight care in my cozy home. Your pet will enjoy
                 comfortable accommodations, personalized attention, and a
-                home-like environment with 24/7 supervision.
+                home-like environment with my 24/7 supervision.
               </p>
               <p className="font-bold text-blue-600 mb-4 text-xl">
                 Starting at $65/night
@@ -326,7 +326,7 @@ function LandingComponent() {
                 Spa Bath Experience
               </h3>
               <p className="text-gray-600 mb-5">
-                Keep your pet fresh and clean with our premium bathing service.
+                Keep your pet fresh and clean with my premium bathing service.
                 Includes gentle shampoo, conditioning, towel-drying, and a light
                 brushing before they return home.
               </p>
@@ -438,7 +438,7 @@ function LandingComponent() {
             </div>
             <div className="lg:w-1/2">
               <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-6">
-                About Us
+                About Me
               </h2>
               <motion.p
                 className="text-lg text-gray-700 mb-6 leading-relaxed"
@@ -450,7 +450,7 @@ function LandingComponent() {
                 Hello! I'm Johnny, the founder of Ruh-Roh Retreat. As a
                 certified pet care specialist with over 7 years of experience,
                 I've created a premium overnight boarding service that provides
-                a home-away-from-home for your beloved pets. Our retreat offers
+                a home-away-from-home for your beloved pets. My home offers
                 luxury accommodations and premium add-on services that make each
                 stay special.
               </motion.p>
@@ -464,8 +464,7 @@ function LandingComponent() {
                 Ruh-Roh Retreat specializes in premium overnight boarding with
                 luxurious accommodations and specialized add-on services. My
                 mission is to provide peace of mind through reliable, loving
-                care for your furry family members in our cozy retreat
-                environment.
+                care for your furry family members in my cozy home environment.
               </motion.p>
 
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -608,7 +607,7 @@ function LandingComponent() {
               Why Choose Ruh-Roh Retreat
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Not your average pet sitting service - we go above and beyond to
+              Not your average pet sitting service - I go above and beyond to
               ensure your pets receive exceptional care.
             </p>
           </div>
@@ -636,9 +635,9 @@ function LandingComponent() {
                 Senior Pet Specialists
               </h3>
               <p className="text-gray-600">
-                We have extensive experience caring for senior pets and pets
-                with special needs, ensuring they receive the specialized
-                attention they deserve.
+                I have extensive experience caring for senior pets and pets with
+                special needs, ensuring they receive the specialized attention
+                they deserve.
               </p>
             </div>
 
@@ -670,8 +669,8 @@ function LandingComponent() {
                 Daily Photos & Updates
               </h3>
               <p className="text-gray-600">
-                We send detailed updates with photos during each visit so you
-                can see your pet is happy and enjoying their time with us.
+                I send detailed updates with photos during each visit so you can
+                see your pet is happy and enjoying their time with me.
               </p>
             </div>
 
@@ -725,7 +724,7 @@ function LandingComponent() {
                 Home Security & Care
               </h3>
               <p className="text-gray-600">
-                While caring for your pets, we also bring in mail, water plants,
+                While caring for your pets, I also bring in mail, water plants,
                 adjust lights, and ensure your home is secure and maintained
                 while you're away.
               </p>
@@ -794,11 +793,11 @@ function LandingComponent() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              What Our Clients Say
+              What My Clients Say
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Don&apos;t just take our word for it - here&apos;s what pet
-              parents have to say about our services.
+              Don&apos;t just take my word for it - here&apos;s what pet parents
+              have to say about my services.
             </p>
           </div>
 
@@ -1005,7 +1004,7 @@ function LandingComponent() {
               </div>
               <p className="text-gray-600 italic">
                 &quot;The peace of mind I get from knowing my senior dog Cooper
-                is being cared for in his own home is priceless. Our sitter
+                is being cared for in his own home is priceless. Johnny
                 understands his medications and special needs perfectly. We
                 couldn&apos;t be happier!&quot;
               </p>
@@ -1019,10 +1018,10 @@ function LandingComponent() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Book Our Services
+              Book My Services
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Fill out the form below to request pet care services. We'll get
+              Fill out the form below to request pet care services. I'll get
               back to you within 24 hours to confirm your booking.
             </p>
           </div>
@@ -1049,7 +1048,7 @@ function LandingComponent() {
                 Booking Request Received!
               </h3>
               <p className="text-lg text-gray-600 mb-6">
-                Thank you for your request. We've received your booking details
+                Thank you for your request. I've received your booking details
                 and will contact you shortly to confirm your reservation.
               </p>
               <button
@@ -1379,9 +1378,9 @@ function LandingComponent() {
               Schedule a Meet & Greet
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We believe in building trust before service begins. Schedule a
-              free 30-minute Meet & Greet session to introduce your pets to
-              their future caregiver and discuss your specific needs.
+              I believe in building trust before service begins. Schedule a free
+              30-minute Meet & Greet session to introduce your pets to me and
+              discuss your specific needs.
             </p>
           </div>
 
@@ -1408,7 +1407,7 @@ function LandingComponent() {
             Ready for the Ruh-Roh Retreat experience?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Our luxury overnight boarding with premium add-on services will make
+            My luxury overnight boarding with premium add-on services will make
             your pet's stay truly special while you're away.
           </p>
           <div className="mb-8">

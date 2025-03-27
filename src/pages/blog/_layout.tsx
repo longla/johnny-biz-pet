@@ -49,7 +49,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
               href="/#about"
               className="text-gray-800 hover:text-[#1A9CB0] font-medium"
             >
-              About Us
+              About Me
             </Link>
             <Link
               href="/#testimonials"
@@ -113,7 +113,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
                 className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                About Us
+                About Me
               </Link>
               <Link
                 href="/#testimonials"
@@ -181,7 +181,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
 
             {/* Column 2 - Services */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">Our Services</h3>
+              <h3 className="text-xl font-semibold mb-4">My Services</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/#services" className="hover:text-[#F28C38]">
@@ -208,7 +208,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
 
             {/* Column 3 - Contact */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
+              <h3 className="text-xl font-semibold mb-4">Contact Me</h3>
               <address className="not-italic">
                 <p className="flex items-center mb-2">
                   <svg
