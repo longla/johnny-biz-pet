@@ -721,12 +721,13 @@ function LandingComponent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Home Security & Care
+                Comfortable Home Environment
               </h3>
               <p className="text-gray-600">
-                While caring for your pets, I also bring in mail, water plants,
-                adjust lights, and ensure your home is secure and maintained
-                while you're away.
+                Your pet will enjoy staying in my comfortable, pet-friendly home
+                located in a peaceful, well-maintained community. I provide cozy
+                sleeping areas and plenty of space for your pet to relax while
+                you're away.
               </p>
             </div>
 
