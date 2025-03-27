@@ -14,10 +14,9 @@ function LandingComponent() {
     startDate: "",
     endDate: "",
     addons: {
-      extraWalk: false,
-      medicationAdmin: false,
-      plantWatering: false,
-      houseSitting: false,
+      spaBath: false,
+      specialCare: false,
+      premiumPlay: false,
     },
     notes: "",
   });
@@ -131,10 +130,9 @@ function LandingComponent() {
         startDate: "",
         endDate: "",
         addons: {
-          extraWalk: false,
-          medicationAdmin: false,
-          plantWatering: false,
-          houseSitting: false,
+          spaBath: false,
+          specialCare: false,
+          premiumPlay: false,
         },
         notes: "",
       });
@@ -1247,62 +1245,46 @@ function LandingComponent() {
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        id="extraWalk"
-                        name="extraWalk"
-                        checked={bookingForm.addons.extraWalk}
+                        id="spaBath"
+                        name="spaBath"
+                        checked={bookingForm.addons.spaBath}
                         onChange={handleCheckboxChange}
                         className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
                       />
-                      <label htmlFor="extraWalk" className="ml-2 text-gray-700">
-                        Extra Walk (+$10/day)
+                      <label htmlFor="spaBath" className="ml-2 text-gray-700">
+                        Spa Bath Experience (+$25)
                       </label>
                     </div>
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        id="medicationAdmin"
-                        name="medicationAdmin"
-                        checked={bookingForm.addons.medicationAdmin}
+                        id="specialCare"
+                        name="specialCare"
+                        checked={bookingForm.addons.specialCare}
                         onChange={handleCheckboxChange}
                         className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
                       />
                       <label
-                        htmlFor="medicationAdmin"
+                        htmlFor="specialCare"
                         className="ml-2 text-gray-700"
                       >
-                        Medication Administration (+$5/day)
+                        Special Care Package (+$15/night)
                       </label>
                     </div>
                     <div className="flex items-center">
                       <input
                         type="checkbox"
-                        id="plantWatering"
-                        name="plantWatering"
-                        checked={bookingForm.addons.plantWatering}
+                        id="premiumPlay"
+                        name="premiumPlay"
+                        checked={bookingForm.addons.premiumPlay}
                         onChange={handleCheckboxChange}
                         className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
                       />
                       <label
-                        htmlFor="plantWatering"
+                        htmlFor="premiumPlay"
                         className="ml-2 text-gray-700"
                       >
-                        Plant Watering (+$5/visit)
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="houseSitting"
-                        name="houseSitting"
-                        checked={bookingForm.addons.houseSitting}
-                        onChange={handleCheckboxChange}
-                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
-                      />
-                      <label
-                        htmlFor="houseSitting"
-                        className="ml-2 text-gray-700"
-                      >
-                        House Sitting (+$15/day)
+                        Premium Play Sessions (+$15/session)
                       </label>
                     </div>
                   </div>
