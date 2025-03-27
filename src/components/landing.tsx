@@ -1418,6 +1418,12 @@ function LandingComponent() {
             >
               Book Now
             </button>
+            <button
+              onClick={scrollToMeetGreet}
+              className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+            >
+              Meet & Greet
+            </button>
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
             <a
