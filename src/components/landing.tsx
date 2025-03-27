@@ -1416,7 +1416,7 @@ function LandingComponent() {
               onClick={scrollToBooking}
               className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4"
             >
-              Book a Consultation
+              Book Now
             </button>
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
