@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: "https://www.pawsathome.com",
+  siteUrl: "https://www.ruhrohrretreat.com",
   generateRobotsTxt: true,
   sitemapSize: 5000,
   changefreq: "weekly",

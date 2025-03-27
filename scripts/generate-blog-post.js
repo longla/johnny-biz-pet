@@ -64,8 +64,8 @@ async function generateBlogIdeas(numPosts, existingTitles = []) {
       ", "
     )}.
       
-      These blog posts will be for a pet sitting business called "Paws At Home" that provides in-home pet sitting,
-      dog walking, and pet care services.
+      These blog posts will be for a pet boarding business called "Ruh-Roh Retreat" that provides luxury overnight 
+      boarding, spa services, and premium pet care.
       
       Important notes:
       - Make the content broadly useful for pet owners
@@ -168,8 +168,10 @@ async function checkExistingFiles(slug) {
 
 async function generateBlogPost(blogMeta) {
   try {
-    // Check if the title mentions Paws At Home directly
-    const mentionsProduct = blogMeta.title.toLowerCase().includes("paws at home");
+    // Check if the title mentions Ruh-Roh Retreat directly
+    const mentionsProduct = blogMeta.title
+      .toLowerCase()
+      .includes("ruh-roh retreat");
 
     // Determine the content format based on the title
     let contentFormat = "general";
@@ -190,12 +192,12 @@ async function generateBlogPost(blogMeta) {
     let promptBase = `
       Create a blog post ${
         mentionsProduct
-          ? "for pawsathome.com"
-          : "about pet care and pet sitting"
+          ? "for ruhrohrretreat.com"
+          : "about pet care and luxury pet boarding"
       }.
       ${
         !mentionsProduct
-          ? "The blog is from pawsathome.com, a professional pet sitting service providing in-home pet care."
+          ? "The blog is from ruhrohrretreat.com, a premium pet boarding service providing luxury accommodations and specialized care."
           : ""
       }
       
@@ -217,23 +219,23 @@ async function generateBlogPost(blogMeta) {
     if (contentFormat === "tips") {
       promptBase += `, and include 8-10 actionable tips related to the topic.`;
       if (mentionsProduct) {
-        promptBase += ` Integrate Paws At Home services naturally where relevant, but ensure the tips are useful for all pet owners.`;
+        promptBase += ` Integrate Ruh-Roh Retreat services naturally where relevant, but ensure the tips are useful for all pet owners.`;
       } else {
-        promptBase += ` You may mention professional pet sitting services 2-3 times as potential solutions, but most tips should be useful for all pet owners.`;
+        promptBase += ` You may mention professional pet boarding services 2-3 times as potential solutions, but most tips should be useful for all pet owners.`;
       }
     } else if (contentFormat === "comparison") {
       promptBase += ` and objectively compare different approaches or solutions, discussing pros and cons of each.`;
       if (mentionsProduct) {
-        promptBase += ` Include Paws At Home as one of the solutions, highlighting the benefits of professional pet sitting without being overly promotional.`;
+        promptBase += ` Include Ruh-Roh Retreat as one of the solutions, highlighting the benefits of professional pet boarding without being overly promotional.`;
       } else {
-        promptBase += ` You may briefly mention professional pet sitting services as one potential solution near the end of the article.`;
+        promptBase += ` You may briefly mention professional pet boarding services as one potential solution near the end of the article.`;
       }
     } else {
       promptBase += `. Focus on providing value and solving pet care problems.`;
       if (mentionsProduct) {
-        promptBase += ` Naturally incorporate Paws At Home services where relevant.`;
+        promptBase += ` Naturally incorporate Ruh-Roh Retreat services where relevant.`;
       } else {
-        promptBase += ` Only mention professional pet sitting services briefly (1-2 times) if it naturally fits the content.`;
+        promptBase += ` Only mention professional pet boarding services briefly (1-2 times) if it naturally fits the content.`;
       }
     }
 
@@ -270,39 +272,33 @@ async function generateBlogImage(blogMeta) {
     // Analyze the content to determine what kind of image would be good
     let imageTheme = "";
 
-    if (
-      title.includes("dog") ||
-      description.includes("dog")
-    ) {
-      imageTheme = "happy dog being walked by a professional pet sitter in a park";
-    } else if (
-      title.includes("cat") ||
-      description.includes("cat")
-    ) {
+    if (title.includes("dog") || description.includes("dog")) {
+      imageTheme =
+        "happy dog being walked by a professional pet sitter in a park";
+    } else if (title.includes("cat") || description.includes("cat")) {
       imageTheme =
         "contented cat being cared for in home environment by professional pet sitter";
-    } else if (
-      title.includes("travel") ||
-      description.includes("travel")
-    ) {
-      imageTheme = "pet owner preparing to travel with pet care instructions for a pet sitter";
+    } else if (title.includes("travel") || description.includes("travel")) {
+      imageTheme =
+        "pet owner preparing to travel with pet care instructions for a pet sitter";
     } else if (title.includes("anxiety") || description.includes("anxiety")) {
       imageTheme = "calm pet with pet sitter in familiar home environment";
-    } else if (
-      title.includes("safety") ||
-      description.includes("safety")
-    ) {
-      imageTheme =
-        "professional pet sitter ensuring home is safe for pets";
+    } else if (title.includes("safety") || description.includes("safety")) {
+      imageTheme = "professional pet sitter ensuring home is safe for pets";
     } else if (title.includes("health") || description.includes("health")) {
       imageTheme = "healthy happy pet with pet sitter in home environment";
     } else if (title.includes("senior") || description.includes("senior")) {
-      imageTheme = "senior pet receiving special care from a professional pet sitter";
-    } else if (title.includes("nutrition") || description.includes("nutrition")) {
+      imageTheme =
+        "senior pet receiving special care from a professional pet sitter";
+    } else if (
+      title.includes("nutrition") ||
+      description.includes("nutrition")
+    ) {
       imageTheme = "pet sitter preparing healthy food for a pet at home";
     } else {
       // Default theme if no specific matches
-      imageTheme = "professional pet sitter with happy pets in home environment";
+      imageTheme =
+        "professional pet sitter with happy pets in home environment";
     }
 
     const promptText = `

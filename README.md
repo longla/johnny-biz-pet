@@ -1,13 +1,13 @@
-# Paws At Home - Professional Pet Sitting Services
+# Ruh-Roh Retreat - Premium Pet Boarding Services
 
-This is the official website for Paws At Home, a professional pet sitting service providing loving, reliable pet care in the comfort of your home.
+This is the official website for Ruh-Roh Retreat, a premium pet boarding service providing luxury accommodations and specialized care for your furry family members.
 
 ## Features
 
 - Modern, responsive landing page with animations using Framer Motion
 - SEO-optimized with proper metadata and structured data
 - Blog section with content management through markdown files
-- Contact form for service inquiries
+- Booking form for service reservations
 - Mobile-friendly design
 
 ## Tech Stack
@@ -85,4 +85,4 @@ Post content goes here...
 
 ## License
 
-All rights reserved © Paws At Home
+All rights reserved © Ruh-Roh Retreat

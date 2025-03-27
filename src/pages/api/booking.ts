@@ -156,7 +156,7 @@ export default async function handler(
 
     // Send email
     await transporter.sendMail({
-      from: `"Paws At Home Website" <${
+      from: `"Ruh-Roh Retreat Website" <${
         process.env.EMAIL_FROM || "book@qrganiz.com"
       }>`,
       to: EMAIL_CONFIG.recipientEmail,

@@ -7,7 +7,7 @@ User-agent: Googlebot
 Allow: /
 
 # Host
-Host: https://www.pawsathome.com
+Host: https://www.ruhrohrretreat.com
 
 # Sitemaps
-Sitemap: https://www.pawsathome.com/sitemap.xml
+Sitemap: https://www.ruhrohrretreat.com/sitemap.xml

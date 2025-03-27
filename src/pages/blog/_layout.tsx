@@ -25,7 +25,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
             <Link href="/">
               <Image
                 src="/logo.svg"
-                alt="Paws At Home Logo"
+                alt="Ruh-Roh Retreat Logo"
                 width={150}
                 height={50}
                 className="mr-2"
@@ -149,10 +149,11 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Column 1 - About */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">Paws At Home</h3>
+              <h3 className="text-xl font-semibold mb-4">Ruh-Roh Retreat</h3>
               <p className="mb-4">
-                Professional pet sitting and dog walking services providing
-                loving care in the comfort of your home.
+                Premium overnight pet boarding service providing luxury
+                accommodations and specialized care for your furry family
+                members.
               </p>
               <div className="flex space-x-4">
                 <a href="#" className="text-white hover:text-[#F28C38]">
@@ -184,22 +185,22 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
               <ul className="space-y-2">
                 <li>
                   <Link href="/#services" className="hover:text-[#F28C38]">
-                    Daily Visits
+                    Luxury Overnight Boarding
                   </Link>
                 </li>
                 <li>
                   <Link href="/#services" className="hover:text-[#F28C38]">
-                    Overnight Stays
+                    Spa Bath Experience
                   </Link>
                 </li>
                 <li>
                   <Link href="/#services" className="hover:text-[#F28C38]">
-                    Dog Walking
+                    Special Care Package
                   </Link>
                 </li>
                 <li>
                   <Link href="/#services" className="hover:text-[#F28C38]">
-                    Pet Taxi
+                    Premium Play Sessions
                   </Link>
                 </li>
               </ul>
@@ -264,7 +265,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
-                  hello@pawsathome.com
+                  hello@ruhrohrretreat.com
                 </p>
               </address>
             </div>
@@ -272,7 +273,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
 
           <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between">
             <p>
-              © {new Date().getFullYear()} Paws At Home. All rights reserved.
+              © {new Date().getFullYear()} Ruh-Roh Retreat. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="/privacy-policy" className="hover:text-[#F28C38]">

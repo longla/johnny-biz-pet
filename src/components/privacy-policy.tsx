@@ -2,16 +2,16 @@ const PrivacyPolicyComponent = () => {
   return (
     <div>
       <div className="mainContainer">
-        <h1>Paws At Home Privacy Policy</h1>
+        <h1>Ruh-Roh Retreat Privacy Policy</h1>
 
         <section>
           <h2>1. Introduction</h2>
           <p>
-            Welcome to Paws At Home. This Privacy Policy explains how we collect,
-            use, disclose, and safeguard your information when you visit our
-            website and use our services. By using Paws At Home, you agree to the
-            terms of this Privacy Policy. If you do not agree with the terms,
-            please do not access our services.
+            Welcome to Ruh-Roh Retreat. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your information when you
+            visit our website and use our services. By using Ruh-Roh Retreat,
+            you agree to the terms of this Privacy Policy. If you do not agree
+            with the terms, please do not access our services.
           </p>
         </section>
 
@@ -91,9 +91,12 @@ const PrivacyPolicyComponent = () => {
             You have the right to access, update, or delete your personal
             information. You can do this by logging into your account or
             contacting us at
-            <a href="mailto:hello@pawsathome.com">hello@pawsathome.com</a>. You
-            may also opt out of receiving promotional communications from us by
-            following the unsubscribe instructions provided in those emails.
+            <a href="mailto:hello@ruhrohrretreat.com">
+              hello@ruhrohrretreat.com
+            </a>
+            . You may also opt out of receiving promotional communications from
+            us by following the unsubscribe instructions provided in those
+            emails.
           </p>
         </section>
 
@@ -124,7 +127,10 @@ const PrivacyPolicyComponent = () => {
           <p>
             If you have any questions about this Privacy Policy, please contact
             us at
-            <a href="mailto:hello@pawsathome.com">hello@pawsathome.com</a>.
+            <a href="mailto:hello@ruhrohrretreat.com">
+              hello@ruhrohrretreat.com
+            </a>
+            .
           </p>
         </section>
       </div>

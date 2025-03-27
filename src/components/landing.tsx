@@ -212,13 +212,23 @@ function LandingComponent() {
             transition={{ duration: 0.8 }}
             className="max-w-2xl"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white">
-              Professional Pet Care in the Comfort of Your Home
-            </h1>
-            <p className="text-xl md:text-2xl mb-8">
-              Loving attention for your furry family members while you&apos;re
-              away
-            </p>
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-lg"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              Ruh-Roh Retreat - Not Your Average Pet Sitter
+            </motion.h1>
+            <motion.p
+              className="text-xl md:text-2xl mb-8 text-white/90"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              Trustworthy, reliable pet care with regular photo updates and
+              peace of mind
+            </motion.p>
             <div className="flex flex-wrap gap-4">
               <button
                 onClick={scrollToBooking}
@@ -245,8 +255,8 @@ function LandingComponent() {
               Our Services
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We offer a variety of pet care services tailored to meet your
-              pet&apos;s individual needs and your schedule.
+              We offer premium overnight boarding with luxury accommodations and
+              specialized add-on services tailored to your pet's needs.
             </p>
           </div>
 
@@ -272,15 +282,17 @@ function LandingComponent() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Daily Visits
+              <h3 className="text-2xl font-bold mb-3 text-blue-600">
+                Luxury Overnight Boarding
               </h3>
-              <p className="text-gray-600 mb-4">
-                Customized visits to your home to feed, play with, and care for
-                your pets. Includes fresh water, feeding, walking, and lots of
-                TLC.
+              <p className="text-gray-600 mb-5">
+                Premium overnight care in our cozy retreat. Your pet will enjoy
+                comfortable accommodations, personalized attention, and a
+                home-like environment with 24/7 supervision.
               </p>
-              <p className="font-bold text-[#1A9CB0] mb-4">Starting at $25</p>
+              <p className="font-bold text-blue-600 mb-4 text-xl">
+                Starting at $65/night
+              </p>
               <a
                 href="#"
                 className="text-[#F28C38] font-medium hover:underline"
@@ -310,15 +322,15 @@ function LandingComponent() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Overnight Stays
+              <h3 className="text-2xl font-bold mb-3 text-sky-600">
+                Spa Bath Experience
               </h3>
-              <p className="text-gray-600 mb-4">
-                Your pet sitter stays in your home overnight, providing
-                companionship, security, and care for your pets in their
-                familiar environment.
+              <p className="text-gray-600 mb-5">
+                Keep your pet fresh and clean with our premium bathing service.
+                Includes gentle shampoo, conditioning, towel-drying, and a light
+                brushing before they return home.
               </p>
-              <p className="font-bold text-[#1A9CB0] mb-4">Starting at $85</p>
+              <p className="font-bold text-sky-600 mb-4 text-xl">Add-on: $25</p>
               <a
                 href="#"
                 className="text-[#F28C38] font-medium hover:underline"
@@ -348,15 +360,17 @@ function LandingComponent() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Dog Walking
+              <h3 className="text-2xl font-bold mb-3 text-emerald-600">
+                Special Care Package
               </h3>
-              <p className="text-gray-600 mb-4">
-                Regular exercise for your dog with personalized walks tailored
-                to their energy level, age, and preferences. Includes fresh
-                water and treats.
+              <p className="text-gray-600 mb-5">
+                For pets with special needs or seniors. Includes medication
+                administration, extra potty breaks, specialized diet
+                preparation, and additional comfort accommodations.
               </p>
-              <p className="font-bold text-[#1A9CB0] mb-4">Starting at $20</p>
+              <p className="font-bold text-emerald-600 mb-4 text-xl">
+                Add-on: $15/night
+              </p>
               <a
                 href="#"
                 className="text-[#F28C38] font-medium hover:underline"
@@ -386,15 +400,17 @@ function LandingComponent() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Pet Taxi
+              <h3 className="text-2xl font-bold mb-3 text-cyan-600">
+                Premium Play Sessions
               </h3>
-              <p className="text-gray-600 mb-4">
-                Transportation services for your pet to vet appointments,
-                grooming sessions, or anywhere they need to go, with a caring
-                professional.
+              <p className="text-gray-600 mb-5">
+                Add extra one-on-one play time for your energetic pet. Each
+                session includes 30 minutes of dedicated activity tailored to
+                your pet's preferences and energy level.
               </p>
-              <p className="font-bold text-[#1A9CB0] mb-4">Starting at $30</p>
+              <p className="font-bold text-cyan-600 mb-4 text-xl">
+                Add-on: $15/session
+              </p>
               <a
                 href="#"
                 className="text-[#F28C38] font-medium hover:underline"
@@ -424,26 +440,48 @@ function LandingComponent() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-6">
                 About Us
               </h2>
-              <p className="text-lg text-gray-700 mb-6">
-                Hello! I&apos;m Johny, the founder of Paws At Home. My journey
-                into professional pet sitting began after 15 years of
-                volunteering at local shelters and rescuing strays. I&apos;ve
-                always had a special connection with animals, and I understand
-                that they&apos;re more than just pets—they&apos;re family.
-              </p>
-              <p className="text-lg text-gray-700 mb-8">
-                I started Paws At Home because I believe all pets deserve
-                personalized care in the comfort of their own environment when
-                their owners are away. My mission is to provide peace of mind
-                through reliable, loving care for your furry family members.
-              </p>
+              <motion.p
+                className="text-lg text-gray-700 mb-6 leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Hello! I'm Johnny, the founder of Ruh-Roh Retreat. As a
+                certified pet care specialist with over 7 years of experience,
+                I've created a premium overnight boarding service that provides
+                a home-away-from-home for your beloved pets. Our retreat offers
+                luxury accommodations and premium add-on services that make each
+                stay special.
+              </motion.p>
+              <motion.p
+                className="text-lg text-gray-700 mb-8 leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Ruh-Roh Retreat specializes in premium overnight boarding with
+                luxurious accommodations and specialized add-on services. My
+                mission is to provide peace of mind through reliable, loving
+                care for your furry family members in our cozy retreat
+                environment.
+              </motion.p>
 
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 mr-3 bg-[#1A9CB0] rounded-full flex items-center justify-center">
+                {/* Feature 1 */}
+                <motion.div
+                  className="flex items-center bg-purple-50 p-4 rounded-xl shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, backgroundColor: "#f3e8ff" }}
+                >
+                  <div className="w-12 h-12 mr-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-white"
+                      className="h-6 w-6 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -456,13 +494,24 @@ function LandingComponent() {
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-700">7+ Years Experience</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 mr-3 bg-[#1A9CB0] rounded-full flex items-center justify-center">
+                  <span className="text-indigo-800 font-medium">
+                    7+ Years Experience
+                  </span>
+                </motion.div>
+
+                {/* Feature 2 */}
+                <motion.div
+                  className="flex items-center bg-pink-50 p-4 rounded-xl shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, backgroundColor: "#fce7f3" }}
+                >
+                  <div className="w-12 h-12 mr-4 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-md">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-white"
+                      className="h-6 w-6 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -475,13 +524,24 @@ function LandingComponent() {
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-700">Pet First Aid Certified</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 mr-3 bg-[#1A9CB0] rounded-full flex items-center justify-center">
+                  <span className="text-pink-800 font-medium">
+                    Medication Administration
+                  </span>
+                </motion.div>
+
+                {/* Feature 3 */}
+                <motion.div
+                  className="flex items-center bg-blue-50 p-4 rounded-xl shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, backgroundColor: "#eff6ff" }}
+                >
+                  <div className="w-12 h-12 mr-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-md">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-white"
+                      className="h-6 w-6 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -494,13 +554,24 @@ function LandingComponent() {
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-700">Insured & Bonded</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 mr-3 bg-[#1A9CB0] rounded-full flex items-center justify-center">
+                  <span className="text-blue-800 font-medium">
+                    Background Checked & Insured
+                  </span>
+                </motion.div>
+
+                {/* Feature 4 */}
+                <motion.div
+                  className="flex items-center bg-amber-50 p-4 rounded-xl shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, backgroundColor: "#fef3c7" }}
+                >
+                  <div className="w-12 h-12 mr-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center shadow-md">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-white"
+                      className="h-6 w-6 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -509,12 +580,20 @@ function LandingComponent() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-700">Background Checked</span>
-                </div>
+                  <span className="text-amber-800 font-medium">
+                    Regular Photo Updates
+                  </span>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -526,11 +605,11 @@ function LandingComponent() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Why Choose Us
+              Why Choose Ruh-Roh Retreat
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We go above and beyond to ensure your pets receive the best
-              possible care.
+              Not your average pet sitting service - we go above and beyond to
+              ensure your pets receive exceptional care.
             </p>
           </div>
 
@@ -554,11 +633,12 @@ function LandingComponent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Personalized Care
+                Senior Pet Specialists
               </h3>
               <p className="text-gray-600">
-                We create customized pet care plans based on your pet&apos;s
-                unique personality, preferences, and needs.
+                We have extensive experience caring for senior pets and pets
+                with special needs, ensuring they receive the specialized
+                attention they deserve.
               </p>
             </div>
 
@@ -587,11 +667,11 @@ function LandingComponent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Regular Updates
+                Daily Photos & Updates
               </h3>
               <p className="text-gray-600">
-                We send photos and detailed updates during each visit so you can
-                see your pet is happy and well-cared for.
+                We send detailed updates with photos during each visit so you
+                can see your pet is happy and enjoying their time with us.
               </p>
             </div>
 
@@ -614,11 +694,12 @@ function LandingComponent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Peace of Mind
+                Medication Administration
               </h3>
               <p className="text-gray-600">
-                Our services are fully insured and bonded, providing protection
-                and peace of mind while you&apos;re away.
+                Experienced in administering medications including oral
+                medications, injections, and specialized diets for pets with
+                health conditions.
               </p>
             </div>
 
@@ -641,11 +722,12 @@ function LandingComponent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Familiar Environment
+                Home Security & Care
               </h3>
               <p className="text-gray-600">
-                Your pets stay in their own comfortable home environment,
-                maintaining their routine and reducing stress.
+                While caring for your pets, we also bring in mail, water plants,
+                adjust lights, and ensure your home is secure and maintained
+                while you're away.
               </p>
             </div>
 
@@ -671,8 +753,9 @@ function LandingComponent() {
                 Flexible Scheduling
               </h3>
               <p className="text-gray-600">
-                We offer flexible scheduling options to accommodate your travel
-                plans, work hours, or special needs.
+                Adaptable to your pet's routine and your schedule with early
+                morning, evening, and weekend availability for ultimate
+                convenience.
               </p>
             </div>
 
@@ -690,28 +773,16 @@ function LandingComponent() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9.5 9.5c0 .5-.5 1-1 1s-1-.5-1-1 .5-1 1-1 1 .5 1 1z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.5 9.5c0 .5-.5 1-1 1s-1-.5-1-1 .5-1 1-1 1 .5 1 1z"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Emergency Support
+                Genuine Pet Lover
               </h3>
               <p className="text-gray-600">
-                We have backup plans and emergency protocols in place to ensure
-                your pet is always cared for, no matter what.
+                Not just a service provider - a genuine animal lover who forms
+                real bonds with your pets and treats them like family members.
               </p>
             </div>
           </div>
@@ -863,8 +934,8 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                &quot;I&apos;ve tried several pet sitting services, but Paws At
-                Home is by far the best. My cat Bella is usually shy around
+                &quot;I&apos;ve tried several pet sitting services, but Ruh-Roh
+                Retreat is by far the best. My cat Bella is usually shy around
                 strangers, but she immediately warmed up to her sitter. The
                 overnight stays give me such peace of mind.&quot;
               </p>
@@ -1334,24 +1405,18 @@ function LandingComponent() {
       <section id="contact" className="py-16 bg-[#1A9CB0]">
         <div className="container mx-auto px-4 text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to give your pets the care they deserve?
+            Ready for the Ruh-Roh Retreat experience?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            We&apos;re here to provide professional, loving care for your furry
-            family members whenever you need us.
+            Our luxury overnight boarding with premium add-on services will make
+            your pet's stay truly special while you're away.
           </p>
-          <div className="mb-8 flex flex-wrap justify-center gap-4">
+          <div className="mb-8">
             <button
               onClick={scrollToBooking}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4"
             >
-              Book Now
-            </button>
-            <button
-              onClick={scrollToMeetGreet}
-              className="bg-white hover:bg-gray-100 text-[#1A9CB0] font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
-            >
-              Meet & Greet
+              Book a Consultation
             </button>
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
@@ -1376,7 +1441,7 @@ function LandingComponent() {
               (555) 123-4567
             </a>
             <a
-              href="mailto:hello@pawsathome.com"
+              href="mailto:hello@ruhrohrretreat.com"
               className="flex items-center text-xl hover:underline"
             >
               <svg
@@ -1393,7 +1458,7 @@ function LandingComponent() {
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              hello@pawsathome.com
+              hello@ruhrohrretreat.com
             </a>
           </div>
 
@@ -1432,7 +1497,7 @@ function LandingComponent() {
                 allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Paws At Home Location"
+                title="Ruh-Roh Retreat Location"
               ></iframe>
             </div>
           </div>
@@ -1446,9 +1511,9 @@ function LandingComponent() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-            name: "Paws At Home",
+            name: "Ruh-Roh Retreat",
             image: "/logo.png",
-            url: "https://www.pawsathome.com",
+            url: "https://www.ruhrohrretreat.com",
             telephone: "(555) 123-4567",
             address: {
               "@type": "PostalAddress",
@@ -1480,8 +1545,8 @@ function LandingComponent() {
               },
             ],
             sameAs: [
-              "https://www.facebook.com/pawsathome",
-              "https://www.instagram.com/pawsathome",
+              "https://www.facebook.com/ruhrohrretreat",
+              "https://www.instagram.com/ruhrohrretreat",
             ],
           }),
         }}
