@@ -1420,7 +1420,7 @@ function LandingComponent() {
             </button>
             <button
               onClick={scrollToMeetGreet}
-              className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+              className="bg-white text-[#1A9CB0] hover:bg-[#158294] hover:text-white border-2 border-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300"
             >
               Meet & Greet
             </button>
