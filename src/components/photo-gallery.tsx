@@ -104,6 +104,30 @@ const PhotoGallery: React.FC = () => {
     setCurrentIndex(newIndex);
   };
 
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedPhoto) return;
+
+      switch (e.key) {
+        case "ArrowLeft":
+          goToPrevious();
+          break;
+        case "ArrowRight":
+          goToNext();
+          break;
+        case "Escape":
+          closeLightbox();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedPhoto, currentIndex, goToPrevious, goToNext, closeLightbox]);
+
   // Paw print loading animation
   if (loading) {
     return (
@@ -180,7 +204,12 @@ const PhotoGallery: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={closeLightbox}
+              onClick={(e) => {
+                // Only close if the click is directly on the backdrop
+                if (e.target === e.currentTarget) {
+                  closeLightbox();
+                }
+              }}
             >
               <motion.div
                 className="relative max-w-4xl max-h-[90vh] w-full mx-4"
@@ -199,23 +228,27 @@ const PhotoGallery: React.FC = () => {
 
                 {/* Navigation buttons */}
                 <button
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 rounded-full p-3 transition-colors duration-200"
+                  className="absolute left-0 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/40 hover:bg-white/60 rounded-full p-3 transition-colors duration-200 z-20 ml-2 md:ml-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-lg"
                   onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     goToPrevious();
                   }}
+                  aria-label="Previous image"
                 >
-                  <FaArrowLeft className="text-white" />
+                  <FaArrowLeft className="text-white text-base md:text-lg" />
                 </button>
 
                 <button
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 rounded-full p-3 transition-colors duration-200"
+                  className="absolute right-0 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/40 hover:bg-white/60 rounded-full p-3 transition-colors duration-200 z-20 mr-2 md:mr-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-lg"
                   onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     goToNext();
                   }}
+                  aria-label="Next image"
                 >
-                  <FaArrowRight className="text-white" />
+                  <FaArrowRight className="text-white text-base md:text-lg" />
                 </button>
 
                 {/* Image */}
@@ -237,6 +270,9 @@ const PhotoGallery: React.FC = () => {
                       {selectedPhoto.alt}
                     </p>
                   </div>
+                  <p className="text-white/70 text-xs mt-2 hidden md:block">
+                    Use arrow keys or buttons to navigate • Press ESC to close
+                  </p>
                 </div>
               </motion.div>
 
