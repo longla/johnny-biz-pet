@@ -289,7 +289,7 @@ function LandingComponent() {
                 home-like environment with my 24/7 supervision.
               </p>
               <p className="font-bold text-blue-600 mb-4 text-xl">
-                Starting at $65/night
+                Starting at $40/night
               </p>
               <a
                 href="#"
