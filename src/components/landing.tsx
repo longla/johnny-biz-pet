@@ -240,7 +240,7 @@ function LandingComponent() {
     <motion.div
       key={testimonial.id}
       whileHover={{ y: -5 }}
-      className="bg-white rounded-lg shadow-lg p-6"
+      className="bg-white rounded-lg shadow-lg p-6 h-full flex flex-col"
     >
       <div className="flex items-center mb-4">
         <Image
@@ -260,7 +260,7 @@ function LandingComponent() {
           </div>
         </div>
       </div>
-      <p className="text-gray-600 italic">{testimonial.text}</p>
+      <p className="text-gray-600 italic flex-grow">{testimonial.text}</p>
     </motion.div>
   );
 
@@ -337,10 +337,57 @@ function LandingComponent() {
             </div>
 
             {/* Desktop Testimonial Grid - hidden on mobile */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.map((testimonial) =>
-                renderTestimonialCard(testimonial)
-              )}
+            <div className="hidden md:block relative">
+              <div className="max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {testimonials
+                    .slice(currentTestimonialIndex, currentTestimonialIndex + 3)
+                    .map((testimonial) => (
+                      <div key={testimonial.id}>
+                        {renderTestimonialCard(testimonial)}
+                      </div>
+                    ))}
+                </div>
+
+                {/* Navigation Arrows - Only show if there are more than 3 testimonials */}
+                {testimonials.length > 3 && (
+                  <div className="flex justify-between items-center mt-8">
+                    <button
+                      onClick={goToPreviousTestimonial}
+                      className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                      aria-label="Previous testimonial"
+                    >
+                      <FaArrowLeft className="h-5 w-5" />
+                    </button>
+
+                    {/* Dots indicator */}
+                    <div className="flex space-x-2">
+                      {Array.from({
+                        length: Math.ceil(testimonials.length / 3),
+                      }).map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonialIndex(index * 3)}
+                          className={`w-3 h-3 rounded-full transition-all ${
+                            Math.floor(currentTestimonialIndex / 3) === index
+                              ? "bg-[#F28C38] w-5"
+                              : "bg-gray-300"
+                          }`}
+                          aria-label={`Go to testimonial group ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={goToNextTestimonial}
+                      className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                      aria-label="Next testimonial"
+                    >
+                      <FaArrowRight className="h-5 w-5" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </>
         )}
@@ -1334,10 +1381,10 @@ function LandingComponent() {
             My luxury overnight boarding with premium add-on services will make
             your pet's stay truly special while you're away.
           </p>
-          <div className="mb-8">
+          <div className="mb-8 flex flex-wrap gap-4 justify-center">
             <button
               onClick={scrollToBooking}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 mr-4"
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
             >
               Book Now
             </button>
