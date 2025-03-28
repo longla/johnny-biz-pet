@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function FloatingBone() {
   return (
     <motion.div
-      className="absolute left-16 z-10"
+      className="absolute left-4 md:left-16 z-10"
       style={{
         bottom: "-80px",
         width: "120px",

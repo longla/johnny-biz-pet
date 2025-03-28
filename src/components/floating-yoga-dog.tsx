@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function FloatingYogaDog() {
   return (
     <div
-      className="absolute right-16 z-10"
+      className="absolute right-4 md:right-16 z-10"
       style={{
         bottom: "-60px",
         width: "180px",
