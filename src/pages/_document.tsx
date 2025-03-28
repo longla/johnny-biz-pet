@@ -71,17 +71,17 @@ export default function Document() {
         {/* <!-- Google tag (gtag.js) --> */}
         <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-2PE34Z4HB1"
+          src="https://www.googletagmanager.com/gtag/js?id=G-W4PNG5DB4T"
         ></script>
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `
- window.dataLayer = window.dataLayer || [];
+window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-2PE34Z4HB1');`,
+  gtag('config', 'G-W4PNG5DB4T');`,
           }}
         ></script>
         {/* Safari font rendering fix - load early to avoid FOUT */}
@@ -117,21 +117,21 @@ export default function Document() {
         />
         {/* Preload critical fonts */}
         <link
-          rel="preload"
+          rel="preconnect"
           href="https://fonts.gstatic.com/s/varelaround/v13/w8gdH283Tvk__Lua32TysjIfp8uP.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
-          rel="preload"
+          rel="preconnect"
           href="https://fonts.gstatic.com/s/fredokaone/v8/k3kUo8kEI-tA1RRcTZGmTlHGCac.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
-          rel="preload"
+          rel="preconnect"
           href="https://fonts.gstatic.com/s/comicneue/v4/4UaHrEJDsxBrF37olUeD96rp57F2IwM.woff2"
           as="font"
           type="font/woff2"
