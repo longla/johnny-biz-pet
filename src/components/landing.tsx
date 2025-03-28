@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 import PhotoGallery from "./photo-gallery";
+
+type Testimonial = {
+  id: number;
+  name: string;
+  image: string;
+  rating: number;
+  text: string;
+};
 
 function LandingComponent() {
   // Booking form state
@@ -34,6 +43,11 @@ function LandingComponent() {
   const [dateError, setDateError] = useState("");
   const [nightsCount, setNightsCount] = useState<number | null>(null);
 
+  // Testimonials state
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const [testimonialLoading, setTestimonialLoading] = useState(true);
+
   // Calculate nights when dates change
   useEffect(() => {
     if (bookingForm.startDate && bookingForm.endDate) {
@@ -55,6 +69,38 @@ function LandingComponent() {
       setNightsCount(null);
     }
   }, [bookingForm.startDate, bookingForm.endDate]);
+
+  // Fetch testimonials from JSON file
+  useEffect(() => {
+    async function fetchTestimonials() {
+      try {
+        const response = await fetch("/data/testimonials.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch testimonials");
+        }
+        const data = await response.json();
+        setTestimonials(data);
+        setTestimonialLoading(false);
+      } catch (error) {
+        console.error("Error loading testimonials:", error);
+        setTestimonialLoading(false);
+      }
+    }
+
+    fetchTestimonials();
+  }, []);
+
+  const goToPreviousTestimonial = () => {
+    setCurrentTestimonialIndex((prev) =>
+      prev === 0 ? testimonials.length - 1 : prev - 1
+    );
+  };
+
+  const goToNextTestimonial = () => {
+    setCurrentTestimonialIndex((prev) =>
+      prev === testimonials.length - 1 ? 0 : prev + 1
+    );
+  };
 
   // Handle input changes
   const handleInputChange = (
@@ -188,6 +234,119 @@ function LandingComponent() {
       document.body.removeChild(script);
     };
   }, []);
+
+  // Render testimonial card
+  const renderTestimonialCard = (testimonial: Testimonial) => (
+    <motion.div
+      key={testimonial.id}
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-lg shadow-lg p-6"
+    >
+      <div className="flex items-center mb-4">
+        <Image
+          src={testimonial.image}
+          alt={`${testimonial.name}'s pet`}
+          width={60}
+          height={60}
+          className="rounded-full mr-4"
+          style={{ objectFit: "cover" }}
+        />
+        <div>
+          <h4 className="font-semibold text-[#333333]">{testimonial.name}</h4>
+          <div className="flex text-yellow-400">
+            {Array.from({ length: testimonial.rating }).map((_, i) => (
+              <FaStar key={i} className="h-5 w-5" />
+            ))}
+          </div>
+        </div>
+      </div>
+      <p className="text-gray-600 italic">{testimonial.text}</p>
+    </motion.div>
+  );
+
+  // Testimonials Section
+  const renderTestimonialsSection = () => (
+    <section id="testimonials" className="py-20">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+            What My Clients Say
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Don&apos;t just take my word for it - here&apos;s what pet parents
+            have to say about my services.
+          </p>
+        </div>
+
+        {testimonialLoading ? (
+          <div className="flex justify-center">
+            <div className="animate-pulse flex space-x-4">
+              <div className="rounded-full bg-gray-200 h-12 w-12"></div>
+              <div className="flex-1 space-y-4 py-1">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Mobile Testimonial Carousel - visible only on mobile */}
+            <div className="block md:hidden relative">
+              <div className="mb-12">
+                {testimonials.length > 0 &&
+                  renderTestimonialCard(testimonials[currentTestimonialIndex])}
+              </div>
+
+              {/* Navigation Arrows */}
+              <div className="flex justify-between items-center mt-4">
+                <button
+                  onClick={goToPreviousTestimonial}
+                  className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  <FaArrowLeft className="h-5 w-5" />
+                </button>
+
+                {/* Dots indicator */}
+                <div className="flex space-x-2">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentTestimonialIndex(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        currentTestimonialIndex === index
+                          ? "bg-[#F28C38] w-5"
+                          : "bg-gray-300"
+                      }`}
+                      aria-label={`Go to testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={goToNextTestimonial}
+                  className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <FaArrowRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Desktop Testimonial Grid - hidden on mobile */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {testimonials.map((testimonial) =>
+                renderTestimonialCard(testimonial)
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
 
   return (
     <div>
@@ -792,234 +951,7 @@ function LandingComponent() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              What My Clients Say
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Don&apos;t just take my word for it - here&apos;s what pet parents
-              have to say about my services.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-lg shadow-lg p-6"
-            >
-              <div className="flex items-center mb-4">
-                <Image
-                  src="/testimonial-pet-1.jpeg"
-                  alt="Client's pet"
-                  width={60}
-                  height={60}
-                  className="rounded-full mr-4"
-                  objectFit="cover"
-                />
-                <div>
-                  <h4 className="font-semibold text-[#333333]">Michaela K.</h4>
-                  <div className="flex text-yellow-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                We couldn't have asked for a better dog sitter than Johnny! He
-                took incredible care of our dog, Silva, while we were out of
-                town. Johnny was attentive, reliable, and always prompt in
-                communicating with us, giving us peace of mind throughout our
-                trip. Silva was happy and well-cared for, and it was clear she
-                was in great hands. We highly recommend Johnny to anyone looking
-                for a trustworthy and caring pet sitter. Thank you, Johnny! 😊🐾
-              </p>
-            </motion.div>
-
-            {/* Testimonial 2 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-lg shadow-lg p-6"
-            >
-              <div className="flex items-center mb-4">
-                <Image
-                  src="/testimonial-pet-2.jpeg"
-                  alt="Client's pet"
-                  width={60}
-                  height={60}
-                  className="rounded-full mr-4"
-                  objectFit="cover"
-                />
-                <div>
-                  <h4 className="font-semibold text-[#333333]">Yixie L.</h4>
-                  <div className="flex text-yellow-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                We had a pleasant experience leaving our dog with Johnny. She
-                didn't even wonna come home when we picked her up. We can see
-                that she liked the stay and Johnny kept us updated with daily
-                photo and video. He's also very thorough in understanding what
-                would be good for my dog when it comes to whether she's a hiking
-                dog, dog park dog, etc. We are very happy and would use Johnny's
-                service again.
-              </p>
-            </motion.div>
-
-            {/* Testimonial 3 */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-lg shadow-lg p-6"
-            >
-              <div className="flex items-center mb-4">
-                <Image
-                  src="/testimonial-pet-3.jpeg"
-                  alt="Client's pet"
-                  width={60}
-                  height={60}
-                  className="rounded-full mr-4"
-                  objectFit="cover"
-                />
-                <div>
-                  <h4 className="font-semibold text-[#333333]">Alice G.</h4>
-                  <div className="flex text-yellow-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                We had a great experience with Johnny, during our first meetup
-                he immediately gained the trust of our very shy dog which is not
-                an easy feat, and took the time to address our concerns, ask
-                questions and listen to our instructions. During the stay he was
-                very responsive and sent multiple updates. Our dogs had a
-                wonderful time and we will definitely come back to him for our
-                future travels.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {renderTestimonialsSection()}
 
       {/* Booking Section */}
       <section id="booking" ref={bookingRef} className="py-20 bg-[#F4F4F9]">
