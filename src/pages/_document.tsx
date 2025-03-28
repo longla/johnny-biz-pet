@@ -32,6 +32,64 @@ export default function Document() {
   gtag('config', 'G-2PE34Z4HB1');`,
           }}
         ></script>
+        {/* Safari font rendering fix - load early to avoid FOUT */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Safari font rendering fix - helps ensure fonts are properly loaded
+              (function() {
+                // Detect Safari
+                var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                
+                // Apply Safari-specific optimizations
+                if (isSafari) {
+                  // Add Safari class to HTML for targeted CSS fixes
+                  document.documentElement.classList.add('safari');
+                  
+                  // Add a load event for Safari font rendering
+                  window.addEventListener('load', function() {
+                    // Force reflow which helps with font rendering in Safari
+                    document.body.style.opacity = '0.99';
+                    setTimeout(function() {
+                      document.body.style.opacity = '1';
+                      document.documentElement.classList.add('fonts-loaded-safari');
+                    }, 100);
+                  });
+                } else {
+                  // For non-Safari browsers, just mark fonts as loaded
+                  document.documentElement.classList.add('fonts-loaded-safari');
+                }
+              })();
+            `,
+          }}
+        />
+        {/* Preload critical fonts */}
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/varelaround/v13/w8gdH283Tvk__Lua32TysjIfp8uP.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/fredokaone/v8/k3kUo8kEI-tA1RRcTZGmTlHGCac.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/comicneue/v4/4UaHrEJDsxBrF37olUeD96rp57F2IwM.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* Add meta theme color for Safari */}
+        <meta name="theme-color" content="#f9f5eb" />
+        <meta name="format-detection" content="telephone=no" />
+        {/* Safari font display options */}
+        <meta name="text-size-adjust" content="100%" />
       </Head>
       <body>
         <Main />

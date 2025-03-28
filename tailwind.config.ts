@@ -8,13 +8,25 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      Inter: ["Inter", "sans-serif"],
-      Poppins: ["Poppins", "sans-serif"],
-      "DM Sans": ["DM Sans"],
-      sans: ["Varela Round", "sans-serif"],
-      Fredoka: ["Fredoka One", "cursive"],
-      Comic: ["Comic Neue", "cursive"],
-      Varela: ["Varela Round", "sans-serif"],
+      Inter: ["Inter", "system-ui", "sans-serif"],
+      Poppins: ["Poppins", "system-ui", "sans-serif"],
+      "DM Sans": ["DM Sans", "system-ui", "sans-serif"],
+      sans: [
+        "Varela Round",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "system-ui",
+        "sans-serif",
+      ],
+      Fredoka: ["Fredoka One", "Comic Sans MS", "cursive"],
+      Comic: ["Comic Neue", "Comic Sans MS", "cursive"],
+      Varela: [
+        "Varela Round",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "system-ui",
+        "sans-serif",
+      ],
     },
     extend: {
       backgroundImage: {
