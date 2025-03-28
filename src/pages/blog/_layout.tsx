@@ -1,4 +1,3 @@
-import { BlogMetaData } from "@/components/meta-data";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -15,8 +14,6 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <BlogMetaData />
-
       {/* Header Section */}
       <header className="sticky top-0 z-50 bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">

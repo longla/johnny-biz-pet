@@ -4,58 +4,12 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        {/* Primary Meta Tags */}
-        <meta
-          name="title"
-          content="Ruh-Roh Retreat - Not Your Average Pet Sitter"
-        />
-        <meta
-          name="description"
-          content="Trustworthy, reliable pet care with regular photo updates and peace of mind. Premium overnight boarding service providing luxury accommodations and specialized care for your furry family members."
-        />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.ruhrohretreat.com/" />
-        <meta
-          property="og:title"
-          content="Ruh-Roh Retreat - Not Your Average Pet Sitter"
-        />
-        <meta
-          property="og:description"
-          content="Premium overnight boarding with luxury accommodations and specialized add-on services tailored to your pet's needs. Certified pet care specialist with over 7 years of experience."
-        />
-        <meta
-          property="og:image"
-          content="https://www.ruhrohretreat.com/hero-image.jpeg"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:site_name" content="Ruh-Roh Retreat" />
-        <meta property="og:locale" content="en_US" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.ruhrohretreat.com/" />
-        <meta
-          name="twitter:title"
-          content="Ruh-Roh Retreat - Not Your Average Pet Sitter"
-        />
-        <meta
-          name="twitter:description"
-          content="Premium overnight boarding with luxury accommodations and specialized add-on services tailored to your pet's needs. Certified pet care specialist with over 7 years of experience."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.ruhrohretreat.com/hero-image.jpeg"
-        />
-
-        {/* Additional Meta Tags */}
+        {/* Essential Document Meta Tags */}
         <meta name="theme-color" content="#f9f5eb" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="text-size-adjust" content="100%" />
 
-        {/* Existing scripts */}
+        {/* Analytics Scripts */}
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
@@ -84,6 +38,7 @@ window.dataLayer = window.dataLayer || [];
   gtag('config', 'G-W4PNG5DB4T');`,
           }}
         ></script>
+
         {/* Safari font rendering fix - load early to avoid FOUT */}
         <script
           dangerouslySetInnerHTML={{
@@ -115,6 +70,7 @@ window.dataLayer = window.dataLayer || [];
             `,
           }}
         />
+
         {/* Preload critical fonts */}
         <link
           rel="preconnect"

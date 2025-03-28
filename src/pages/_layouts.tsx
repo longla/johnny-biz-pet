@@ -1,3 +1,4 @@
+import { DefaultMetaData } from "@/components/meta-data";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -8,7 +9,12 @@ type MainLayoutProps = {
   image?: string;
 };
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({
+  children,
+  title,
+  description,
+  image,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -17,6 +23,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <>
+      <DefaultMetaData />
       {/* Header Section */}
       <header className="sticky top-0 z-50 bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
