@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
+import FloatingYogaDog from "./floating-yoga-dog";
 import PhotoGallery from "./photo-gallery";
 
 type Testimonial = {
@@ -396,7 +397,7 @@ function LandingComponent() {
   );
 
   return (
-    <div>
+    <div className="relative">
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
@@ -453,7 +454,7 @@ function LandingComponent() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-[#F4F4F4]">
+      <section id="services" className="py-20 bg-[#F4F4F4] relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
@@ -625,6 +626,7 @@ function LandingComponent() {
             </motion.div>
           </div>
         </div>
+        <FloatingYogaDog />
       </section>
 
       {/* Photo Gallery Section */}
@@ -1411,7 +1413,7 @@ function LandingComponent() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  d="M3 5a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
                 />
               </svg>
               +1 (714) 329-4534
