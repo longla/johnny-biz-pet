@@ -1,13 +1,22 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function FloatingBone() {
   return (
-    <div
+    <motion.div
       className="absolute left-16 z-10"
       style={{
         bottom: "-80px",
         width: "120px",
         height: "120px",
+      }}
+      animate={{
+        y: [0, -10, 0],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
       }}
     >
       <Image
@@ -17,6 +26,6 @@ export default function FloatingBone() {
         height={120}
         className="drop-shadow-lg rotate-[30deg]"
       />
-    </div>
+    </motion.div>
   );
 }
