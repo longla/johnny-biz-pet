@@ -17,63 +17,15 @@ const PhotoGallery: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mobileCurrentIndex, setMobileCurrentIndex] = useState(0);
+  const [desktopPage, setDesktopPage] = useState(0);
+  const photosPerPage = 6; // Show 6 photos per page (2 rows of 3)
 
   useEffect(() => {
-    // This would typically be an API call to get the photos
-    // For now, we'll use a mock set of photos
     const fetchPhotos = async () => {
       try {
-        // In a real implementation, this would be:
-        // const response = await fetch('/api/gallery-photos');
-        // const data = await response.json();
-
-        // Mock data for development
-        const mockPhotos: Photo[] = [
-          {
-            id: "1",
-            src: "/images/gallery/hero-image.jpeg",
-            alt: "Happy dog playing with pet sitter",
-            width: 1200,
-            height: 800,
-          },
-          {
-            id: "2",
-            src: "/images/gallery/about-image.jpeg",
-            alt: "Pet owner with their furry friend",
-            width: 1200,
-            height: 800,
-          },
-          {
-            id: "3",
-            src: "/images/gallery/testimonial-pet-1.jpeg",
-            alt: "Adorable pet enjoying playtime",
-            width: 800,
-            height: 600,
-          },
-          {
-            id: "4",
-            src: "/images/gallery/hero-image.jpeg",
-            alt: "Dogs having fun outdoors",
-            width: 1200,
-            height: 800,
-          },
-          {
-            id: "5",
-            src: "/images/gallery/about-image.jpeg",
-            alt: "Relaxing time with pets",
-            width: 1200,
-            height: 800,
-          },
-          {
-            id: "6",
-            src: "/images/gallery/testimonial-pet-1.jpeg",
-            alt: "Happy customer with their pet",
-            width: 800,
-            height: 600,
-          },
-        ];
-
-        setPhotos(mockPhotos);
+        const response = await fetch("/api/gallery-photos");
+        const data = await response.json();
+        setPhotos(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching photos:", error);
@@ -112,6 +64,20 @@ const PhotoGallery: React.FC = () => {
   const goToNextMobile = () => {
     setMobileCurrentIndex((prev) => (prev + 1) % photos.length);
   };
+
+  const goToPreviousPage = () => {
+    setDesktopPage((prev) => Math.max(0, prev - 1));
+  };
+
+  const goToNextPage = () => {
+    const maxPage = Math.ceil(photos.length / photosPerPage) - 1;
+    setDesktopPage((prev) => Math.min(maxPage, prev + 1));
+  };
+
+  const currentPagePhotos = photos.slice(
+    desktopPage * photosPerPage,
+    (desktopPage + 1) * photosPerPage
+  );
 
   // Add keyboard navigation
   useEffect(() => {
@@ -185,16 +151,6 @@ const PhotoGallery: React.FC = () => {
                   style={{ objectFit: "cover" }}
                 />
               )}
-
-              {/* Caption overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                <div className="flex items-center space-x-2">
-                  <FaPaw className="text-white" />
-                  <p className="text-white font-medium">
-                    {photos.length > 0 ? photos[mobileCurrentIndex].alt : ""}
-                  </p>
-                </div>
-              </div>
             </div>
 
             {/* Navigation buttons */}
@@ -235,39 +191,75 @@ const PhotoGallery: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop Photo Grid (hidden on mobile) */}
-        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {photos.map((photo, index) => (
-            <motion.div
-              key={photo.id}
-              className="relative overflow-hidden rounded-lg shadow-md cursor-pointer"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
-              }}
-              onClick={() => openLightbox(photo, index)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="relative w-full h-64">
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  style={{ objectFit: "cover" }}
-                  className="transition-all duration-300"
+        {/* Desktop Photo Grid with Pagination */}
+        <div className="hidden sm:block">
+          <div className="relative">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-h-[800px] overflow-hidden">
+              {currentPagePhotos.map((photo, index) => (
+                <motion.div
+                  key={photo.id}
+                  className="relative overflow-hidden rounded-lg shadow-md cursor-pointer"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+                  }}
+                  onClick={() =>
+                    openLightbox(photo, index + desktopPage * photosPerPage)
+                  }
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="relative w-full h-64">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: "cover" }}
+                      className="transition-all duration-300"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Desktop Navigation Arrows */}
+            {desktopPage > 0 && (
+              <button
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
+                onClick={goToPreviousPage}
+                aria-label="Previous page"
+              >
+                <FaArrowLeft className="text-[#1A9CB0] text-xl" />
+              </button>
+            )}
+            {desktopPage < Math.ceil(photos.length / photosPerPage) - 1 && (
+              <button
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
+                onClick={goToNextPage}
+                aria-label="Next page"
+              >
+                <FaArrowRight className="text-[#1A9CB0] text-xl" />
+              </button>
+            )}
+
+            {/* Page Indicators */}
+            <div className="flex justify-center mt-6 space-x-2">
+              {Array.from({
+                length: Math.ceil(photos.length / photosPerPage),
+              }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setDesktopPage(i)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    i === desktopPage ? "bg-[#1A9CB0] w-4" : "bg-gray-300"
+                  }`}
+                  aria-label={`Go to page ${i + 1}`}
                 />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <div className="flex items-center space-x-2">
-                  <FaPaw className="text-white" />
-                  <p className="text-white font-medium">{photo.alt}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Lightbox */}
@@ -279,7 +271,6 @@ const PhotoGallery: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={(e) => {
-                // Only close if the click is directly on the backdrop
                 if (e.target === e.currentTarget) {
                   closeLightbox();
                 }
@@ -334,19 +325,6 @@ const PhotoGallery: React.FC = () => {
                     sizes="100vw"
                     style={{ objectFit: "contain" }}
                   />
-                </div>
-
-                {/* Caption */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                  <div className="flex items-center space-x-2">
-                    <FaPaw className="text-[#F28C38]" />
-                    <p className="text-white font-medium">
-                      {selectedPhoto.alt}
-                    </p>
-                  </div>
-                  <p className="text-white/70 text-xs mt-2 hidden md:block">
-                    Use arrow keys or buttons to navigate • Press ESC to close
-                  </p>
                 </div>
               </motion.div>
 
