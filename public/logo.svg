@@ -1,14 +1,18 @@
 <svg width="150" height="50" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg" fill="none">
-  <!-- Triangle house -->
-  <polygon points="10,40 25,10 40,40" fill="#FBBF24" stroke="#F59E0B" stroke-width="2" />
+  <!-- Background shape with slight rotation -->
+  <rect x="5" y="5" width="40" height="40" rx="12" fill="#3dc756" transform="rotate(-3 25 25)" />
   
   <!-- Paw print -->
-  <circle cx="25" cy="32" r="4" fill="#FF5722" />
-  <circle cx="19" cy="26" r="3" fill="#F87171" />
-  <circle cx="31" cy="26" r="3" fill="#F87171" />
-  <circle cx="22" cy="20" r="2.5" fill="#34D399" />
-  <circle cx="28" cy="20" r="2.5" fill="#34D399" />
+  <circle cx="25" cy="32" r="5" fill="#F9A03F" />
+  <circle cx="19" cy="26" r="3" fill="#F9A03F" />
+  <circle cx="31" cy="26" r="3" fill="#F9A03F" />
+  <circle cx="21" cy="20" r="2.5" fill="#F9A03F" />
+  <circle cx="29" cy="20" r="2.5" fill="#F9A03F" />
+  
+  <!-- House roof outline -->
+  <path d="M17,10 L33,10 L25,3 Z" fill="#6BBBDB" stroke="#FFFFFF" stroke-width="1.5" />
   
   <!-- Text -->
-  <text x="50" y="33" font-size="14" font-family="Arial, sans-serif" fill="#333" font-weight="600">Ruh-Roh Retreat</text>
+  <text x="55" y="20" font-size="14" font-family="Fredoka One, cursive" fill="#3dc756" font-weight="600">Paws</text>
+  <text x="55" y="35" font-size="14" font-family="Fredoka One, cursive" fill="#F9A03F" font-weight="600">At Home</text>
 </svg>

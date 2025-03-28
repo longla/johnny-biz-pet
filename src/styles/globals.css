@@ -1,31 +1,30 @@
 @tailwind base;
 
 body {
-  font-family: "Poppins";
-  background-color: #f4f4f9;
+  font-family: "Varela Round", sans-serif;
+  background-color: #f9f5eb;
 }
 h1 {
   @apply py-4 text-3xl font-bold text-gray-950;
+  font-family: "Fredoka One", cursive;
 }
 h2 {
-  @apply text-xl;
-  @apply py-4;
+  @apply text-xl py-4;
+  font-family: "Fredoka One", cursive;
 }
 h3 {
-  @apply text-lg;
-  @apply py-3;
+  @apply text-lg py-3;
+  font-family: "Comic Neue", cursive;
 }
 h4 {
-  @apply text-base;
-  @apply py-2;
+  @apply text-base py-2;
+  font-family: "Comic Neue", cursive;
 }
 h5 {
-  @apply text-sm;
-  @apply py-2;
+  @apply text-sm py-2;
 }
 h6 {
-  @apply text-xs;
-  @apply py-2;
+  @apply text-xs py-2;
 }
 a {
   @apply hover:underline;
@@ -69,13 +68,14 @@ a {
   font-family: "JetBrains Mono";
 }
 .logo {
-  font-family: "Poppins";
+  font-family: "Fredoka One", cursive;
 }
 
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css?family=Inter,DM Sans,JetBrains Mono");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@300;400;700&family=Varela+Round&display=swap");
 
 :root {
   --foreground-rgb: #0e1c36;
@@ -91,10 +91,10 @@ a {
 } */
 
 .text-logo {
-  font-family: "Inter", sans-serif;
+  font-family: "Fredoka One", cursive;
   font-weight: 700;
   font-size: 1.5rem;
-  color: #1a9cb0;
+  color: #3dc756;
   line-height: 1.2;
   text-decoration: none;
   display: inline-block;
@@ -102,9 +102,149 @@ a {
 }
 
 .text-logo .highlight {
-  color: #f28c38;
+  color: #f9a03f;
 }
 
 .text-logo:hover {
   text-decoration: none;
+}
+
+/* Cartoon-inspired styling */
+.nav-container {
+  @apply bg-skyblue-100 rounded-cartoon border-b-4 border-skyblue-400 shadow-cartoon;
+  background-image: url("/images/paw-pattern.svg");
+  background-size: 100px;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+}
+
+.nav-link {
+  @apply rounded-cartoon px-4 py-2 font-medium transition-all duration-300;
+}
+
+.nav-link:hover {
+  @apply bg-primary-100 text-primary-600 transform scale-105;
+}
+
+.hero-section {
+  @apply relative overflow-hidden;
+}
+
+.hero-cloud-bg {
+  @apply absolute inset-0 z-0 opacity-20;
+  background-image: url("/images/cloud-bg.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  @apply relative z-10 bg-white bg-opacity-90 p-8 rounded-cartoon shadow-lg border-4 border-primary-300;
+}
+
+.card {
+  @apply bg-white rounded-cartoon shadow-cartoon border-2 border-skyblue-200 p-6 transition-all duration-300;
+}
+
+.card:hover {
+  @apply transform -translate-y-1 shadow-lg border-primary-300;
+}
+
+.service-icon {
+  @apply text-4xl text-primary-500 mb-4;
+}
+
+.section-title {
+  @apply flex items-center justify-center my-8;
+}
+
+.section-title h2 {
+  @apply px-6 mx-4 text-center text-2xl md:text-3xl font-bold text-gray-800;
+}
+
+.section-title::before,
+.section-title::after {
+  content: "";
+  @apply block w-16 h-1 bg-orange-300 rounded-full;
+}
+
+.paw-print {
+  @apply absolute opacity-20;
+  width: 20px;
+  height: 20px;
+  background-image: url("/images/paw-print.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.wave-border {
+  @apply w-full h-16 overflow-hidden relative;
+  background-image: url("/images/wavy-border.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.speech-bubble {
+  @apply relative bg-white p-6 rounded-2xl shadow-md border-2 border-skyblue-200;
+}
+
+.speech-bubble::after {
+  content: "";
+  @apply absolute w-4 h-4 bg-white border-r-2 border-b-2 border-skyblue-200 transform rotate-45;
+  bottom: -8px;
+  left: 30px;
+}
+
+.pet-avatar {
+  @apply w-16 h-16 rounded-full border-4 border-orange-300 overflow-hidden;
+}
+
+.cartoon-button {
+  @apply bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-cartoon 
+         border-b-4 border-primary-700 shadow-lg transition-all duration-300;
+}
+
+.cartoon-button:hover {
+  @apply transform -translate-y-1 shadow-xl;
+}
+
+.cartoon-button:active {
+  @apply transform translate-y-1 border-b-2;
+}
+
+/* Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+.wiggling {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+.polaroid-frame {
+  @apply bg-white p-3 pb-8 shadow-md transform rotate-2 hover:rotate-0 transition-transform duration-300;
+}
+
+.wooden-sign {
+  @apply relative bg-orange-300 text-white p-4 rounded-lg border-4 border-orange-400 text-center font-bold mx-auto max-w-sm;
 }
