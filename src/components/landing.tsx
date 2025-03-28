@@ -50,6 +50,69 @@ function LandingComponent() {
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [testimonialLoading, setTestimonialLoading] = useState(true);
 
+  // Hero slideshow state
+  const [heroImages, setHeroImages] = useState<string[]>([]);
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const heroIntervalRef = useRef<NodeJS.Timeout>();
+
+  // Load hero images
+  useEffect(() => {
+    const loadHeroImages = async () => {
+      try {
+        const response = await fetch("/api/hero-images");
+        if (!response.ok) {
+          throw new Error("Failed to fetch hero images");
+        }
+        const data = await response.json();
+        setHeroImages(data.images);
+      } catch (error) {
+        console.error("Error loading hero images:", error);
+        // Fallback to default hero image if API fails
+        setHeroImages(["/hero/hero-1.jpeg"]);
+      }
+    };
+
+    loadHeroImages();
+  }, []);
+
+  // Setup slideshow interval
+  useEffect(() => {
+    if (heroImages.length > 1) {
+      heroIntervalRef.current = setInterval(() => {
+        setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+      }, 5000); // Change image every 5 seconds
+    }
+
+    return () => {
+      if (heroIntervalRef.current) {
+        clearInterval(heroIntervalRef.current);
+      }
+    };
+  }, [heroImages.length]);
+
+  // Navigation functions for hero slideshow
+  const goToPreviousHero = () => {
+    setCurrentHeroIndex(
+      (prev) => (prev - 1 + heroImages.length) % heroImages.length
+    );
+    if (heroIntervalRef.current) {
+      clearInterval(heroIntervalRef.current);
+      heroIntervalRef.current = setInterval(() => {
+        setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+      }, 5000);
+    }
+  };
+
+  const goToNextHero = () => {
+    setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+    if (heroIntervalRef.current) {
+      clearInterval(heroIntervalRef.current);
+      heroIntervalRef.current = setInterval(() => {
+        setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+      }, 5000);
+    }
+  };
+
   // Calculate nights when dates change
   useEffect(() => {
     if (bookingForm.startDate && bookingForm.endDate) {
@@ -402,41 +465,130 @@ function LandingComponent() {
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-image.jpeg"
-            alt="Pet sitter playing with dogs"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-            priority
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          {heroImages.map((image, index) => (
+            <motion.div
+              key={image}
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: index === currentHeroIndex ? 1 : 0,
+                scale: index === currentHeroIndex ? 1 : 1.05,
+              }}
+              transition={{
+                duration: 1.2,
+                ease: [0.4, 0, 0.2, 1],
+                opacity: { duration: 1.2, ease: [0.4, 0, 0.2, 1] },
+                scale: { duration: 1.2, ease: [0.4, 0, 0.2, 1] },
+              }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={image}
+                alt="Pet sitter playing with dogs"
+                layout="fill"
+                objectFit="cover"
+                quality={100}
+                priority={index === 0}
+              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                transition={{
+                  duration: 1.2,
+                  ease: [0.4, 0, 0.2, 1],
+                  delay: 0.3,
+                }}
+                className="absolute inset-0 bg-black"
+              />
+            </motion.div>
+          ))}
         </div>
+
+        {/* Hero Navigation */}
+        {heroImages.length > 1 && (
+          <>
+            <motion.button
+              onClick={goToPreviousHero}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
+              aria-label="Previous image"
+            >
+              <FaArrowLeft className="h-6 w-6 text-white" />
+            </motion.button>
+            <motion.button
+              onClick={goToNextHero}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
+              aria-label="Next image"
+            >
+              <FaArrowRight className="h-6 w-6 text-white" />
+            </motion.button>
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+              {heroImages.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => setCurrentHeroIndex(index)}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    currentHeroIndex === index
+                      ? "bg-white w-6"
+                      : "bg-white/50 hover:bg-white/75"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
         <div className="container mx-auto px-4 relative z-10 text-white">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{
+              duration: 1.2,
+              ease: [0.4, 0, 0.2, 1],
+              delay: 0.5,
+            }}
             className="max-w-2xl"
           >
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-lg"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.4, 0, 0.2, 1],
+                delay: 0.6,
+              }}
             >
               Ruh-Roh Retreat - Not Your Average Pet Sitter
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl mb-8 text-white/90"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.4, 0, 0.2, 1],
+                delay: 0.7,
+              }}
             >
               Trustworthy, reliable pet care with regular photo updates and
               peace of mind
             </motion.p>
-            <div className="flex flex-wrap gap-4">
+            <motion.div
+              className="flex flex-wrap gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.4, 0, 0.2, 1],
+                delay: 0.8,
+              }}
+            >
               <button
                 onClick={scrollToBooking}
                 className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
@@ -449,7 +601,7 @@ function LandingComponent() {
               >
                 Meet & Greet
               </button>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
