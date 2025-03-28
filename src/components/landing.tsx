@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
+import FloatingBone from "./floating-bone";
 import FloatingYogaDog from "./floating-yoga-dog";
 import PhotoGallery from "./photo-gallery";
 
@@ -630,7 +631,10 @@ function LandingComponent() {
       </section>
 
       {/* Photo Gallery Section */}
-      <PhotoGallery />
+      <section className="relative">
+        <PhotoGallery />
+        <FloatingBone />
+      </section>
 
       {/* About Us Section */}
       <section id="about" className="py-20">
