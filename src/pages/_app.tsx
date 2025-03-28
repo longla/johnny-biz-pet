@@ -1,16 +1,8 @@
 import { DefaultMetaData } from "@/components/meta-data";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Poppins } from "next/font/google";
 import Head from "next/head";
 import { useEffect } from "react";
-
-const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-});
 
 export default function App({ Component, pageProps }: AppProps) {
   // Add font loading detection to prevent FOUT (Flash of Unstyled Text)
@@ -58,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         `}</style>
       </Head>
       <DefaultMetaData />
-      <div className={`${poppins.variable} font-sans`}>
+      <div className="font-sans">
         <Component {...pageProps} />
       </div>
     </>

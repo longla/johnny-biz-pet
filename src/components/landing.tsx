@@ -190,7 +190,7 @@ function LandingComponent() {
   }, []);
 
   return (
-    <div className="font-poppins">
+    <div>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
@@ -866,7 +866,7 @@ function LandingComponent() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                We couldn’t have asked for a better dog sitter than Johnny! He
+                We couldn't have asked for a better dog sitter than Johnny! He
                 took incredible care of our dog, Silva, while we were out of
                 town. Johnny was attentive, reliable, and always prompt in
                 communicating with us, giving us peace of mind throughout our
@@ -938,11 +938,11 @@ function LandingComponent() {
               </div>
               <p className="text-gray-600 italic">
                 We had a pleasant experience leaving our dog with Johnny. She
-                didn’t even wonna come home when we picked her up. We can see
+                didn't even wonna come home when we picked her up. We can see
                 that she liked the stay and Johnny kept us updated with daily
-                photo and video. He’s also very thorough in understanding what
-                would be good for my dog when it comes to whether she’s a hiking
-                dog, dog park dog, etc. We are very happy and would use Johnny’s
+                photo and video. He's also very thorough in understanding what
+                would be good for my dog when it comes to whether she's a hiking
+                dog, dog park dog, etc. We are very happy and would use Johnny's
                 service again.
               </p>
             </motion.div>

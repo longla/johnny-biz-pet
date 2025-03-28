@@ -8,9 +8,6 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      Inter: ["Inter", "system-ui", "sans-serif"],
-      Poppins: ["Poppins", "system-ui", "sans-serif"],
-      "DM Sans": ["DM Sans", "system-ui", "sans-serif"],
       sans: [
         "Varela Round",
         "-apple-system",
