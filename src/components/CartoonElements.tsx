@@ -318,6 +318,180 @@ export const CartoonElements = {
       </svg>
     );
   },
+
+  // Floating Cartoon Pet
+  FloatingCartoonPet: ({
+    type = "dog",
+    position = "random",
+    size = "md",
+    shadow = true,
+  }: {
+    type?: "dog" | "cat";
+    position?:
+      | "top-left"
+      | "top-right"
+      | "bottom-left"
+      | "bottom-right"
+      | "random";
+    size?: "sm" | "md" | "lg";
+    shadow?: boolean;
+  }) => {
+    // Determine position classes
+    let positionClass = "";
+
+    if (position === "random") {
+      const positions = [
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right",
+      ];
+      position = positions[Math.floor(Math.random() * positions.length)] as any;
+    }
+
+    switch (position) {
+      case "top-left":
+        positionClass = "top-4 left-4 md:top-8 md:left-8";
+        break;
+      case "top-right":
+        positionClass = "top-4 right-4 md:top-8 md:right-8";
+        break;
+      case "bottom-left":
+        positionClass = "bottom-4 left-4 md:bottom-8 md:left-8";
+        break;
+      case "bottom-right":
+        positionClass = "bottom-4 right-4 md:bottom-8 md:right-8";
+        break;
+    }
+
+    // Determine size classes
+    let sizeClass = "";
+    switch (size) {
+      case "sm":
+        sizeClass = "w-16 h-16 md:w-24 md:h-24";
+        break;
+      case "md":
+        sizeClass = "w-24 h-24 md:w-32 md:h-32";
+        break;
+      case "lg":
+        sizeClass = "w-32 h-32 md:w-40 md:h-40";
+        break;
+    }
+
+    // Add animation delay to make multiple pets float at different timing
+    const delay = Math.random() * 2;
+    const animationStyle = {
+      animationDelay: `${delay}s`,
+    };
+
+    return (
+      <div
+        className={`absolute ${positionClass} ${sizeClass} floating pointer-events-none z-10`}
+        style={animationStyle}
+      >
+        {shadow && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2/3 h-3 bg-gray-900 opacity-10 rounded-full"></div>
+        )}
+        <img
+          src={`/images/cartoon-${type}.svg`}
+          alt={`Cartoon ${type}`}
+          className="w-full h-full"
+        />
+      </div>
+    );
+  },
+
+  // Section with floating pets
+  SectionWithPets: ({
+    children,
+    petCount = 2,
+  }: {
+    children: React.ReactNode;
+    petCount?: number;
+  }) => {
+    return (
+      <div className="relative">
+        {/* Add random floating pets */}
+        {Array.from({ length: petCount }).map((_, i) => (
+          <CartoonElements.FloatingCartoonPet
+            key={i}
+            type={Math.random() > 0.5 ? "dog" : "cat"}
+            position="random"
+            size={["sm", "md", "lg"][Math.floor(Math.random() * 3)] as any}
+          />
+        ))}
+        {children}
+      </div>
+    );
+  },
+
+  // Hero with cartoon pet welcome element
+  PetWelcomeHero: ({
+    title,
+    subtitle,
+    imgSrc,
+    ctaText = "Book Now",
+    ctaAction,
+  }: {
+    title: string;
+    subtitle: string;
+    imgSrc: string;
+    ctaText?: string;
+    ctaAction?: () => void;
+  }) => {
+    return (
+      <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={imgSrc}
+            alt="Hero background"
+            className="object-cover w-full h-full opacity-70"
+          />
+        </div>
+
+        {/* Cloud Background */}
+        <CartoonElements.CloudBg />
+
+        {/* Floating Pets */}
+        <CartoonElements.FloatingCartoonPet
+          type="dog"
+          position="top-left"
+          size="md"
+        />
+        <CartoonElements.FloatingCartoonPet
+          type="cat"
+          position="bottom-right"
+          size="lg"
+        />
+
+        {/* Content */}
+        <div className="hero-content max-w-3xl mx-4 z-10">
+          <h1 className="text-4xl md:text-5xl text-center mb-4">{title}</h1>
+          <p className="text-lg md:text-xl text-center mb-8 text-gray-700">
+            {subtitle}
+          </p>
+
+          {ctaAction && (
+            <div className="flex justify-center">
+              <CartoonElements.Button
+                onClick={ctaAction}
+                color="primary"
+                className="text-lg"
+              >
+                {ctaText}
+              </CartoonElements.Button>
+            </div>
+          )}
+        </div>
+
+        {/* Wavy Bottom Border */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <CartoonElements.WavyDivider color="primary" />
+        </div>
+      </div>
+    );
+  },
 };
 
 export default CartoonElements;

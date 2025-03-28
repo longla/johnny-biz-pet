@@ -1,0 +1,53 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cute Cartoon Cat -->
+  
+  <!-- Body -->
+  <ellipse cx="100" cy="125" rx="50" ry="40" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Head -->
+  <circle cx="100" cy="70" r="35" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Ears -->
+  <path d="M75 45 L 65 20 L 85 35 Z" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  <path d="M125 45 L 135 20 L 115 35 Z" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Inner Ears -->
+  <path d="M75 42 L 70 28 L 81 38 Z" fill="#FFDDDD" stroke="none" />
+  <path d="M125 42 L 130 28 L 119 38 Z" fill="#FFDDDD" stroke="none" />
+  
+  <!-- Eyes -->
+  <ellipse cx="85" cy="65" rx="7" ry="9" fill="#333" />
+  <ellipse cx="115" cy="65" rx="7" ry="9" fill="#333" />
+  
+  <!-- Eye Highlights -->
+  <ellipse cx="87" cy="62" rx="2" ry="3" fill="white" />
+  <ellipse cx="117" cy="62" rx="2" ry="3" fill="white" />
+  
+  <!-- Nose -->
+  <path d="M100 80 L 95 85 L 105 85 Z" fill="#F9A03F" />
+  
+  <!-- Whiskers -->
+  <line x1="75" y1="82" x2="50" y2="78" stroke="#e0e0e0" stroke-width="1.5" />
+  <line x1="75" y1="87" x2="50" y2="87" stroke="#e0e0e0" stroke-width="1.5" />
+  <line x1="75" y1="92" x2="50" y2="96" stroke="#e0e0e0" stroke-width="1.5" />
+  
+  <line x1="125" y1="82" x2="150" y2="78" stroke="#e0e0e0" stroke-width="1.5" />
+  <line x1="125" y1="87" x2="150" y2="87" stroke="#e0e0e0" stroke-width="1.5" />
+  <line x1="125" y1="92" x2="150" y2="96" stroke="#e0e0e0" stroke-width="1.5" />
+  
+  <!-- Mouth -->
+  <path d="M95 88 Q 100 92, 105 88" stroke="#666" stroke-width="1.5" fill="none" />
+  
+  <!-- Front Paws -->
+  <ellipse cx="80" cy="155" rx="10" ry="6" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  <ellipse cx="120" cy="155" rx="10" ry="6" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Tail -->
+  <path d="M145 105 Q 170 90, 175 60 Q 165 90, 150 105" fill="white" stroke="#e0e0e0" stroke-width="2" />
+  
+  <!-- Optional bow -->
+  <path d="M95 45 Q 100 40, 105 45 Q 110 40, 115 45 Q 110 50, 105 55 Q 100 50, 95 45 Z" fill="#6BBBDB" />
+  <path d="M75 45 Q 85 40, 95 45 Q 85 50, 75 45 Z" fill="#6BBBDB" />
+  <path d="M115 45 Q 125 40, 135 45 Q 125 50, 115 45 Z" fill="#6BBBDB" />
+  <circle cx="100" cy="47" r="4" fill="#6BBBDB" />
+</svg> 
