@@ -7,8 +7,6 @@ categories: ["pet care", "introduction", "services"]
 tags: ["pet boarding", "overnight care", "cat care", "pet services"]
 ---
 
-# Meet Your New Pet Sitter: My Promise to Your Furry Family Members
-
 Hello pet parents! I'm Johny, the founder of Ruh-Roh Retreat, and I'm thrilled to welcome you to our blog. This is where I'll share insights, tips, and stories about pet care while giving you a glimpse into what makes our premium pet boarding service special.
 
 ## My Journey into Professional Pet Boarding
