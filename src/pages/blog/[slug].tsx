@@ -10,9 +10,10 @@ export default function Post({ post }: { post: any }) {
       <BlogPostMetaData
         title={post.title}
         description={post.description}
+        date={post.date}
+        author="Ruh-Roh Retreat"
         slug={post.slug}
         hasCoverImage={post.hasCoverImage}
-        date={post.date}
       />
       <BlogLayout>
         <div className="blogContainer">
