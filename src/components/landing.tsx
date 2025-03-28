@@ -503,46 +503,6 @@ function LandingComponent() {
           ))}
         </div>
 
-        {/* Hero Navigation */}
-        {heroImages.length > 1 && (
-          <>
-            <motion.button
-              onClick={goToPreviousHero}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
-              aria-label="Previous image"
-            >
-              <FaArrowLeft className="h-6 w-6 text-white" />
-            </motion.button>
-            <motion.button
-              onClick={goToNextHero}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
-              aria-label="Next image"
-            >
-              <FaArrowRight className="h-6 w-6 text-white" />
-            </motion.button>
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
-              {heroImages.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => setCurrentHeroIndex(index)}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    currentHeroIndex === index
-                      ? "bg-white w-6"
-                      : "bg-white/50 hover:bg-white/75"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
         <div className="container mx-auto px-4 relative z-10 text-white">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -604,6 +564,50 @@ function LandingComponent() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Hero Navigation - Moved to bottom */}
+        {heroImages.length > 1 && (
+          <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/50 to-transparent py-8">
+            <div className="container mx-auto px-4 flex items-center justify-between">
+              <motion.button
+                onClick={goToPreviousHero}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
+                aria-label="Previous image"
+              >
+                <FaArrowLeft className="h-6 w-6 text-white" />
+              </motion.button>
+
+              <div className="flex space-x-2">
+                {heroImages.map((_, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => setCurrentHeroIndex(index)}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      currentHeroIndex === index
+                        ? "bg-white w-6"
+                        : "bg-white/50 hover:bg-white/75"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <motion.button
+                onClick={goToNextHero}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white/30 hover:bg-white/50 p-3 rounded-full transition-colors"
+                aria-label="Next image"
+              >
+                <FaArrowRight className="h-6 w-6 text-white" />
+              </motion.button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Services Section */}
