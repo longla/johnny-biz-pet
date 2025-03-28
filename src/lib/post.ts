@@ -1,3 +1,4 @@
+import type { Post } from "@/core/types";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -5,7 +6,7 @@ import path from "path";
 const postsDirectory = path.join(process.cwd(), "posts");
 const publicPostsDirectory = path.join(process.cwd(), "public/posts");
 
-export function getSortedPostsData() {
+export function getSortedPostsData(): Post[] {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
@@ -28,10 +29,10 @@ export function getSortedPostsData() {
       slug,
       ...matterResult.data,
       hasCoverImage,
-    };
+    } as Post;
   });
   // Sort posts by date
-  return allPostsData.sort((a: any, b: any) => {
+  return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1;
     } else {
@@ -40,7 +41,7 @@ export function getSortedPostsData() {
   });
 }
 
-export function getPostData(slug: string) {
+export function getPostData(slug: string): Post {
   // Read markdown file as string
   const fileName = `${slug}.md`;
   const fullPath = path.join(postsDirectory, fileName);
@@ -59,5 +60,5 @@ export function getPostData(slug: string) {
     content,
     hasCoverImage,
     slug,
-  };
+  } as Post;
 }

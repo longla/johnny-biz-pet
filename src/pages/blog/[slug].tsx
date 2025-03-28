@@ -1,10 +1,15 @@
 import { BlogPostMetaData } from "@/components/meta-data";
+import type { Post } from "@/core/types";
 import { getPostData, getSortedPostsData } from "@/lib/post";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import BlogLayout from "./_layout";
 
-export default function Post({ post }: { post: any }) {
+export default function Post({ post }: { post: Post }) {
+  const imageUrl = post.hasCoverImage
+    ? `https://www.ruhrohretreat.com/posts/${post.slug}/cover.jpg`
+    : "https://www.ruhrohretreat.com/ruhrohretreat-social.jpg";
+
   return (
     <>
       <BlogPostMetaData
@@ -20,11 +25,7 @@ export default function Post({ post }: { post: any }) {
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
           <div className="relative w-full h-[400px] mb-8">
             <Image
-              src={
-                post.hasCoverImage
-                  ? `/posts/${post.slug}/cover.jpg`
-                  : `/about-image.jpeg`
-              }
+              src={imageUrl}
               alt={post.title}
               fill
               className="object-cover rounded-lg"
