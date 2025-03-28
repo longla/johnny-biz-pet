@@ -20,7 +20,7 @@ export const DefaultMetaData = () => (
     />
     <meta
       name="twitter:image"
-      content="https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg"
+      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
     />
 
     {/* Open Graph Metadata */}
@@ -34,7 +34,7 @@ export const DefaultMetaData = () => (
     />
     <meta
       property="og:image"
-      content="https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg"
+      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
     />
     <meta property="og:type" content="website" />
 
@@ -46,8 +46,8 @@ export const DefaultMetaData = () => (
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Ruh-Roh Retreat",
-          image: "https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg",
-          url: "https://www.ruhrohrretreat.com",
+          image: "https://www.ruhrohretreat.com/ruhrohretreat-social.jpg",
+          url: "https://www.ruhrohretreat.com",
           telephone: "+17143294534",
           address: {
             "@type": "PostalAddress",
@@ -77,8 +77,8 @@ export const DefaultMetaData = () => (
             closes: "21:00",
           },
           sameAs: [
-            "https://www.facebook.com/ruhrohrretreat",
-            "https://www.instagram.com/ruhrohrretreat",
+            "https://www.facebook.com/ruhrohretreat",
+            "https://www.instagram.com/ruhrohretreat",
           ],
         }),
       }}
@@ -106,7 +106,7 @@ export const BlogMetaData = () => (
     />
     <meta
       name="twitter:image"
-      content="https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg"
+      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
     />
 
     {/* Open Graph Metadata */}
@@ -120,7 +120,7 @@ export const BlogMetaData = () => (
     />
     <meta
       property="og:image"
-      content="https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg"
+      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
     />
     <meta property="og:type" content="website" />
   </Head>
@@ -142,8 +142,8 @@ export const BlogPostMetaData = ({
   date,
 }: BlogPostMetaDataProps) => {
   const imageUrl = hasCoverImage
-    ? `https://www.ruhrohrretreat.com/posts/${slug}/cover.jpg`
-    : "https://www.ruhrohrretreat.com/ruhrohrretreat-social.jpg";
+    ? `https://www.ruhrohretreat.com/posts/${slug}/cover.jpg`
+    : "https://www.ruhrohretreat.com/ruhrohretreat-social.jpg";
 
   const fullTitle = `${title} - Ruh-Roh Retreat Blog`;
 
@@ -166,7 +166,7 @@ export const BlogPostMetaData = ({
       <meta property="article:published_time" content={date} />
       <meta
         property="og:url"
-        content={`https://www.ruhrohrretreat.com/blog/${slug}`}
+        content={`https://www.ruhrohretreat.com/blog/${slug}`}
       />
     </Head>
   );

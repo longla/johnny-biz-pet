@@ -1650,8 +1650,8 @@ function LandingComponent() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             name: "Ruh-Roh Retreat",
-            image: "https://www.ruhrohrretreat.com",
-            url: "https://www.ruhrohrretreat.com",
+            image: "https://www.ruhrohretreat.com",
+            url: "https://www.ruhrohretreat.com",
             telephone: "+17143294534",
             address: {
               "@type": "PostalAddress",
@@ -1683,8 +1683,8 @@ function LandingComponent() {
               },
             ],
             sameAs: [
-              "https://www.facebook.com/ruhrohrretreat",
-              "https://www.instagram.com/ruhrohrretreat",
+              "https://www.facebook.com/ruhrohretreat",
+              "https://www.instagram.com/ruhrohretreat",
             ],
           }),
         }}

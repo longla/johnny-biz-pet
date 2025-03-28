@@ -171,7 +171,7 @@ async function generateBlogPost(blogMeta) {
     // Check if the title mentions Ruh-Roh Retreat directly
     const mentionsProduct = blogMeta.title
       .toLowerCase()
-      .includes("ruh-roh retreat");
+      .includes("ruhrohretreat");
 
     // Determine the content format based on the title
     let contentFormat = "general";
@@ -192,12 +192,12 @@ async function generateBlogPost(blogMeta) {
     let promptBase = `
       Create a blog post ${
         mentionsProduct
-          ? "for ruhrohrretreat.com"
+          ? "for ruhrohretreat.com"
           : "about pet care and luxury pet boarding"
       }.
       ${
         !mentionsProduct
-          ? "The blog is from ruhrohrretreat.com, a premium pet boarding service providing luxury accommodations and specialized care."
+          ? "The blog is from ruhrohretreat.com, a premium pet boarding service providing luxury accommodations and specialized care."
           : ""
       }
       

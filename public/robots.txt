@@ -7,7 +7,7 @@ User-agent: Googlebot
 Allow: /
 
 # Host
-Host: https://www.ruhrohrretreat.com
+Host: https://www.ruhrohretreat.com
 
 # Sitemaps
-Sitemap: https://www.ruhrohrretreat.com/sitemap.xml
+Sitemap: https://www.ruhrohretreat.com/sitemap.xml
