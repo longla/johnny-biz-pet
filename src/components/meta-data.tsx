@@ -128,7 +128,7 @@ export const BlogMetaData = () => (
 
 type BlogPostMetaDataProps = {
   title: string;
-  excerpt: string;
+  description: string;
   date: string;
   author: string;
   slug: string;
@@ -137,7 +137,7 @@ type BlogPostMetaDataProps = {
 
 export function BlogPostMetaData({
   title,
-  excerpt,
+  description,
   date,
   author,
   slug,
@@ -157,7 +157,7 @@ export function BlogPostMetaData({
   return (
     <Head>
       <title>{fullTitle}</title>
-      <meta name="description" content={excerpt} />
+      <meta name="description" content={description} />
       <meta name="author" content={author} />
       <meta property="article:published_time" content={date} />
       <meta property="article:author" content={author} />
@@ -170,7 +170,7 @@ export function BlogPostMetaData({
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="article" />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={excerpt} />
+      <meta property="og:description" content={description} />
       <meta property="og:image" content={imageUrl} />
       <meta
         property="og:url"
@@ -188,7 +188,7 @@ export function BlogPostMetaData({
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={excerpt} />
+      <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:creator" content="@ruhrohretreat" />
 
@@ -211,7 +211,7 @@ export function BlogPostMetaData({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: title,
-            description: excerpt,
+            description: description,
             image: imageUrl,
             datePublished: date,
             dateModified: date,
