@@ -7,7 +7,7 @@ import BlogLayout from "./_layout";
 
 export default function Post({ post }: { post: Post }) {
   const imageUrl = post.hasCoverImage
-    ? `https://www.ruhrohretreat.com/posts/${post.slug}/cover.jpg`
+    ? `/posts/${post.slug}/cover.jpg`
     : "https://www.ruhrohretreat.com/ruhrohretreat-social.jpg";
 
   return (

@@ -86,46 +86,6 @@ export const DefaultMetaData = () => (
   </Head>
 );
 
-export const BlogMetaData = () => (
-  <Head>
-    <title>Ruh-Roh Retreat Blog - Pet Care Tips & Advice</title>
-    <meta
-      name="description"
-      content="Discover tips, guides, and best practices for pet care, boarding, and creating a happy environment for your pets. Learn about pet health, behavior, and more."
-    />
-
-    {/* Twitter Card Metadata */}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Ruh-Roh Retreat Blog - Pet Care Tips & Advice"
-    />
-    <meta
-      name="twitter:description"
-      content="Discover tips, guides, and best practices for pet care, boarding, and creating a happy environment for your pets. Learn about pet health, behavior, and more."
-    />
-    <meta
-      name="twitter:image"
-      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
-    />
-
-    {/* Open Graph Metadata */}
-    <meta
-      property="og:title"
-      content="Ruh-Roh Retreat Blog - Pet Care Tips & Advice"
-    />
-    <meta
-      property="og:description"
-      content="Discover tips, guides, and best practices for pet care, boarding, and creating a happy environment for your pets. Learn about pet health, behavior, and more."
-    />
-    <meta
-      property="og:image"
-      content="https://www.ruhrohretreat.com/ruhrohretreat-social.jpg"
-    />
-    <meta property="og:type" content="website" />
-  </Head>
-);
-
 type BlogPostMetaDataProps = {
   title: string;
   description: string;
