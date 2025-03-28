@@ -16,6 +16,7 @@ const PhotoGallery: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mobileCurrentIndex, setMobileCurrentIndex] = useState(0);
 
   useEffect(() => {
     // This would typically be an API call to get the photos
@@ -104,6 +105,14 @@ const PhotoGallery: React.FC = () => {
     setCurrentIndex(newIndex);
   };
 
+  const goToPreviousMobile = () => {
+    setMobileCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  };
+
+  const goToNextMobile = () => {
+    setMobileCurrentIndex((prev) => (prev + 1) % photos.length);
+  };
+
   // Add keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -161,8 +170,73 @@ const PhotoGallery: React.FC = () => {
           </p>
         </div>
 
-        {/* Photo Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {/* Mobile Photo Carousel (visible only on mobile) */}
+        <div className="block sm:hidden mb-8">
+          <div className="relative">
+            {/* Current photo */}
+            <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-md">
+              {photos.length > 0 && (
+                <Image
+                  src={photos[mobileCurrentIndex].src}
+                  alt={photos[mobileCurrentIndex].alt}
+                  fill
+                  sizes="100vw"
+                  priority
+                  style={{ objectFit: "cover" }}
+                />
+              )}
+
+              {/* Caption overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                <div className="flex items-center space-x-2">
+                  <FaPaw className="text-white" />
+                  <p className="text-white font-medium">
+                    {photos.length > 0 ? photos[mobileCurrentIndex].alt : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation buttons */}
+            <button
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white/80 rounded-full p-3 transition-colors duration-200 shadow-lg"
+              onClick={goToPreviousMobile}
+              aria-label="Previous image"
+            >
+              <FaArrowLeft className="text-gray-800" />
+            </button>
+
+            <button
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white/80 rounded-full p-3 transition-colors duration-200 shadow-lg"
+              onClick={goToNextMobile}
+              aria-label="Next image"
+            >
+              <FaArrowRight className="text-gray-800" />
+            </button>
+
+            {/* Paw indicators */}
+            <div className="absolute -bottom-8 left-0 right-0 flex justify-center space-x-2 pt-2">
+              {photos.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setMobileCurrentIndex(i)}
+                  className="transition-colors duration-200 p-1"
+                >
+                  <FaPaw
+                    className={`${
+                      i === mobileCurrentIndex
+                        ? "text-[#F28C38]"
+                        : "text-gray-400"
+                    } ${i === mobileCurrentIndex ? "text-base" : "text-sm"}`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Photo Grid (hidden on mobile) */}
+        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {photos.map((photo, index) => (
             <motion.div
               key={photo.id}
