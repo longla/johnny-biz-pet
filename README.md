@@ -34,6 +34,7 @@ EMAIL_SECURE=false
 EMAIL_USER=your_email_username
 EMAIL_PASS=your_email_password
 EMAIL_FROM=sending_email_address
+BOOKING_RECIPIENT_EMAIL=recipient_email_address
 ```
 
 ### ⚠️ IMPORTANT EMAIL CONFIGURATION NOTE ⚠️

@@ -9,7 +9,8 @@ type ResponseData = {
 
 // Configure email settings
 const EMAIL_CONFIG = {
-  recipientEmail: "hello@ruhrohretreat.com", // Updated email address
+  recipientEmail:
+    process.env.BOOKING_RECIPIENT_EMAIL || "johnny_gerrard@icloud.com", // Use environment variable with fallback
   subject: "New Booking Request",
 };
 
