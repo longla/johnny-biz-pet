@@ -3,18 +3,18 @@ import Image from "next/image";
 export default function FloatingYogaDog() {
   return (
     <div
-      className="absolute right-8 z-10"
+      className="absolute right-16 z-10"
       style={{
         bottom: "-60px",
-        width: "120px",
-        height: "120px",
+        width: "180px",
+        height: "180px",
       }}
     >
       <Image
         src="/yoga-dog.png"
         alt="Yoga Dog"
-        width={120}
-        height={120}
+        width={180}
+        height={180}
         className="drop-shadow-lg"
       />
     </div>
