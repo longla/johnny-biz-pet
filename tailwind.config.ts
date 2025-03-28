@@ -31,9 +31,6 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "gradient-dark": "linear-gradient(180deg, #166534 0%, #16a34a 100%)",
-        "paw-pattern": "url('/images/paw-pattern.svg')",
-        "cloud-bg": "url('/images/cloud-bg.svg')",
-        "wavy-border": "url('/images/wavy-border.svg')",
       },
       colors: {
         primary: {
