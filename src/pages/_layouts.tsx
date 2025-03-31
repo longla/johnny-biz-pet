@@ -119,55 +119,131 @@ const MainLayout: React.FC<MainLayoutProps> = ({
           </button>
         </div>
 
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-center p-4 border-b">
+              <Link href="/" className="text-logo">
+                <Image
+                  src="/logo.png"
+                  alt="Ruh-Roh Retreat Logo"
+                  width={320}
+                  height={80}
+                  priority
+                />
+              </Link>
+              <button
+                onClick={toggleMobileMenu}
+                className="text-gray-600 hover:text-[#1A9CB0]"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <nav className="flex-1 flex flex-col p-4 space-y-4">
               <Link
                 href="/"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/#services"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Services
               </Link>
               <Link
                 href="/#about"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                About Me
+                About
               </Link>
               <Link
                 href="/#testimonials"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Testimonials
               </Link>
               <Link
-                href="/#contact"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                href="/#booking"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Contact
+                Book Now
+              </Link>
+              <Link
+                href="/#meet-greet"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Meet & Greet
               </Link>
               <Link
                 href="/blog"
-                className="py-2 text-gray-800 hover:text-[#1A9CB0] font-medium"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
               </Link>
+            </nav>
+            <div className="p-4 border-t">
+              <div className="flex flex-col space-y-2">
+                <a
+                  href="tel:+17143294534"
+                  className="text-gray-600 hover:text-[#1A9CB0] flex items-center"
+                >
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                  +1 (714) 329-4534
+                </a>
+                <a
+                  href="mailto:hello@ruhrohretreat.com"
+                  className="text-gray-600 hover:text-[#1A9CB0] flex items-center"
+                >
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  hello@ruhrohretreat.com
+                </a>
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </header>
 
       <main>{children}</main>
