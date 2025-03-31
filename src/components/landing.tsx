@@ -798,7 +798,7 @@ function LandingComponent() {
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2">
               <Image
-                src="/about-image.jpeg"
+                src="/about-image.jpg"
                 alt="Pet sitter with pets"
                 width={600}
                 height={450}
