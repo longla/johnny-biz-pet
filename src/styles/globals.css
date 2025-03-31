@@ -164,18 +164,16 @@ a {
 } */
 
 .text-logo {
-  font-family: "Fredoka One", "Comic Sans MS", cursive;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #3dc756;
-  line-height: 1.2;
-  text-decoration: none;
   display: inline-block;
-  padding: 0.25rem 0;
+  padding: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
-.text-logo .highlight {
-  color: #f9a03f;
+.text-logo img {
+  height: 80px;
+  width: auto;
 }
 
 .text-logo:hover {

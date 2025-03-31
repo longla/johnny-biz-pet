@@ -17,18 +17,18 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
+        <div className="container mx-auto px-4 h-[80px]">
+          <div className="flex justify-between items-center h-full">
             <Link href="/" className="text-logo">
               <Image
                 src="/logo.png"
                 alt="Ruh-Roh Retreat Logo"
-                width={160}
-                height={40}
+                width={320}
+                height={80}
                 priority
               />
             </Link>
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-8 h-[80px] items-center">
               <Link
                 href="/"
                 className="text-gray-800 hover:text-[#1A9CB0] font-medium"
