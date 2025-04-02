@@ -537,9 +537,8 @@ function LandingComponent() {
               }}
             >
               Trustworthy, reliable pet care where dogs can have fun, be goofy,
-              and feel at ease—with regular photo updates for your peace of
-              mind. Customize your dog's experience with unique add-ons tailored
-              to their needs and personality!
+              and feel at ease. Customize their experience with unique add-ons
+              tailored to their needs!
             </motion.p>
             <motion.div
               className="flex flex-wrap gap-4"
