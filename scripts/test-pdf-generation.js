@@ -88,6 +88,9 @@ const generateTestPDF = async () => {
   const pageWidth = pdf.internal.pageSize.width;
   let yPosition = 20;
 
+  // Set default font size for better readability
+  pdf.setFontSize(11);
+
   // Header
   pdf.setFontSize(18);
   pdf.setFont("helvetica", "bold");
@@ -95,28 +98,30 @@ const generateTestPDF = async () => {
     align: "center",
   });
 
-  yPosition += 25;
+  yPosition += 22;
 
   // Customer Information
+  pdf.setFontSize(12);
   pdf.setFont("helvetica", "bold");
   pdf.text("Customer Information:", 20, yPosition);
-  yPosition += 10;
+  yPosition += 9;
 
+  pdf.setFontSize(11);
   pdf.setFont("helvetica", "normal");
   pdf.text(`Customer Name: ${testData.customerName}`, 20, yPosition);
-  yPosition += 8;
+  yPosition += 6;
   pdf.text(`Email: ${testData.customerEmail}`, 20, yPosition);
-  yPosition += 8;
+  yPosition += 6;
   pdf.text(`Pet Name: ${testData.petName}`, 20, yPosition);
-  yPosition += 8;
+  yPosition += 6;
   pdf.text(`Emergency Contact: ${testData.emergencyContact}`, 20, yPosition);
-  yPosition += 8;
+  yPosition += 6;
   pdf.text(`Emergency Phone: ${testData.emergencyPhone}`, 20, yPosition);
-  yPosition += 15;
+  yPosition += 10;
 
   // Agreement date
   pdf.text(`Agreement Date: ${new Date().toLocaleDateString()}`, 20, yPosition);
-  yPosition += 15;
+  yPosition += 12;
 
   // Waiver sections
   for (let i = 0; i < waiverSections.length; i++) {
@@ -152,23 +157,25 @@ const generateTestPDF = async () => {
   }
 
   // Signature section
-  if (yPosition > pageHeight - 80) {
+  if (yPosition > pageHeight - 100) {
     pdf.addPage();
     yPosition = 20;
   }
 
+  pdf.setFontSize(12);
   pdf.setFont("helvetica", "bold");
   pdf.text("Customer Signature and Acknowledgment", 20, yPosition);
-  yPosition += 15;
+  yPosition += 13;
 
+  pdf.setFontSize(11);
   pdf.setFont("helvetica", "normal");
   const acknowledgmentText = `By signing below, I acknowledge that I have read, understood, and agree to all terms and conditions outlined in this Pet Sitting Agreement. I confirm that all information provided is accurate and complete.`;
   const splitAck = pdf.splitTextToSize(acknowledgmentText, pageWidth - 40);
   pdf.text(splitAck, 20, yPosition);
-  yPosition += splitAck.length * 5 + 15;
+  yPosition += splitAck.length * 4.5 + 13;
 
   // Signature Lines Section
-  yPosition += 15;
+  yPosition += 10;
 
   // Define consistent dimensions and layout - clean inline format (fit within page margins)
   const signatureWidth = 70; // Reduced to fit page
@@ -183,7 +190,36 @@ const generateTestPDF = async () => {
   // Customer Signature Row
   pdf.text("Customer Signature:", 20, yPosition);
 
-  // Customer signature area (draw line since we don't have actual signature in test)
+  // Customer signature area (use sitter signature for testing visualization)
+  try {
+    const sitterSignatureData = await loadSitterSignature();
+    if (sitterSignatureData) {
+      pdf.addImage(
+        sitterSignatureData,
+        "PNG",
+        signatureStartX,
+        yPosition - 15,
+        signatureWidth,
+        signatureHeight
+      );
+    } else {
+      pdf.line(
+        signatureStartX,
+        yPosition,
+        signatureStartX + signatureWidth,
+        yPosition
+      );
+    }
+  } catch (error) {
+    pdf.line(
+      signatureStartX,
+      yPosition,
+      signatureStartX + signatureWidth,
+      yPosition
+    );
+  }
+
+  // Add signature line underneath
   pdf.line(
     signatureStartX,
     yPosition,
@@ -200,7 +236,13 @@ const generateTestPDF = async () => {
     yPosition - 3
   );
 
-  yPosition += 30;
+  yPosition += 25;
+
+  // Check if we need a new page for sitter signature (need more space for signature + date)
+  if (yPosition > pageHeight - 70) {
+    pdf.addPage();
+    yPosition = 20;
+  }
 
   // Sitter Signature Row
   pdf.text("Sitter Signature:", 20, yPosition);
@@ -233,6 +275,14 @@ const generateTestPDF = async () => {
       yPosition
     );
   }
+
+  // Add signature line underneath
+  pdf.line(
+    signatureStartX,
+    yPosition,
+    signatureStartX + signatureWidth,
+    yPosition
+  );
 
   // Date section for sitter
   pdf.text("Date:", dateStartX, yPosition);

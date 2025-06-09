@@ -137,6 +137,9 @@ const WaiverPage: React.FC = () => {
     const pageWidth = pdf.internal.pageSize.width;
     let yPosition = 20;
 
+    // Set default font size for better readability
+    pdf.setFontSize(11);
+
     // Header
     pdf.setFontSize(18);
     pdf.setFont("helvetica", "bold");
@@ -144,24 +147,26 @@ const WaiverPage: React.FC = () => {
       align: "center",
     });
 
-    yPosition += 25;
+    yPosition += 22;
 
     // Customer Information
+    pdf.setFontSize(12);
     pdf.setFont("helvetica", "bold");
     pdf.text("Customer Information:", 20, yPosition);
-    yPosition += 10;
+    yPosition += 9;
 
+    pdf.setFontSize(11);
     pdf.setFont("helvetica", "normal");
     pdf.text(`Customer Name: ${customerName}`, 20, yPosition);
-    yPosition += 8;
+    yPosition += 6;
     pdf.text(`Email: ${customerEmail}`, 20, yPosition);
-    yPosition += 8;
+    yPosition += 6;
     pdf.text(`Pet Name: ${petName}`, 20, yPosition);
-    yPosition += 8;
+    yPosition += 6;
     pdf.text(`Emergency Contact: ${emergencyContact}`, 20, yPosition);
-    yPosition += 8;
+    yPosition += 6;
     pdf.text(`Emergency Phone: ${emergencyPhone}`, 20, yPosition);
-    yPosition += 15;
+    yPosition += 10;
 
     // Agreement date
     pdf.text(
@@ -169,7 +174,7 @@ const WaiverPage: React.FC = () => {
       20,
       yPosition
     );
-    yPosition += 15;
+    yPosition += 12;
 
     // Waiver sections
     for (let i = 0; i < waiverSections.length; i++) {
@@ -181,17 +186,20 @@ const WaiverPage: React.FC = () => {
         yPosition = 20;
       }
 
+      pdf.setFontSize(12);
       pdf.setFont("helvetica", "bold");
       pdf.text(`${i + 1}. ${section.title}`, 20, yPosition);
-      yPosition += 10;
+      yPosition += 9;
 
+      pdf.setFontSize(11);
       pdf.setFont("helvetica", "normal");
       const splitText = pdf.splitTextToSize(section.content, pageWidth - 40);
       pdf.text(splitText, 20, yPosition);
-      yPosition += splitText.length * 5 + 10;
+      yPosition += splitText.length * 4.5 + 9;
 
       if (section.requiresInitial && initials[i]) {
         // Add initial as text
+        pdf.setFontSize(11);
         pdf.setFont("helvetica", "bold");
         pdf.text(
           `Customer Initials: ${initials[i]}`,
@@ -201,27 +209,29 @@ const WaiverPage: React.FC = () => {
         pdf.setFont("helvetica", "normal");
       }
 
-      yPosition += 20;
+      yPosition += 15;
     }
 
     // Signature section
-    if (yPosition > pageHeight - 80) {
+    if (yPosition > pageHeight - 100) {
       pdf.addPage();
       yPosition = 20;
     }
 
+    pdf.setFontSize(12);
     pdf.setFont("helvetica", "bold");
     pdf.text("Customer Signature and Acknowledgment", 20, yPosition);
-    yPosition += 15;
+    yPosition += 13;
 
+    pdf.setFontSize(11);
     pdf.setFont("helvetica", "normal");
     const acknowledgmentText = `By signing below, I acknowledge that I have read, understood, and agree to all terms and conditions outlined in this Pet Sitting Agreement. I confirm that all information provided is accurate and complete.`;
     const splitAck = pdf.splitTextToSize(acknowledgmentText, pageWidth - 40);
     pdf.text(splitAck, 20, yPosition);
-    yPosition += splitAck.length * 5 + 15;
+    yPosition += splitAck.length * 4.5 + 13;
 
     // Signature Lines Section
-    yPosition += 15;
+    yPosition += 10;
 
     // Define consistent dimensions and layout - clean inline format (fit within page margins)
     const signatureWidth = 70; // Reduced to fit page
@@ -265,6 +275,14 @@ const WaiverPage: React.FC = () => {
       );
     }
 
+    // Add signature line underneath
+    pdf.line(
+      signatureStartX,
+      yPosition,
+      signatureStartX + signatureWidth,
+      yPosition
+    );
+
     // Date section for customer
     pdf.text("Date:", dateStartX, yPosition);
     pdf.line(
@@ -279,7 +297,13 @@ const WaiverPage: React.FC = () => {
       yPosition - 3
     );
 
-    yPosition += 30;
+    yPosition += 25;
+
+    // Check if we need a new page for sitter signature (need more space for signature + date)
+    if (yPosition > pageHeight - 70) {
+      pdf.addPage();
+      yPosition = 20;
+    }
 
     // Sitter Signature Row
     pdf.text("Sitter Signature:", 20, yPosition);
@@ -312,6 +336,14 @@ const WaiverPage: React.FC = () => {
         yPosition
       );
     }
+
+    // Add signature line underneath
+    pdf.line(
+      signatureStartX,
+      yPosition,
+      signatureStartX + signatureWidth,
+      yPosition
+    );
 
     // Date section for sitter
     pdf.text("Date:", dateStartX, yPosition);
