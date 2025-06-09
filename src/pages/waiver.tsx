@@ -418,10 +418,10 @@ const WaiverPage: React.FC = () => {
             has been sent to your email and our team.
           </p>
           <button
-            onClick={() => (window.location.href = "/")}
+            onClick={() => window.location.reload()}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Return to Home
+            Return to Waiver
           </button>
         </motion.div>
       </div>
