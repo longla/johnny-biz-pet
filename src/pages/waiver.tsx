@@ -223,6 +223,11 @@ const WaiverPage: React.FC = () => {
     // Signature Lines Section
     yPosition += 10;
 
+    // Define consistent signature dimensions
+    const signatureWidth = 85;
+    const signatureHeight = 30;
+    const signatureX = 80;
+
     // Customer Signature Line
     pdf.setFont("helvetica", "normal");
     pdf.text("Customer:", 20, yPosition);
@@ -231,12 +236,20 @@ const WaiverPage: React.FC = () => {
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
         const signatureData = signatureRef.current.toDataURL();
-        pdf.addImage(signatureData, "PNG", 80, yPosition - 15, 80, 25);
+        // Use consistent dimensions for customer signature
+        pdf.addImage(
+          signatureData,
+          "PNG",
+          signatureX,
+          yPosition - 18,
+          signatureWidth,
+          signatureHeight
+        );
       } catch (error) {
-        pdf.line(80, yPosition, 160, yPosition);
+        pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
       }
     } else {
-      pdf.line(80, yPosition, 160, yPosition);
+      pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
     }
 
     pdf.line(170, yPosition, 190, yPosition); // Date line
@@ -244,11 +257,11 @@ const WaiverPage: React.FC = () => {
 
     // Labels under customer signature line
     pdf.setFontSize(8);
-    pdf.text("Signature", 80, yPosition + 8);
-    pdf.text(`Print Name: ${customerName}`, 80, yPosition + 15);
+    pdf.text("Signature", signatureX, yPosition + 8);
+    pdf.text(`Print Name: ${customerName}`, signatureX, yPosition + 15);
     pdf.text("Date", 170, yPosition + 8);
 
-    yPosition += 35;
+    yPosition += 40;
 
     // Sitter Signature Line
     pdf.setFontSize(10);
@@ -258,12 +271,20 @@ const WaiverPage: React.FC = () => {
     try {
       const sitterSignatureData = await loadSitterSignature();
       if (sitterSignatureData) {
-        pdf.addImage(sitterSignatureData, "PNG", 80, yPosition - 15, 80, 25);
+        // Use identical dimensions for sitter signature
+        pdf.addImage(
+          sitterSignatureData,
+          "PNG",
+          signatureX,
+          yPosition - 18,
+          signatureWidth,
+          signatureHeight
+        );
       } else {
-        pdf.line(80, yPosition, 160, yPosition);
+        pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
       }
     } catch (error) {
-      pdf.line(80, yPosition, 160, yPosition);
+      pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
     }
 
     pdf.line(170, yPosition, 190, yPosition); // Date line
@@ -271,8 +292,8 @@ const WaiverPage: React.FC = () => {
 
     // Labels under sitter signature line
     pdf.setFontSize(8);
-    pdf.text("Signature", 80, yPosition + 8);
-    pdf.text("Print Name: Johnny Gerrard", 80, yPosition + 15);
+    pdf.text("Signature", signatureX, yPosition + 8);
+    pdf.text("Print Name: Johnny Gerrard", signatureX, yPosition + 15);
     pdf.text("Date", 170, yPosition + 8);
 
     return pdf;
