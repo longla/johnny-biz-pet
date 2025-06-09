@@ -223,17 +223,19 @@ const WaiverPage: React.FC = () => {
     // Signature Lines Section
     yPosition += 15;
 
-    // Define consistent dimensions and layout - maximize width usage
-    const signatureWidth = 100;
+    // Define consistent dimensions and layout - clean inline format
+    const signatureWidth = 90;
     const signatureHeight = 25;
-    const signatureStartX = 20; // Start from left margin
-    const dateStartX = 130; // Date section starts after signature
-    const dateWidth = 60; // Wider date area
+    const signatureStartX = 80; // Start after "Customer Signature:" label
+    const dateStartX = 180; // Date section starts after signature
+    const dateWidth = 50; // Date area width
 
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(10);
 
     // Customer Signature Row
+    pdf.text("Customer Signature:", 20, yPosition);
+
     // Customer signature area
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
@@ -263,7 +265,7 @@ const WaiverPage: React.FC = () => {
       );
     }
 
-    // Date label and field for customer
+    // Date section for customer
     pdf.text("Date:", dateStartX, yPosition);
     pdf.line(
       dateStartX + 20,
@@ -277,15 +279,10 @@ const WaiverPage: React.FC = () => {
       yPosition - 3
     );
 
-    // Labels under customer signature
-    pdf.setFontSize(8);
-    pdf.text("Customer Signature", signatureStartX, yPosition + 8);
-    pdf.text("Date", dateStartX + 20, yPosition + 8);
-
-    yPosition += 35;
+    yPosition += 30;
 
     // Sitter Signature Row
-    pdf.setFontSize(10);
+    pdf.text("Sitter Signature:", 20, yPosition);
 
     // Sitter signature area
     try {
@@ -316,7 +313,7 @@ const WaiverPage: React.FC = () => {
       );
     }
 
-    // Date label and field for sitter
+    // Date section for sitter
     pdf.text("Date:", dateStartX, yPosition);
     pdf.line(
       dateStartX + 20,
@@ -329,11 +326,6 @@ const WaiverPage: React.FC = () => {
       dateStartX + 22,
       yPosition - 3
     );
-
-    // Labels under sitter signature
-    pdf.setFontSize(8);
-    pdf.text("Sitter Signature", signatureStartX, yPosition + 8);
-    pdf.text("Date", dateStartX + 20, yPosition + 8);
 
     return pdf;
   };
