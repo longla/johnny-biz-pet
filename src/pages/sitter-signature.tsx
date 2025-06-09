@@ -79,13 +79,14 @@ const SitterSignaturePage: React.FC = () => {
           link.download = filename;
           document.body.appendChild(link);
           link.click();
-          document.body.removeChild(link);
 
-          // Clean up the blob URL
-          window.URL.revokeObjectURL(url);
-
-          console.log(`Signature downloaded successfully: ${filename}`);
-          setIsCompleted(true);
+          // Wait a moment for download to start, then show success
+          setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            console.log(`Signature downloaded successfully: ${filename}`);
+            setIsCompleted(true);
+          }, 100);
         } else {
           // Handle JSON response (shouldn't happen in success case, but just in case)
           const result = await response.json();

@@ -21,9 +21,8 @@ export default async function handler(
     // Convert base64 to buffer
     const buffer = Buffer.from(base64Data, "base64");
 
-    // Generate filename with timestamp
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const filename = `sitter-signature-${timestamp}.png`;
+    // Use simple filename
+    const filename = "sitter-signature.png";
 
     // Set headers for file download
     res.setHeader("Content-Type", "image/png");
