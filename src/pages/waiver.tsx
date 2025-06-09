@@ -221,80 +221,124 @@ const WaiverPage: React.FC = () => {
     yPosition += splitAck.length * 5 + 15;
 
     // Signature Lines Section
-    yPosition += 10;
+    yPosition += 15;
 
-    // Define consistent signature dimensions
-    const signatureWidth = 85;
-    const signatureHeight = 30;
-    const signatureX = 80;
+    // Define consistent dimensions and layout
+    const signatureWidth = 80;
+    const signatureHeight = 25;
+    const signatureStartX = 70;
+    const dateStartX = 140;
+    const dateWidth = 40;
 
-    // Customer Signature Line
     pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+
+    // Customer Signature Row
     pdf.text("Customer:", 20, yPosition);
 
-    // Add customer signature
+    // Customer signature area
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
         const signatureData = signatureRef.current.toDataURL();
-        // Use consistent dimensions for customer signature
         pdf.addImage(
           signatureData,
           "PNG",
-          signatureX,
-          yPosition - 18,
+          signatureStartX,
+          yPosition - 15,
           signatureWidth,
           signatureHeight
         );
       } catch (error) {
-        pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
+        pdf.line(
+          signatureStartX,
+          yPosition,
+          signatureStartX + signatureWidth,
+          yPosition
+        );
       }
     } else {
-      pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
+      pdf.line(
+        signatureStartX,
+        yPosition,
+        signatureStartX + signatureWidth,
+        yPosition
+      );
     }
 
-    pdf.line(170, yPosition, 190, yPosition); // Date line
-    pdf.text(`${new Date().toLocaleDateString()}`, 170, yPosition - 3);
+    // Date label and field for customer
+    pdf.text("Date:", dateStartX, yPosition);
+    pdf.line(
+      dateStartX + 15,
+      yPosition,
+      dateStartX + 15 + dateWidth,
+      yPosition
+    );
+    pdf.text(
+      `${new Date().toLocaleDateString()}`,
+      dateStartX + 17,
+      yPosition - 3
+    );
 
-    // Labels under customer signature line
+    // Labels under customer signature
     pdf.setFontSize(8);
-    pdf.text("Signature", signatureX, yPosition + 8);
-    pdf.text(`Print Name: ${customerName}`, signatureX, yPosition + 15);
-    pdf.text("Date", 170, yPosition + 8);
+    pdf.text("Signature", signatureStartX, yPosition + 8);
+    pdf.text(`Print Name: ${customerName}`, signatureStartX, yPosition + 15);
+    pdf.text("Date", dateStartX + 15, yPosition + 8);
 
-    yPosition += 40;
+    yPosition += 35;
 
-    // Sitter Signature Line
+    // Sitter Signature Row
     pdf.setFontSize(10);
     pdf.text("Sitter:", 20, yPosition);
 
-    // Try to load and add sitter signature
+    // Sitter signature area
     try {
       const sitterSignatureData = await loadSitterSignature();
       if (sitterSignatureData) {
-        // Use identical dimensions for sitter signature
         pdf.addImage(
           sitterSignatureData,
           "PNG",
-          signatureX,
-          yPosition - 18,
+          signatureStartX,
+          yPosition - 15,
           signatureWidth,
           signatureHeight
         );
       } else {
-        pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
+        pdf.line(
+          signatureStartX,
+          yPosition,
+          signatureStartX + signatureWidth,
+          yPosition
+        );
       }
     } catch (error) {
-      pdf.line(signatureX, yPosition, signatureX + signatureWidth, yPosition);
+      pdf.line(
+        signatureStartX,
+        yPosition,
+        signatureStartX + signatureWidth,
+        yPosition
+      );
     }
 
-    pdf.line(170, yPosition, 190, yPosition); // Date line
-    pdf.text(`${new Date().toLocaleDateString()}`, 170, yPosition - 3);
+    // Date label and field for sitter
+    pdf.text("Date:", dateStartX, yPosition);
+    pdf.line(
+      dateStartX + 15,
+      yPosition,
+      dateStartX + 15 + dateWidth,
+      yPosition
+    );
+    pdf.text(
+      `${new Date().toLocaleDateString()}`,
+      dateStartX + 17,
+      yPosition - 3
+    );
 
-    // Labels under sitter signature line
+    // Labels under sitter signature
     pdf.setFontSize(8);
-    pdf.text("Signature", signatureX, yPosition + 8);
-    pdf.text("Print Name: Johnny Gerrard", signatureX, yPosition + 15);
-    pdf.text("Date", 170, yPosition + 8);
+    pdf.text("Signature", signatureStartX, yPosition + 8);
+    pdf.text("Print Name: Johnny Gerrard", signatureStartX, yPosition + 15);
+    pdf.text("Date", dateStartX + 15, yPosition + 8);
 
     return pdf;
   };
