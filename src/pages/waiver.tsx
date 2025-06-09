@@ -223,12 +223,12 @@ const WaiverPage: React.FC = () => {
     // Signature Lines Section
     yPosition += 15;
 
-    // Define consistent dimensions and layout
-    const signatureWidth = 80;
+    // Define consistent dimensions and layout - maximize width usage
+    const signatureWidth = 100;
     const signatureHeight = 25;
-    const signatureStartX = 70;
-    const dateStartX = 140;
-    const dateWidth = 40;
+    const signatureStartX = 20; // Start from left margin
+    const dateStartX = 130; // Date section starts after signature
+    const dateWidth = 60; // Wider date area
 
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(10);
@@ -266,21 +266,21 @@ const WaiverPage: React.FC = () => {
     // Date label and field for customer
     pdf.text("Date:", dateStartX, yPosition);
     pdf.line(
-      dateStartX + 15,
+      dateStartX + 20,
       yPosition,
-      dateStartX + 15 + dateWidth,
+      dateStartX + 20 + dateWidth,
       yPosition
     );
     pdf.text(
       `${new Date().toLocaleDateString()}`,
-      dateStartX + 17,
+      dateStartX + 22,
       yPosition - 3
     );
 
     // Labels under customer signature
     pdf.setFontSize(8);
     pdf.text("Customer Signature", signatureStartX, yPosition + 8);
-    pdf.text("Date", dateStartX + 15, yPosition + 8);
+    pdf.text("Date", dateStartX + 20, yPosition + 8);
 
     yPosition += 35;
 
@@ -319,21 +319,21 @@ const WaiverPage: React.FC = () => {
     // Date label and field for sitter
     pdf.text("Date:", dateStartX, yPosition);
     pdf.line(
-      dateStartX + 15,
+      dateStartX + 20,
       yPosition,
-      dateStartX + 15 + dateWidth,
+      dateStartX + 20 + dateWidth,
       yPosition
     );
     pdf.text(
       `${new Date().toLocaleDateString()}`,
-      dateStartX + 17,
+      dateStartX + 22,
       yPosition - 3
     );
 
     // Labels under sitter signature
     pdf.setFontSize(8);
     pdf.text("Sitter Signature", signatureStartX, yPosition + 8);
-    pdf.text("Date", dateStartX + 15, yPosition + 8);
+    pdf.text("Date", dateStartX + 20, yPosition + 8);
 
     return pdf;
   };
