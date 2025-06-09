@@ -282,7 +282,6 @@ const WaiverPage: React.FC = () => {
     // Labels under customer signature
     pdf.setFontSize(8);
     pdf.text("Signature", signatureStartX, yPosition + 8);
-    pdf.text(`Print Name: ${customerName}`, signatureStartX, yPosition + 15);
     pdf.text("Date", dateStartX + 15, yPosition + 8);
 
     yPosition += 35;
@@ -337,7 +336,6 @@ const WaiverPage: React.FC = () => {
     // Labels under sitter signature
     pdf.setFontSize(8);
     pdf.text("Signature", signatureStartX, yPosition + 8);
-    pdf.text("Print Name: Johnny Gerrard", signatureStartX, yPosition + 15);
     pdf.text("Date", dateStartX + 15, yPosition + 8);
 
     return pdf;
