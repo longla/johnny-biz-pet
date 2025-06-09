@@ -6,6 +6,7 @@ import SignatureCanvas from "react-signature-canvas";
 const WaiverPage: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [initials, setInitials] = useState<string[]>([]);
+  const [userInitials, setUserInitials] = useState<string>(""); // Store user's initials for auto-fill
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [petName, setPetName] = useState("");
@@ -19,45 +20,48 @@ const WaiverPage: React.FC = () => {
   // Waiver sections that require initials
   const waiverSections = [
     {
-      title: "Pet Care and Custody Agreement",
-      content: `I acknowledge that Ruh-Roh Retreat will provide pet care services for my pet(s) as described in our agreement. I understand that my pet will be cared for in a home environment and will receive personal attention and care.
-
-I agree to provide accurate and complete information about my pet's health, behavior, medical needs, and any special requirements. I will inform Ruh-Roh Retreat of any changes to my pet's condition or needs.`,
+      title: "Dog Behavior in New Environments",
+      content: `I understand that dogs may behave differently in unfamiliar environments. Barking, anxiety, destructive behavior, or stress responses may occur even if my dog has not displayed these behaviors at home.`,
       requiresInitial: true,
     },
     {
-      title: "Medical Care and Emergency Authorization",
-      content: `I authorize Ruh-Roh Retreat to seek emergency veterinary care for my pet if needed. I understand that I will be responsible for all veterinary costs incurred during the care period.
-
-I will provide current veterinary contact information and authorize Ruh-Roh Retreat to communicate with my veterinarian regarding my pet's care. In case of emergency, I authorize necessary medical treatment to be administered.`,
+      title: "Accurate Behavior Disclosure",
+      content: `I confirm that I have truthfully disclosed all known behavioral issues, including but not limited to: barking, anxiety, destructiveness, reactivity, or intolerance to confinement. I understand that failure to disclose these issues may result in early termination of the stay and/or financial responsibility for damages.`,
       requiresInitial: true,
     },
     {
-      title: "Liability and Release",
-      content: `I understand that pet care involves inherent risks. I release Ruh-Roh Retreat from liability for any injury, illness, or death of my pet that may occur due to natural causes, pet-to-pet interactions, or unforeseeable circumstances beyond reasonable control.
-
-I acknowledge that Ruh-Roh Retreat has taken reasonable precautions to ensure my pet's safety and well-being. I agree that this release extends to all family members, employees, and agents of Ruh-Roh Retreat.`,
+      title: "Emergency Contact & Alternate Arrangements",
+      content: `I have provided a local emergency contact who is available to pick up my dog within 2 hours if requested. If the contact is unavailable, I understand that alternate arrangements with another sitter may be necessary.`,
       requiresInitial: true,
     },
     {
-      title: "Property and Damage",
-      content: `I agree to be responsible for any damage caused by my pet to property or other pets while in the care of Ruh-Roh Retreat. I understand that normal wear and tear is expected and accepted.
-
-I acknowledge that I have disclosed any destructive behaviors or tendencies of my pet. I agree to cover costs for any damage beyond normal wear and tear that occurs during the care period.`,
+      title: "Property Damage Responsibility",
+      content: `I understand this is the sitter's personal residence, not a commercial facility. If my dog causes damage (e.g., carpet, furniture, doors, walls, or personal belongings), I agree to reimburse the full cost of repair or replacement.`,
       requiresInitial: true,
     },
     {
-      title: "Medication and Special Care",
-      content: `I authorize Ruh-Roh Retreat to administer medications as directed and to provide special care as needed for my pet's health and comfort. I will provide clear written instructions for all medications and special care requirements.
-
-I understand that while every effort will be made to follow medication schedules precisely, I release Ruh-Roh Retreat from liability for any adverse reactions or missed doses, provided reasonable care was exercised.`,
+      title: "Veterinary Care Authorization",
+      content: `If my dog becomes ill or injured during the stay, I authorize the sitter to seek veterinary care and agree to reimburse any related expenses, including emergency transport fees.`,
       requiresInitial: true,
     },
     {
-      title: "Communication and Updates",
-      content: `I understand that Ruh-Roh Retreat will provide regular updates about my pet's well-being through photos, videos, and messages. I acknowledge that the frequency of updates may vary based on circumstances and the length of care.
-
-I agree to provide current contact information and to be reasonably available for communication regarding my pet's care. I will inform Ruh-Roh Retreat of any changes to my contact information during the care period.`,
+      title: "Early Pickup or Removal Due to Behavior",
+      content: `If my dog displays disruptive or unsafe behavior (e.g., excessive barking, destruction, aggression, or stress to other dogs), I understand that I may be required to pick up my dog early or arrange alternative care.`,
+      requiresInitial: true,
+    },
+    {
+      title: "Pet Separation When Sitter Is Away",
+      content: `I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety.`,
+      requiresInitial: true,
+    },
+    {
+      title: "No Liability for Pre-Existing or Behavioral Issues",
+      content: `I agree not to hold the sitter liable for illness, injury, or behavioral regression during the stay, particularly in cases involving pre-existing conditions or behavioral issues that were not disclosed.`,
+      requiresInitial: true,
+    },
+    {
+      title: "Refund Policy",
+      content: `I understand that refunds are at the discretion of the sitter. If damage, disruption, behavioral issues, or changes to my travel plans result in early termination of the stay, refunds may not be provided.`,
       requiresInitial: true,
     },
   ];
@@ -69,8 +73,26 @@ I agree to provide current contact information and to be reasonably available fo
 
   const handleInitialChange = (index: number, value: string) => {
     const newInitials = [...initials];
-    newInitials[index] = value.toUpperCase(); // Convert to uppercase for consistency
+    const upperValue = value.toUpperCase(); // Convert to uppercase for consistency
+    newInitials[index] = upperValue;
     setInitials(newInitials);
+  };
+
+  const handleInitialBlur = (index: number) => {
+    // Store the first complete initials when user finishes editing
+    const currentValue = initials[index];
+    if (!userInitials && currentValue && currentValue.trim().length >= 2) {
+      setUserInitials(currentValue);
+    }
+  };
+
+  const handleInitialClick = (index: number) => {
+    // Auto-fill with previously entered initials if this field is empty
+    if (!initials[index] && userInitials) {
+      const newInitials = [...initials];
+      newInitials[index] = userInitials;
+      setInitials(newInitials);
+    }
   };
 
   const isAllRequiredFieldsComplete = () => {
@@ -89,6 +111,24 @@ I agree to provide current contact information and to be reasonably available fo
       emergencyPhone;
 
     return hasAllInitials && hasSignatureComplete && hasRequiredInfo;
+  };
+
+  const loadSitterSignature = async (): Promise<string | null> => {
+    try {
+      const response = await fetch("/signatures/sitter-signature.png");
+      if (response.ok) {
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      }
+      return null;
+    } catch (error) {
+      console.log("No sitter signature found");
+      return null;
+    }
   };
 
   const generatePDF = async () => {
@@ -196,7 +236,7 @@ I agree to provide current contact information and to be reasonably available fo
     pdf.text(splitAck, 20, yPosition);
     yPosition += splitAck.length * 5 + 15;
 
-    // Add signature
+    // Add customer signature
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
         const signatureData = signatureRef.current.toDataURL();
@@ -207,6 +247,34 @@ I agree to provide current contact information and to be reasonably available fo
     }
 
     pdf.text("Customer Signature", 20, yPosition + 45);
+    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 150, yPosition + 45);
+
+    // Add sitter signature section
+    yPosition += 75;
+
+    // Check if we need a new page for sitter signature
+    if (yPosition > pageHeight - 50) {
+      pdf.addPage();
+      yPosition = 20;
+    }
+
+    // Try to load and add sitter signature
+    try {
+      const sitterSignatureData = await loadSitterSignature();
+      if (sitterSignatureData) {
+        pdf.addImage(sitterSignatureData, "PNG", 20, yPosition, 120, 40);
+      } else {
+        // Draw signature line if no sitter signature is available
+        pdf.line(20, yPosition + 30, 140, yPosition + 30);
+        pdf.text("[ Sitter Signature ]", 20, yPosition + 35);
+      }
+    } catch (error) {
+      // Draw signature line if there's an error loading sitter signature
+      pdf.line(20, yPosition + 30, 140, yPosition + 30);
+      pdf.text("[ Sitter Signature ]", 20, yPosition + 35);
+    }
+
+    pdf.text("Sitter Signature", 20, yPosition + 45);
     pdf.text(`Date: ${new Date().toLocaleDateString()}`, 150, yPosition + 45);
 
     return pdf;
@@ -288,16 +356,9 @@ I agree to provide current contact information and to be reasonably available fo
         >
           {/* Header */}
           <div className="bg-blue-600 text-white p-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-white">
               Pet Sitting Agreement & Waiver
             </h1>
-            <p className="text-center mt-2 text-blue-100">
-              Ruh-Roh Retreat - Premium Pet Care Services
-            </p>
-            <div className="text-center mt-4 text-sm text-blue-100">
-              <p>12207 Pintado, Irvine, CA, 92618 | (714) 329-4534</p>
-              <p>hello@ruhrohretreat.com</p>
-            </div>
           </div>
 
           {/* Progress Bar */}
@@ -402,7 +463,7 @@ I agree to provide current contact information and to be reasonably available fo
                 className="space-y-6"
               >
                 <h2 className="text-xl font-bold text-gray-800">
-                  {currentSection}. {waiverSections[currentSection - 1].title}
+                  {waiverSections[currentSection - 1].title}
                 </h2>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -430,8 +491,10 @@ I agree to provide current contact information and to be reasonably available fo
                               e.target.value
                             )
                           }
-                          className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center font-semibold text-lg uppercase"
-                          placeholder="A.B."
+                          onBlur={() => handleInitialBlur(currentSection - 1)}
+                          onClick={() => handleInitialClick(currentSection - 1)}
+                          className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center font-semibold text-lg uppercase cursor-pointer"
+                          placeholder={userInitials || "A.B."}
                           maxLength={10}
                           required
                         />
@@ -446,6 +509,12 @@ I agree to provide current contact information and to be reasonably available fo
                           Enter your initials (e.g., "J.D." for John Doe) to
                           acknowledge that you have read and agree to this
                           section.
+                          {userInitials && (
+                            <span className="text-blue-600 block mt-1">
+                              💡 Tip: Click the input field to auto-fill with
+                              your initials ({userInitials})
+                            </span>
+                          )}
                         </p>
                       </div>
                     </div>
@@ -478,8 +547,8 @@ I agree to provide current contact information and to be reasonably available fo
                   <h3 className="font-semibold text-gray-800 mb-3">
                     Please sign below:
                   </h3>
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                    <div className="border border-gray-300 rounded">
+                  <div className="flex flex-col gap-4">
+                    <div className="border border-gray-300 rounded overflow-hidden">
                       <SignatureCanvas
                         ref={signatureRef}
                         onEnd={() => {
@@ -492,13 +561,17 @@ I agree to provide current contact information and to be reasonably available fo
                           }
                         }}
                         canvasProps={{
-                          width: 400,
+                          width:
+                            typeof window !== "undefined" &&
+                            window.innerWidth < 768
+                              ? Math.min(350, window.innerWidth - 80)
+                              : 400,
                           height: 150,
-                          className: "signature-canvas bg-white",
+                          className: "signature-canvas bg-white max-w-full",
                         }}
                       />
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex justify-center">
                       <button
                         onClick={resetSignature}
                         className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
