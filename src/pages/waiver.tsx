@@ -220,46 +220,60 @@ const WaiverPage: React.FC = () => {
     pdf.text(splitAck, 20, yPosition);
     yPosition += splitAck.length * 5 + 15;
 
+    // Signature Lines Section
+    yPosition += 10;
+
+    // Customer Signature Line
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Customer:", 20, yPosition);
+
     // Add customer signature
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
         const signatureData = signatureRef.current.toDataURL();
-        pdf.addImage(signatureData, "PNG", 20, yPosition, 120, 40);
+        pdf.addImage(signatureData, "PNG", 80, yPosition - 15, 80, 25);
       } catch (error) {
-        pdf.text("[ Customer Signature ]", 20, yPosition + 20);
+        pdf.line(80, yPosition, 160, yPosition);
       }
+    } else {
+      pdf.line(80, yPosition, 160, yPosition);
     }
 
-    pdf.text("Customer Signature", 20, yPosition + 45);
-    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 150, yPosition + 45);
+    pdf.line(170, yPosition, 190, yPosition); // Date line
+    pdf.text(`${new Date().toLocaleDateString()}`, 170, yPosition - 3);
 
-    // Add sitter signature section
-    yPosition += 75;
+    // Labels under customer signature line
+    pdf.setFontSize(8);
+    pdf.text("Signature", 80, yPosition + 8);
+    pdf.text(`Print Name: ${customerName}`, 80, yPosition + 15);
+    pdf.text("Date", 170, yPosition + 8);
 
-    // Check if we need a new page for sitter signature
-    if (yPosition > pageHeight - 50) {
-      pdf.addPage();
-      yPosition = 20;
-    }
+    yPosition += 35;
+
+    // Sitter Signature Line
+    pdf.setFontSize(10);
+    pdf.text("Sitter:", 20, yPosition);
 
     // Try to load and add sitter signature
     try {
       const sitterSignatureData = await loadSitterSignature();
       if (sitterSignatureData) {
-        pdf.addImage(sitterSignatureData, "PNG", 20, yPosition, 120, 40);
+        pdf.addImage(sitterSignatureData, "PNG", 80, yPosition - 15, 80, 25);
       } else {
-        // Draw signature line if no sitter signature is available
-        pdf.line(20, yPosition + 30, 140, yPosition + 30);
-        pdf.text("[ Sitter Signature ]", 20, yPosition + 35);
+        pdf.line(80, yPosition, 160, yPosition);
       }
     } catch (error) {
-      // Draw signature line if there's an error loading sitter signature
-      pdf.line(20, yPosition + 30, 140, yPosition + 30);
-      pdf.text("[ Sitter Signature ]", 20, yPosition + 35);
+      pdf.line(80, yPosition, 160, yPosition);
     }
 
-    pdf.text("Sitter Signature", 20, yPosition + 45);
-    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 150, yPosition + 45);
+    pdf.line(170, yPosition, 190, yPosition); // Date line
+    pdf.text(`${new Date().toLocaleDateString()}`, 170, yPosition - 3);
+
+    // Labels under sitter signature line
+    pdf.setFontSize(8);
+    pdf.text("Signature", 80, yPosition + 8);
+    pdf.text("Print Name: Johnny Gerrard", 80, yPosition + 15);
+    pdf.text("Date", 170, yPosition + 8);
 
     return pdf;
   };
