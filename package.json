@@ -12,7 +12,8 @@
     "generate-image": "node scripts/gen-image.js",
     "generate-blog": "node scripts/generate-blog-post.js",
     "update-blog-images": "node scripts/update-blog-images.js",
-    "clean-posts": "rm -rf data/blog-posts.json && rm -rf public/posts/* && rm -rf posts/*"
+    "clean-posts": "rm -rf data/blog-posts.json && rm -rf public/posts/* && rm -rf posts/*",
+    "test-pdf": "node scripts/test-pdf-generation.js"
   },
   "dependencies": {
     "@types/formidable": "^3.4.5",
