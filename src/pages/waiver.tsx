@@ -144,22 +144,6 @@ const WaiverPage: React.FC = () => {
       align: "center",
     });
 
-    yPosition += 15;
-    pdf.setFontSize(12);
-    pdf.setFont("helvetica", "normal");
-    pdf.text(
-      "Ruh-Roh Retreat - Premium Pet Care Services",
-      pageWidth / 2,
-      yPosition,
-      { align: "center" }
-    );
-    pdf.text(
-      "12207 Pintado, Irvine, CA, 92618 | (714) 329-4534",
-      pageWidth / 2,
-      yPosition + 8,
-      { align: "center" }
-    );
-
     yPosition += 25;
 
     // Customer Information

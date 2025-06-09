@@ -93,7 +93,7 @@ export default async function handler(
       <p>The completed waiver is attached to this email. Please review the document and contact the customer to schedule their pet's care.</p>
       
       <hr>
-      <p><em>This waiver was submitted through the Ruh-Roh Retreat website waiver system.</em></p>
+      <p><em>This waiver was submitted through the website waiver system.</em></p>
     `;
 
     // Email content for customer
@@ -103,10 +103,10 @@ export default async function handler(
       <p>Dear ${customerName},</p>
       
       <p>Thank you for completing the Pet Sitting Agreement and Waiver for <strong>${petName}</strong>. 
-      We have received your submission and a copy of the signed waiver is attached to this email for your records.</p>
+      I have received your submission and a copy of the signed waiver is attached to this email for your records.</p>
       
       <h3>What's Next?</h3>
-      <p>Our team at Ruh-Roh Retreat will review your waiver and contact you within 24 hours to:</p>
+      <p>I will review your waiver and contact you within 24 hours to:</p>
       <ul>
         <li>Confirm your booking details</li>
         <li>Schedule a meet & greet if needed</li>
@@ -114,20 +114,10 @@ export default async function handler(
         <li>Answer any questions you may have</li>
       </ul>
       
-      <h3>Contact Information</h3>
-      <p>If you have any immediate questions or need to make changes, please contact us:</p>
-      <ul>
-        <li><strong>Phone:</strong> (714) 329-4534</li>
-        <li><strong>Email:</strong> hello@ruhrohretreat.com</li>
-        <li><strong>Hours:</strong> 7:00 AM - 9:00 PM (7 days a week)</li>
-      </ul>
-      
-      <p>We're excited to provide excellent care for ${petName} and look forward to building a lasting relationship with your family!</p>
+      <p>I'm excited to provide excellent care for ${petName} and look forward to building a lasting relationship with your family!</p>
       
       <p>Best regards,<br>
-      <strong>Johnny & The Ruh-Roh Retreat Team</strong><br>
-      Premium Pet Care Services<br>
-      Irvine, CA</p>
+      <strong>Johnny</strong></p>
       
       <hr>
       <p><em>This is an automated confirmation email. Please save this email and the attached waiver for your records.</em></p>
@@ -135,7 +125,7 @@ export default async function handler(
 
     // Send email to business
     await transporter.sendMail({
-      from: `"Ruh-Roh Retreat Waiver System" <${
+      from: `"Pet Sitting Waiver System" <${
         process.env.EMAIL_FROM || "book@qrganiz.com"
       }>`,
       to: EMAIL_CONFIG.businessEmail,
@@ -156,11 +146,11 @@ export default async function handler(
 
     // Send confirmation email to customer
     await transporter.sendMail({
-      from: `"Ruh-Roh Retreat" <${
+      from: `"Johnny - Pet Sitting" <${
         process.env.EMAIL_FROM || "book@qrganiz.com"
       }>`,
       to: customerEmail,
-      subject: `Waiver Confirmation - Welcome to Ruh-Roh Retreat, ${customerName}!`,
+      subject: `Waiver Confirmation - Thank you, ${customerName}!`,
       html: customerEmailContent,
       attachments: [
         {
