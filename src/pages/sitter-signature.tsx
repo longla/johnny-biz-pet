@@ -37,7 +37,7 @@ const SitterSignaturePage: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!hasSignature || !signatureRef.current) {
-      alert("Please provide your signature before saving.");
+      alert("Please provide your signature before downloading.");
       return;
     }
 
@@ -58,29 +58,59 @@ const SitterSignaturePage: React.FC = () => {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("Signature save result:", result);
+        // Check if response is a file download (binary) or JSON error
+        const contentType = response.headers.get("content-type");
 
-        // Show warning if there were issues in production
-        if (result.warning) {
-          console.warn("Production warning:", result.warning);
+        if (contentType?.includes("image/png")) {
+          // Handle file download
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+
+          // Get filename from Content-Disposition header
+          const disposition = response.headers.get("content-disposition");
+          const filenameMatch = disposition?.match(/filename="(.+)"/);
+          const filename = filenameMatch
+            ? filenameMatch[1]
+            : "sitter-signature.png";
+
+          // Create download link and trigger download
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          // Clean up the blob URL
+          window.URL.revokeObjectURL(url);
+
+          console.log(`Signature downloaded successfully: ${filename}`);
+          setIsCompleted(true);
+        } else {
+          // Handle JSON response (shouldn't happen in success case, but just in case)
+          const result = await response.json();
+          console.log("Signature result:", result);
+          setIsCompleted(true);
         }
-
-        setIsCompleted(true);
       } else {
-        const error = await response.json();
-        console.error("Signature save error:", error);
+        // Handle error response
+        try {
+          const error = await response.json();
+          console.error("Signature save error:", error);
 
-        // Provide more detailed error message
-        const errorMessage = error.error
-          ? `${error.message}: ${error.error}`
-          : error.message || "Unknown error occurred";
+          const errorMessage = error.error
+            ? `${error.message}: ${error.error}`
+            : error.message || "Unknown error occurred";
 
-        alert(`Error saving signature: ${errorMessage}`);
+          alert(`Error processing signature: ${errorMessage}`);
+        } catch (parseError) {
+          console.error("Error parsing error response:", parseError);
+          alert("Failed to process signature. Please try again.");
+        }
       }
     } catch (error) {
-      console.error("Error saving signature:", error);
-      alert("Failed to save signature. Please try again.");
+      console.error("Error processing signature:", error);
+      alert("Failed to process signature. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -96,11 +126,11 @@ const SitterSignaturePage: React.FC = () => {
         >
           <div className="text-green-600 text-6xl mb-4">✓</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
-            Signature Saved Successfully!
+            Signature Downloaded Successfully!
           </h1>
           <p className="text-gray-600 mb-6">
-            Your signature has been saved and will be used in all future waiver
-            PDFs.
+            Your signature has been downloaded to your device. Please save it in
+            a secure location for future use in waiver PDFs.
           </p>
           <button
             onClick={() => (window.location.href = "/")}
@@ -206,17 +236,17 @@ const SitterSignaturePage: React.FC = () => {
                   {isSubmitting ? (
                     <>
                       <span className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                      Saving Signature...
+                      Downloading Signature...
                     </>
                   ) : (
-                    "Save Signature"
+                    "Download Signature"
                   )}
                 </button>
               </div>
 
               {!hasSignature && (
                 <p className="text-center text-sm text-red-600">
-                  Please provide your signature before saving.
+                  Please provide your signature before downloading.
                 </p>
               )}
             </div>
