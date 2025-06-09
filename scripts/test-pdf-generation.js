@@ -170,12 +170,12 @@ const generateTestPDF = async () => {
   // Signature Lines Section
   yPosition += 15;
 
-  // Define consistent dimensions and layout - clean inline format
-  const signatureWidth = 90;
+  // Define consistent dimensions and layout - clean inline format (fit within page margins)
+  const signatureWidth = 70; // Reduced to fit page
   const signatureHeight = 25;
-  const signatureStartX = 80; // Start after "Customer Signature:" label
-  const dateStartX = 180; // Date section starts after signature
-  const dateWidth = 50; // Date area width
+  const signatureStartX = 75; // Start after "Customer Signature:" label
+  const dateStartX = 150; // Date section starts after signature (reduced)
+  const dateWidth = 35; // Reduced date area width to fit page
 
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(10);
