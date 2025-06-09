@@ -234,8 +234,6 @@ const WaiverPage: React.FC = () => {
     pdf.setFontSize(10);
 
     // Customer Signature Row
-    pdf.text("Customer:", 20, yPosition);
-
     // Customer signature area
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       try {
@@ -281,14 +279,13 @@ const WaiverPage: React.FC = () => {
 
     // Labels under customer signature
     pdf.setFontSize(8);
-    pdf.text("Signature", signatureStartX, yPosition + 8);
+    pdf.text("Customer Signature", signatureStartX, yPosition + 8);
     pdf.text("Date", dateStartX + 15, yPosition + 8);
 
     yPosition += 35;
 
     // Sitter Signature Row
     pdf.setFontSize(10);
-    pdf.text("Sitter:", 20, yPosition);
 
     // Sitter signature area
     try {
@@ -335,7 +332,7 @@ const WaiverPage: React.FC = () => {
 
     // Labels under sitter signature
     pdf.setFontSize(8);
-    pdf.text("Signature", signatureStartX, yPosition + 8);
+    pdf.text("Sitter Signature", signatureStartX, yPosition + 8);
     pdf.text("Date", dateStartX + 15, yPosition + 8);
 
     return pdf;
