@@ -76,6 +76,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             >
               Blog
             </Link>
+            <Link
+              href="/waiver"
+              className="text-gray-800 hover:text-[#1A9CB0] font-medium"
+            >
+              Waiver
+            </Link>
           </nav>
           {/* Mobile menu button */}
           <button
@@ -202,6 +208,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Blog
+              </Link>
+              <Link
+                href="/waiver"
+                className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Waiver
               </Link>
             </nav>
             <div className="p-4 border-t">
@@ -340,6 +353,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                     className="text-gray-300 hover:text-white"
                   >
                     Terms of Use
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/waiver"
+                    className="text-gray-300 hover:text-white"
+                  >
+                    Pet Sitting Waiver
                   </Link>
                 </li>
               </ul>

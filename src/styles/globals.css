@@ -216,3 +216,15 @@ a {
 .wooden-sign {
   @apply relative bg-orange-300 text-white p-4 rounded-lg border-4 border-orange-400 text-center font-bold mx-auto max-w-sm;
 }
+
+/* Signature canvas styles */
+.signature-canvas {
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: white;
+  cursor: crosshair;
+}
+
+.signature-canvas:hover {
+  border-color: #3b82f6;
+}
