@@ -64,6 +64,11 @@ const WaiverPage: React.FC = () => {
       content: `I understand that refunds are at the discretion of the sitter. If damage, disruption, behavioral issues, or changes to my travel plans result in early termination of the stay, refunds may not be provided.`,
       requiresInitial: true,
     },
+    {
+      title: "Privacy & Data Protection",
+      content: `I understand that any personal information I provide — including my name, phone number, address, and optional identification — will be kept strictly confidential. This information will be used only for the purpose of ensuring responsible pet care and resolving any emergencies or damages that may arise. The sitter agrees not to sell, share, or misuse my personal data for any purpose unrelated to my dog’s stay.`,
+      requiresInitial: true,
+    },
   ];
 
   const resetSignature = () => {
