@@ -397,6 +397,8 @@ const WaiverPage: React.FC = () => {
       formData.append("customerPhone", customerPhone);
       formData.append("customerAddress", customerAddress);
       formData.append("petName", petName);
+      formData.append("emergencyContact", emergencyContact);
+      formData.append("emergencyPhone", emergencyPhone);
 
       const response = await fetch("/api/submit-waiver", {
         method: "POST",

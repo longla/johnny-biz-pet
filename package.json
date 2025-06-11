@@ -13,9 +13,11 @@
     "generate-blog": "node scripts/generate-blog-post.js",
     "update-blog-images": "node scripts/update-blog-images.js",
     "clean-posts": "rm -rf data/blog-posts.json && rm -rf public/posts/* && rm -rf posts/*",
-    "test-pdf": "node scripts/test-pdf-generation.js"
+    "test-pdf": "node scripts/test-pdf-generation.js",
+    "setup-s3": "node scripts/setup-s3-bucket.js"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.828.0",
     "@types/formidable": "^3.4.5",
     "axios": "^1.8.1",
     "dotenv": "^16.4.5",

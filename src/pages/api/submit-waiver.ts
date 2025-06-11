@@ -3,6 +3,7 @@ import { IncomingForm } from "formidable";
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
+import { storeCustomerData } from "../../lib/s3";
 
 export const config = {
   api: {
@@ -49,16 +50,50 @@ export default async function handler(
     const customerName = Array.isArray(fields.customerName)
       ? fields.customerName[0]
       : fields.customerName;
+    const customerPhone = Array.isArray(fields.customerPhone)
+      ? fields.customerPhone[0]
+      : fields.customerPhone;
+    const customerAddress = Array.isArray(fields.customerAddress)
+      ? fields.customerAddress[0]
+      : fields.customerAddress;
     const petName = Array.isArray(fields.petName)
       ? fields.petName[0]
       : fields.petName;
+    const emergencyContact = Array.isArray(fields.emergencyContact)
+      ? fields.emergencyContact[0]
+      : fields.emergencyContact;
+    const emergencyPhone = Array.isArray(fields.emergencyPhone)
+      ? fields.emergencyPhone[0]
+      : fields.emergencyPhone;
 
     // Validate required fields
-    if (!customerEmail || !customerName || !petName) {
+    if (
+      !customerEmail ||
+      !customerName ||
+      !customerPhone ||
+      !customerAddress ||
+      !petName ||
+      !emergencyContact ||
+      !emergencyPhone
+    ) {
       return res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
     }
+
+    // Store customer data in S3 (in parallel, don't await - it shouldn't block the submission)
+    storeCustomerData({
+      customerName,
+      customerEmail,
+      customerPhone,
+      customerAddress,
+      petName,
+      emergencyContact,
+      emergencyPhone,
+    }).catch((error) => {
+      console.error("Failed to store customer data in S3:", error);
+      // Don't affect the main flow
+    });
 
     // Get the uploaded PDF file
     const pdfFile = Array.isArray(files.pdf) ? files.pdf[0] : files.pdf;
@@ -87,7 +122,11 @@ export default async function handler(
       <h2>New Pet Sitting Waiver Submitted</h2>
       <p><strong>Customer:</strong> ${customerName}</p>
       <p><strong>Email:</strong> ${customerEmail}</p>
+      <p><strong>Phone:</strong> ${customerPhone}</p>
+      <p><strong>Address:</strong> ${customerAddress}</p>
       <p><strong>Pet Name:</strong> ${petName}</p>
+      <p><strong>Emergency Contact:</strong> ${emergencyContact}</p>
+      <p><strong>Emergency Phone:</strong> ${emergencyPhone}</p>
       <p><strong>Submission Date:</strong> ${new Date().toLocaleDateString()}</p>
       
       <p>The completed waiver is attached to this email. Please review the document and contact the customer to schedule their pet's care.</p>
