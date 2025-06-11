@@ -9,6 +9,8 @@ const WaiverPage: React.FC = () => {
   const [userInitials, setUserInitials] = useState<string>(""); // Store user's initials for auto-fill
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
   const [petName, setPetName] = useState("");
   const [emergencyContact, setEmergencyContact] = useState("");
   const [emergencyPhone, setEmergencyPhone] = useState("");
@@ -51,7 +53,7 @@ const WaiverPage: React.FC = () => {
     },
     {
       title: "Pet Separation When Sitter Is Away",
-      content: `I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety.`,
+      content: `I understand that while the sitter may be away from the home for short periods (typically 1–2 hours max), dogs will be safely separated to ensure their comfort and safety. Separation areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), crates (when appropriate and approved), or the patio, depending on each dog’s temperament and needs.`,
       requiresInitial: true,
     },
     {
@@ -66,7 +68,7 @@ const WaiverPage: React.FC = () => {
     },
     {
       title: "Privacy & Data Protection",
-      content: `I understand that any personal information I provide — including my name, phone number, address, and optional identification — will be kept strictly confidential. This information will be used only for the purpose of ensuring responsible pet care and resolving any emergencies or damages that may arise. The sitter agrees not to sell, share, or misuse my personal data for any purpose unrelated to my dog’s stay.`,
+      content: `I understand that any personal information I provide — including my name, phone number, address, and optional identification — will be kept strictly confidential. This information will be used only for the purpose of ensuring responsible pet care and resolving any emergencies or damages that may arise. The sitter agrees not to sell, share, or misuse my personal data for any purpose unrelated to my dog's stay.`,
       requiresInitial: true,
     },
   ];
@@ -111,6 +113,8 @@ const WaiverPage: React.FC = () => {
     const hasRequiredInfo =
       customerName &&
       customerEmail &&
+      customerPhone &&
+      customerAddress &&
       petName &&
       emergencyContact &&
       emergencyPhone;
@@ -165,6 +169,10 @@ const WaiverPage: React.FC = () => {
     pdf.text(`Customer Name: ${customerName}`, 20, yPosition);
     yPosition += 6;
     pdf.text(`Email: ${customerEmail}`, 20, yPosition);
+    yPosition += 6;
+    pdf.text(`Phone: ${customerPhone}`, 20, yPosition);
+    yPosition += 6;
+    pdf.text(`Address: ${customerAddress}`, 20, yPosition);
     yPosition += 6;
     pdf.text(`Pet Name: ${petName}`, 20, yPosition);
     yPosition += 6;
@@ -386,6 +394,8 @@ const WaiverPage: React.FC = () => {
       formData.append("pdf", pdfBlob, "pet-sitting-waiver.pdf");
       formData.append("customerEmail", customerEmail);
       formData.append("customerName", customerName);
+      formData.append("customerPhone", customerPhone);
+      formData.append("customerAddress", customerAddress);
       formData.append("petName", petName);
 
       const response = await fetch("/api/submit-waiver", {
@@ -495,6 +505,32 @@ const WaiverPage: React.FC = () => {
                       onChange={(e) => setCustomerEmail(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your phone number"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Home Address *
+                    </label>
+                    <input
+                      type="text"
+                      value={customerAddress}
+                      onChange={(e) => setCustomerAddress(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your full home address"
                       required
                     />
                   </div>
@@ -681,6 +717,8 @@ const WaiverPage: React.FC = () => {
                       className={`flex items-center gap-2 ${
                         customerName &&
                         customerEmail &&
+                        customerPhone &&
+                        customerAddress &&
                         petName &&
                         emergencyContact &&
                         emergencyPhone
@@ -691,6 +729,8 @@ const WaiverPage: React.FC = () => {
                       <span>
                         {customerName &&
                         customerEmail &&
+                        customerPhone &&
+                        customerAddress &&
                         petName &&
                         emergencyContact &&
                         emergencyPhone
