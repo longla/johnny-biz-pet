@@ -30,15 +30,18 @@ export interface CustomerData {
   emergencyPhone: string;
   submissionDate: string;
   timestamp: number;
+  pdfKey?: string; // S3 key for the PDF file
 }
 
 export async function storeCustomerData(
-  customerData: Omit<CustomerData, "id" | "submissionDate" | "timestamp">
-): Promise<void> {
+  customerData: Omit<CustomerData, "id" | "submissionDate" | "timestamp">,
+  pdfKey?: string,
+  customId?: string
+): Promise<string> {
   try {
-    const id = `waiver_${Date.now()}_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
+    const id =
+      customId ||
+      `waiver_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const timestamp = Date.now();
     const submissionDate = new Date().toISOString();
 
@@ -47,6 +50,7 @@ export async function storeCustomerData(
       ...customerData,
       submissionDate,
       timestamp,
+      pdfKey, // Include PDF key if provided
     };
 
     const key = `customer-data/${new Date().getFullYear()}/${(
@@ -70,9 +74,10 @@ export async function storeCustomerData(
     );
 
     console.log(`Customer data stored successfully: ${key}`);
+    return id; // Return the customer ID
   } catch (error) {
     console.error("Error storing customer data to S3:", error);
-    // Don't throw the error - we don't want to break the waiver submission
+    throw error;
   }
 }
 
@@ -180,5 +185,69 @@ export async function createS3BucketIfNotExists(): Promise<void> {
   } catch (error: any) {
     console.error(`❌ Error creating bucket ${BUCKET_NAME}:`, error);
     throw error;
+  }
+}
+
+export async function storePdfDocument(
+  customerId: string,
+  pdfBuffer: Buffer,
+  customerName: string,
+  petName: string
+): Promise<string> {
+  try {
+    const sanitizedCustomerName = customerName.replace(/[^a-zA-Z0-9]/g, "-");
+    const sanitizedPetName = petName.replace(/[^a-zA-Z0-9]/g, "-");
+
+    const key = `customer-pdfs/${new Date().getFullYear()}/${(
+      new Date().getMonth() + 1
+    )
+      .toString()
+      .padStart(
+        2,
+        "0"
+      )}/${customerId}-${sanitizedCustomerName}-${sanitizedPetName}.pdf`;
+
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: key,
+        Body: pdfBuffer,
+        ContentType: "application/pdf",
+        Metadata: {
+          customerId: customerId,
+          customerName: customerName,
+          petName: petName,
+          uploadDate: new Date().toISOString(),
+        },
+      })
+    );
+
+    console.log(`PDF stored successfully: ${key}`);
+    return key;
+  } catch (error) {
+    console.error("Error storing PDF to S3:", error);
+    throw error;
+  }
+}
+
+export async function getPdfDocument(pdfKey: string): Promise<Buffer | null> {
+  try {
+    const getCommand = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: pdfKey,
+    });
+
+    const getResponse = await s3Client.send(getCommand);
+
+    if (getResponse.Body) {
+      // Convert the response body to a buffer
+      const bodyBytes = await getResponse.Body.transformToByteArray();
+      return Buffer.from(bodyBytes);
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error retrieving PDF from S3 (${pdfKey}):`, error);
+    return null;
   }
 }

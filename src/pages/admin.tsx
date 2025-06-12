@@ -12,6 +12,7 @@ interface CustomerData {
   emergencyPhone: string;
   submissionDate: string;
   timestamp: number;
+  pdfKey?: string; // S3 key for the PDF file
 }
 
 const AdminDashboard: React.FC = () => {
@@ -116,6 +117,36 @@ const AdminDashboard: React.FC = () => {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPdf = async (customer: CustomerData) => {
+    if (!customer.pdfKey) {
+      alert("No PDF available for this customer");
+      return;
+    }
+
+    try {
+      const filename = `waiver-${customer.customerName.replace(
+        /\s+/g,
+        "-"
+      )}-${customer.petName.replace(/\s+/g, "-")}.pdf`;
+      const downloadUrl = `/api/admin/download-pdf?password=${encodeURIComponent(
+        password
+      )}&pdfKey=${encodeURIComponent(
+        customer.pdfKey
+      )}&filename=${encodeURIComponent(filename)}`;
+
+      // Create a temporary anchor element to trigger download
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      alert("Failed to download PDF. Please try again.");
+    }
   };
 
   if (!isAuthenticated) {
@@ -249,6 +280,9 @@ const AdminDashboard: React.FC = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Emergency Contact
                     </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -290,6 +324,21 @@ const AdminDashboard: React.FC = () => {
                         <div className="text-sm text-gray-500">
                           {customer.emergencyPhone}
                         </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        {customer.pdfKey ? (
+                          <button
+                            onClick={() => handleDownloadPdf(customer)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs transition-colors"
+                            title="Download signed waiver PDF"
+                          >
+                            📄 Download PDF
+                          </button>
+                        ) : (
+                          <span className="text-gray-400 text-xs">
+                            No PDF available
+                          </span>
+                        )}
                       </td>
                     </motion.tr>
                   ))}

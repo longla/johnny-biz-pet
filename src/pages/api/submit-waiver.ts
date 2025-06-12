@@ -3,7 +3,7 @@ import { IncomingForm } from "formidable";
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
-import { storeCustomerData } from "../../lib/s3";
+import { storeCustomerData, storePdfDocument } from "../../lib/s3";
 
 export const config = {
   api: {
@@ -81,20 +81,6 @@ export default async function handler(
         .json({ success: false, message: "Missing required fields" });
     }
 
-    // Store customer data in S3 (in parallel, don't await - it shouldn't block the submission)
-    storeCustomerData({
-      customerName,
-      customerEmail,
-      customerPhone,
-      customerAddress,
-      petName,
-      emergencyContact,
-      emergencyPhone,
-    }).catch((error) => {
-      console.error("Failed to store customer data in S3:", error);
-      // Don't affect the main flow
-    });
-
     // Get the uploaded PDF file
     const pdfFile = Array.isArray(files.pdf) ? files.pdf[0] : files.pdf;
     if (!pdfFile) {
@@ -105,6 +91,47 @@ export default async function handler(
 
     // Read the PDF file
     const pdfBuffer = fs.readFileSync(pdfFile.filepath);
+
+    // Store customer data and PDF in S3
+    let customerId: string;
+    let pdfKey: string | undefined;
+
+    try {
+      // Generate a unique customer ID
+      customerId = `waiver_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+
+      // Store the PDF with the customer ID
+      pdfKey = await storePdfDocument(
+        customerId,
+        pdfBuffer,
+        customerName,
+        petName
+      );
+
+      // Store customer data with PDF key
+      await storeCustomerData(
+        {
+          customerName,
+          customerEmail,
+          customerPhone,
+          customerAddress,
+          petName,
+          emergencyContact,
+          emergencyPhone,
+        },
+        pdfKey,
+        customerId
+      );
+
+      console.log(
+        `Customer data and PDF stored successfully. Customer ID: ${customerId}, PDF Key: ${pdfKey}`
+      );
+    } catch (error) {
+      console.error("Failed to store customer data and PDF in S3:", error);
+      // Continue with email sending even if S3 storage fails
+    }
 
     // Setup nodemailer transporter
     const transporter = nodemailer.createTransport({
