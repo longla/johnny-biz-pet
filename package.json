@@ -12,7 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next",
-    "clean-install": "rm -rf node_modules && yarn install",
+    "clean-install": "rm -rf node_modules && npm install",
     "postbuild": "next-sitemap",
     "generate-image": "node scripts/gen-image.js",
     "generate-blog": "node scripts/generate-blog-post.js",
