@@ -2,12 +2,17 @@
   "name": "paws-at-home",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next",
+    "clean-install": "rm -rf node_modules && yarn install",
     "postbuild": "next-sitemap",
     "generate-image": "node scripts/gen-image.js",
     "generate-blog": "node scripts/generate-blog-post.js",
