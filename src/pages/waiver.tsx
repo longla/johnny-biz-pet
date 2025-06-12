@@ -18,7 +18,7 @@ const WaiverPage: React.FC = () => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [hasSignature, setHasSignature] = useState(false);
   const signatureRef = useRef<SignatureCanvas>(null);
-
+  // Don't change content of the waiver sections.
   // Waiver sections that require initials
   const waiverSections = [
     {
@@ -53,7 +53,7 @@ const WaiverPage: React.FC = () => {
     },
     {
       title: "Pet Separation When Sitter Is Away",
-      content: `I understand that while the sitter may be away from the home for short periods (typically 1–2 hours max), dogs will be safely separated to ensure their comfort and safety. Separation areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), crates (when appropriate and approved), or the patio, depending on each dog’s temperament and needs.`,
+      content: `Pet Separation When Sitter Is Away: I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety. Pets may also be placed in crates for safety during short absences, but only with prior client approval.`,
       requiresInitial: true,
     },
     {
@@ -68,7 +68,7 @@ const WaiverPage: React.FC = () => {
     },
     {
       title: "Privacy & Data Protection",
-      content: `I understand that any personal information I provide — including my name, phone number, address, and optional identification — will be kept strictly confidential. This information will be used only for the purpose of ensuring responsible pet care and resolving any emergencies or damages that may arise. The sitter agrees not to sell, share, or misuse my personal data for any purpose unrelated to my dog's stay.`,
+      content: `I understand that any personal information I provide - including my name, phone number, address, and optional identification - will be kept strictly confidential and used only for the purpose of pet care and resolving emergencies. The sitter agrees not to misuse my personal data.`,
       requiresInitial: true,
     },
   ];
@@ -188,6 +188,17 @@ const WaiverPage: React.FC = () => {
       yPosition
     );
     yPosition += 12;
+
+    // Agreement introduction
+    pdf.setFontSize(11);
+    pdf.setFont("helvetica", "normal");
+    const introText = `This agreement is designed to help create a safe, happy environment for your dog and protect everyone
+involved. It is based on real experiences and reflects my commitment to quality care, transparency, and
+mutual protection. This agreement supplements the terms agreed upon via Rover and helps clarify
+responsibilities in cases not covered by Rover policies.`;
+    const splitIntro = pdf.splitTextToSize(introText, pageWidth - 40);
+    pdf.text(splitIntro, 20, yPosition);
+    yPosition += splitIntro.length * 5 + 10;
 
     // Waiver sections
     for (let i = 0; i < waiverSections.length; i++) {
@@ -574,6 +585,24 @@ const WaiverPage: React.FC = () => {
                       placeholder="Emergency contact phone number"
                       required
                     />
+                  </div>
+                </div>
+
+                {/* Agreement Introduction */}
+                <div className="mt-8 pt-4 border-t border-gray-200">
+                  <h3 className="font-semibold text-gray-800 mb-3">
+                    Agreement Introduction:
+                  </h3>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-gray-700 leading-relaxed">
+                      This agreement is designed to help create a safe, happy
+                      environment for your dog and protect everyone involved. It
+                      is based on real experiences and reflects my commitment to
+                      quality care, transparency, and mutual protection. This
+                      agreement supplements the terms agreed upon via Rover and
+                      helps clarify responsibilities in cases not covered by
+                      Rover policies.
+                    </p>
                   </div>
                 </div>
               </motion.div>

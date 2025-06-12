@@ -31,12 +31,12 @@ const waiverSections = [
   },
   {
     title: "Early Pickup or Removal Due to Behavior",
-    content: `If my dog displays disruptive or unsafe behavior (e.g., excessive barking, destruction, aggression, or stress to other dogs), I understand that I may be required to pick up my dog early or arrange alternative care.`,
+    content: `Early Pickup or Removal Due to Behavior: If my dog displays disruptive or unsafe behavior (e.g., excessive barking, destruction, aggression, or stress to other dogs), I understand that I may be required to pick up my dog early or arrange alternative care.`,
     requiresInitial: true,
   },
   {
     title: "Pet Separation When Sitter Is Away",
-    content: `I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety.`,
+    content: `I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety. Pets may also be placed in crates for safety during short absences, but only with prior client approval.`,
     requiresInitial: true,
   },
   {
@@ -46,7 +46,12 @@ const waiverSections = [
   },
   {
     title: "Refund Policy",
-    content: `I understand that refunds are at the discretion of the sitter. If damage, disruption, behavioral issues, or changes to my travel plans result in early termination of the stay, refunds may not be provided.`,
+    content: `I understand that refunds are at the discretion of the sitter. Partial or full refunds may be considered depending on the situation, but are not guaranteed. If damage, disruption, behavioral issues, or changes to my travel plans result in early termination of the stay, refunds may not be provided.`,
+    requiresInitial: true,
+  },
+  {
+    title: "Privacy & Data Protection",
+    content: `I understand that any personal information I provide - including my name, phone number, address, and optional identification - will be kept strictly confidential and used only for the purpose of pet care and resolving emergencies. The sitter agrees not to misuse my personal data.`,
     requiresInitial: true,
   },
 ];
@@ -121,7 +126,39 @@ const generateTestPDF = async () => {
 
   // Agreement date
   pdf.text(`Agreement Date: ${new Date().toLocaleDateString()}`, 20, yPosition);
-  yPosition += 12;
+  yPosition += 20;
+
+  // Check if we need a new page for the introduction
+  if (yPosition > pageHeight - 100) {
+    pdf.addPage();
+    yPosition = 20;
+  }
+
+  // Agreement introduction
+  pdf.setFontSize(12);
+  pdf.setFont("helvetica", "bold");
+  pdf.text("AGREEMENT INTRODUCTION:", 20, yPosition);
+  yPosition += 9;
+
+  pdf.setFontSize(11);
+  pdf.setFont("helvetica", "normal");
+  const introText = `This agreement is designed to help create a safe, happy environment for your dog and protect everyone involved. It is based on real experiences and reflects my commitment to quality care, transparency, and mutual protection. This agreement supplements the terms agreed upon via Rover and helps clarify responsibilities in cases not covered by Rover policies.`;
+  const splitIntro = pdf.splitTextToSize(introText, pageWidth - 40);
+  pdf.text(splitIntro, 20, yPosition);
+
+  // Debug information
+  console.log("📄 Introduction text details:");
+  console.log(`  - Y position: ${yPosition}`);
+  console.log(`  - Number of lines: ${splitIntro.length}`);
+  console.log(`  - Page height: ${pageHeight}`);
+  console.log(`  - Text content: "${introText.substring(0, 30)}..."`);
+
+  yPosition += splitIntro.length * 6 + 15;
+
+  // Add a separator line
+  pdf.setDrawColor(200, 200, 200);
+  pdf.line(20, yPosition - 10, pageWidth - 20, yPosition - 10);
+  pdf.setDrawColor(0, 0, 0);
 
   // Waiver sections
   for (let i = 0; i < waiverSections.length; i++) {
