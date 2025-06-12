@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "buildCommand": "./vercel-build.sh",
+  "installCommand": "echo 'Using custom build script'",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "build": {
+    "env": {
+      "NPM_FLAGS": "--prefer-offline --no-audit --no-fund",
+      "YARN_REGISTRY": "https://registry.npmjs.cf/"
+    }
+  },
+  "github": {
+    "silent": true
+  }
+}
