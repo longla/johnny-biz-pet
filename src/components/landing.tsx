@@ -865,7 +865,7 @@ function LandingComponent() {
                     </svg>
                   </div>
                   <span className="text-indigo-800 font-medium">
-                    7+ Years Experience
+                    15+ Years Experience
                   </span>
                 </motion.div>
 
