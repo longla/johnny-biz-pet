@@ -975,186 +975,87 @@ function LandingComponent() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Why Choose Ruh-Roh Retreat
+              Why Pet Parents Book With Me
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Not your average pet sitting service - I go above and beyond to
-              ensure your pets receive exceptional care.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Benefit 1 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">👩‍⚕️</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Vet Assistant Trained
+                </h3>
+                <p className="text-gray-600">
+                  Confident in handling everything from medication to post-op care.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Senior Pet Specialists
-              </h3>
-              <p className="text-gray-600">
-                I have extensive experience caring for senior pets and pets with
-                special needs, ensuring they receive the specialized attention
-                they deserve.
-              </p>
             </div>
 
             {/* Benefit 2 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">🏡</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Safe, Calm Home
+                </h3>
+                <p className="text-gray-600">
+                  I host only friendly, house-trained dogs for a peaceful & stress-free stay.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Daily Photos & Updates
-              </h3>
-              <p className="text-gray-600">
-                I send detailed updates with photos during each visit so you can
-                see your pet is happy and enjoying their time with me.
-              </p>
             </div>
 
             {/* Benefit 3 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">💎</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Boutique Experience
+                </h3>
+                <p className="text-gray-600">
+                  Your dog stays in a calm, cozy environment with access to enrichment, relaxation, and personalized care — more like a luxury retreat than a kennel.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Medication Administration
-              </h3>
-              <p className="text-gray-600">
-                Experienced in administering medications including oral
-                medications, injections, and specialized diets for pets with
-                health conditions.
-              </p>
             </div>
 
             {/* Benefit 4 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">💖</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  I’m Home All Day
+                </h3>
+                <p className="text-gray-600">
+                  Your pup gets full-day attention, comfort, and supervision.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Comfortable Home Environment
-              </h3>
-              <p className="text-gray-600">
-                Your pet will enjoy staying in my comfortable, pet-friendly home
-                located in a peaceful, well-maintained community. I provide cozy
-                sleeping areas and plenty of space for your pet to relax while
-                you're away.
-              </p>
             </div>
 
             {/* Benefit 5 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">🧼</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Sparkling Clean Space
+                </h3>
+                <p className="text-gray-600">
+                  I deep-clean after every stay to ensure a healthy environment.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Flexible Scheduling
-              </h3>
-              <p className="text-gray-600">
-                Adaptable to your pet's routine and your schedule with early
-                morning, evening, and weekend availability for ultimate
-                convenience.
-              </p>
             </div>
 
             {/* Benefit 6 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="w-14 h-14 mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">🌳</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Outdoor Fun
+                </h3>
+                <p className="text-gray-600">
+                  Private dog park, walking trails, and grassy areas just steps from my door.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#333333]">
-                Genuine Pet Lover
-              </h3>
-              <p className="text-gray-600">
-                Not just a service provider - a genuine animal lover who forms
-                real bonds with your pets and treats them like family members.
-              </p>
             </div>
           </div>
         </div>
