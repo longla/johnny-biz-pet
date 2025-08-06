@@ -50,7 +50,9 @@ function LandingComponent() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [testimonialLoading, setTestimonialLoading] = useState(true);
-  const [highlightedTestimonials, setHighlightedTestimonials] = useState<Testimonial[]>([]);
+  const [highlightedTestimonials, setHighlightedTestimonials] = useState<
+    Testimonial[]
+  >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Hero slideshow state
@@ -142,10 +144,9 @@ function LandingComponent() {
   useEffect(() => {
     async function fetchTestimonials() {
       try {
-        const [reviewsResponse, highlightedReviewsResponse] = await Promise.all([
-          fetch("/data/reviews.json"),
-          fetch("/data/highlighted-reviews.json"),
-        ]);
+        const [reviewsResponse, highlightedReviewsResponse] = await Promise.all(
+          [fetch("/data/reviews.json"), fetch("/data/highlighted-reviews.json")]
+        );
 
         if (!reviewsResponse.ok || !highlightedReviewsResponse.ok) {
           throw new Error("Failed to fetch testimonials");
@@ -167,8 +168,6 @@ function LandingComponent() {
 
     fetchTestimonials();
   }, []);
-
-  
 
   useEffect(() => {
     testimonialIntervalRef.current = setInterval(() => {
@@ -367,7 +366,9 @@ function LandingComponent() {
       <div className="bg-white rounded-lg shadow-lg flex flex-col max-w-full mx-4 w-full h-full sm:max-w-2xl">
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-2xl font-bold">All Reviews</h2>
-          <button onClick={() => setIsModalOpen(false)} className="text-2xl">&times;</button>
+          <button onClick={() => setIsModalOpen(false)} className="text-2xl">
+            &times;
+          </button>
         </div>
         <div className="overflow-y-auto p-4 sm:p-8">
           <div className="space-y-4">
@@ -383,12 +384,16 @@ function LandingComponent() {
                     style={{ objectFit: "cover" }}
                   />
                   <div>
-                    <h4 className="font-semibold text-[#333333]">{testimonial.name}</h4>
+                    <h4 className="font-semibold text-[#333333]">
+                      {testimonial.name}
+                    </h4>
                     <p className="text-sm text-gray-500">{testimonial.date}</p>
                     <div className="flex text-yellow-400">
-                      {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <FaStar key={i} className="h-5 w-5" />
-                      ))}
+                      {Array.from({ length: testimonial.rating }).map(
+                        (_, i) => (
+                          <FaStar key={i} className="h-5 w-5" />
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -433,7 +438,9 @@ function LandingComponent() {
             <div className="relative">
               <div className="max-w-2xl mx-auto relative">
                 {highlightedTestimonials.length > 0 &&
-                  renderTestimonialCard(highlightedTestimonials[currentTestimonialIndex])}
+                  renderTestimonialCard(
+                    highlightedTestimonials[currentTestimonialIndex]
+                  )}
                 <button
                   onClick={goToPreviousTestimonial}
                   className="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
@@ -822,12 +829,12 @@ function LandingComponent() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                Hello! I'm Johnny, the founder of Ruh-Roh Retreat. As a
-                certified pet care specialist with over 7 years of experience,
-                I've created a premium overnight boarding service that provides
-                a home-away-from-home for your beloved pets. My home offers
-                luxury accommodations and premium add-on services that make each
-                stay special.
+                Hi, I'm Johnny! I run a boutique-style dog care experience out
+                of my peaceful home, where your pup is treated like family and
+                pampered like they're on vacation. After over 15 years of
+                hands-on experience—including time as a vet assistant—I left the
+                corporate world behind to do what I love full-time: caring for
+                dogs.
               </motion.p>
               <motion.p
                 className="text-lg text-gray-700 mb-8 leading-relaxed"
@@ -836,10 +843,38 @@ function LandingComponent() {
                 transition={{ delay: 0.5, duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                Ruh-Roh Retreat specializes in premium overnight boarding with
-                luxurious accommodations and specialized add-on services. My
-                mission is to provide peace of mind through reliable, loving
-                care for your furry family members in my cozy home environment.
+                Every stay is customized to your dog's personality and needs.
+                Whether they're shy and sensitive or playful and high-energy, I
+                create a calm, nurturing space where they can thrive. I'm home
+                all day, which means your pup gets round-the-clock attention,
+                comfort, and companionship. No crowded kennels, no rushed potty
+                breaks—just a safe, cozy retreat designed for relaxation and
+                joy.
+              </motion.p>
+              <motion.p
+                className="text-lg text-gray-700 mb-8 leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                And yes, I go the extra mile. From enrichment walks and cuddle
+                time to optional extras like PAW-casso paintings and storytime,
+                I make sure each dog feels safe, engaged, and loved while you're
+                away. My place is kept sparkling clean, and I send tons of
+                updates so you'll always know your pup is happy and in good
+                hands.
+              </motion.p>
+              <motion.p
+                className="text-lg text-gray-700 mb-8 leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                I genuinely care about every dog that comes through my door—and
+                I think it shows. Let's give your pup the kind of care you wish
+                every dog could have.
               </motion.p>
 
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -992,7 +1027,8 @@ function LandingComponent() {
                   Vet Assistant Trained
                 </h3>
                 <p className="text-gray-600">
-                  Confident in handling everything from medication to post-op care.
+                  Confident in handling everything from medication to post-op
+                  care.
                 </p>
               </div>
             </div>
@@ -1005,7 +1041,8 @@ function LandingComponent() {
                   Safe, Calm Home
                 </h3>
                 <p className="text-gray-600">
-                  I host only friendly, house-trained dogs for a peaceful & stress-free stay.
+                  I host only friendly, house-trained dogs for a peaceful &
+                  stress-free stay.
                 </p>
               </div>
             </div>
@@ -1018,7 +1055,9 @@ function LandingComponent() {
                   Boutique Experience
                 </h3>
                 <p className="text-gray-600">
-                  Your dog stays in a calm, cozy environment with access to enrichment, relaxation, and personalized care — more like a luxury retreat than a kennel.
+                  Your dog stays in a calm, cozy environment with access to
+                  enrichment, relaxation, and personalized care — more like a
+                  luxury retreat than a kennel.
                 </p>
               </div>
             </div>
@@ -1028,7 +1067,7 @@ function LandingComponent() {
               <div className="text-4xl mr-4">💖</div>
               <div>
                 <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  I’m Home All Day
+                  I'm Home All Day
                 </h3>
                 <p className="text-gray-600">
                   Your pup gets full-day attention, comfort, and supervision.
@@ -1057,7 +1096,8 @@ function LandingComponent() {
                   Outdoor Fun
                 </h3>
                 <p className="text-gray-600">
-                  Private dog park, walking trails, and grassy areas just steps from my door.
+                  Private dog park, walking trails, and grassy areas just steps
+                  from my door.
                 </p>
               </div>
             </div>
