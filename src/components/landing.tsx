@@ -12,6 +12,7 @@ type Testimonial = {
   image: string;
   rating: number;
   text: string;
+  date: string;
 };
 
 function LandingComponent() {
@@ -49,11 +50,14 @@ function LandingComponent() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [testimonialLoading, setTestimonialLoading] = useState(true);
+  const [highlightedTestimonials, setHighlightedTestimonials] = useState<Testimonial[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Hero slideshow state
   const [heroImages, setHeroImages] = useState<string[]>([]);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const heroIntervalRef = useRef<NodeJS.Timeout>();
+  const testimonialIntervalRef = useRef<NodeJS.Timeout>();
 
   // Load hero images
   useEffect(() => {
@@ -135,16 +139,25 @@ function LandingComponent() {
     }
   }, [bookingForm.startDate, bookingForm.endDate]);
 
-  // Fetch testimonials from JSON file
   useEffect(() => {
     async function fetchTestimonials() {
       try {
-        const response = await fetch("/data/testimonials.json");
-        if (!response.ok) {
+        const [reviewsResponse, highlightedReviewsResponse] = await Promise.all([
+          fetch("/data/reviews.json"),
+          fetch("/data/highlighted-reviews.json"),
+        ]);
+
+        if (!reviewsResponse.ok || !highlightedReviewsResponse.ok) {
           throw new Error("Failed to fetch testimonials");
         }
-        const data = await response.json();
-        setTestimonials(data);
+
+        const [reviews, highlightedReviews] = await Promise.all([
+          reviewsResponse.json(),
+          highlightedReviewsResponse.json(),
+        ]);
+
+        setTestimonials(reviews);
+        setHighlightedTestimonials(highlightedReviews);
         setTestimonialLoading(false);
       } catch (error) {
         console.error("Error loading testimonials:", error);
@@ -155,15 +168,35 @@ function LandingComponent() {
     fetchTestimonials();
   }, []);
 
+  
+
+  useEffect(() => {
+    testimonialIntervalRef.current = setInterval(() => {
+      goToNextTestimonial();
+    }, 5000); // Slide every 5 seconds
+
+    return () => {
+      if (testimonialIntervalRef.current) {
+        clearInterval(testimonialIntervalRef.current);
+      }
+    };
+  }, [highlightedTestimonials.length]);
+
   const goToPreviousTestimonial = () => {
+    if (testimonialIntervalRef.current) {
+      clearInterval(testimonialIntervalRef.current);
+    }
     setCurrentTestimonialIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
+      prev === 0 ? highlightedTestimonials.length - 1 : prev - 1
     );
   };
 
   const goToNextTestimonial = () => {
+    if (testimonialIntervalRef.current) {
+      clearInterval(testimonialIntervalRef.current);
+    }
     setCurrentTestimonialIndex((prev) =>
-      prev === testimonials.length - 1 ? 0 : prev + 1
+      prev === highlightedTestimonials.length - 1 ? 0 : prev + 1
     );
   };
 
@@ -329,6 +362,45 @@ function LandingComponent() {
     </motion.div>
   );
 
+  const renderAllReviewsModal = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center py-4">
+      <div className="bg-white rounded-lg shadow-lg flex flex-col max-w-full mx-4 w-full h-full sm:max-w-2xl">
+        <div className="flex justify-between items-center p-6 border-b">
+          <h2 className="text-2xl font-bold">All Reviews</h2>
+          <button onClick={() => setIsModalOpen(false)} className="text-2xl">&times;</button>
+        </div>
+        <div className="overflow-y-auto p-4 sm:p-8">
+          <div className="space-y-4">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="border-b pb-4">
+                <div className="flex items-center mb-2">
+                  <Image
+                    src={testimonial.image}
+                    alt={`${testimonial.name}'s pet`}
+                    width={50}
+                    height={50}
+                    className="rounded-full mr-4"
+                    style={{ objectFit: "cover" }}
+                  />
+                  <div>
+                    <h4 className="font-semibold text-[#333333]">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-500">{testimonial.date}</p>
+                    <div className="flex text-yellow-400">
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <FaStar key={i} className="h-5 w-5" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-600 italic">{testimonial.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // Testimonials Section
   const renderTestimonialsSection = () => (
     <section id="testimonials" className="py-20">
@@ -358,100 +430,32 @@ function LandingComponent() {
           </div>
         ) : (
           <>
-            {/* Mobile Testimonial Carousel - visible only on mobile */}
-            <div className="block md:hidden relative">
-              <div className="mb-12">
-                {testimonials.length > 0 &&
-                  renderTestimonialCard(testimonials[currentTestimonialIndex])}
-              </div>
-
-              {/* Navigation Arrows */}
-              <div className="flex justify-between items-center mt-4">
+            <div className="relative">
+              <div className="max-w-2xl mx-auto relative">
+                {highlightedTestimonials.length > 0 &&
+                  renderTestimonialCard(highlightedTestimonials[currentTestimonialIndex])}
                 <button
                   onClick={goToPreviousTestimonial}
-                  className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                  className="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
                   aria-label="Previous testimonial"
                 >
                   <FaArrowLeft className="h-5 w-5" />
                 </button>
-
-                {/* Dots indicator */}
-                <div className="flex space-x-2">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentTestimonialIndex(index)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        currentTestimonialIndex === index
-                          ? "bg-[#F28C38] w-5"
-                          : "bg-gray-300"
-                      }`}
-                      aria-label={`Go to testimonial ${index + 1}`}
-                    />
-                  ))}
-                </div>
-
                 <button
                   onClick={goToNextTestimonial}
-                  className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
+                  className="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
                   aria-label="Next testimonial"
                 >
                   <FaArrowRight className="h-5 w-5" />
                 </button>
               </div>
-            </div>
-
-            {/* Desktop Testimonial Grid - hidden on mobile */}
-            <div className="hidden md:block relative">
-              <div className="max-w-6xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {testimonials
-                    .slice(currentTestimonialIndex, currentTestimonialIndex + 3)
-                    .map((testimonial) => (
-                      <div key={testimonial.id}>
-                        {renderTestimonialCard(testimonial)}
-                      </div>
-                    ))}
-                </div>
-
-                {/* Navigation Arrows - Only show if there are more than 3 testimonials */}
-                {testimonials.length > 3 && (
-                  <div className="flex justify-between items-center mt-8">
-                    <button
-                      onClick={goToPreviousTestimonial}
-                      className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
-                      aria-label="Previous testimonial"
-                    >
-                      <FaArrowLeft className="h-5 w-5" />
-                    </button>
-
-                    {/* Dots indicator */}
-                    <div className="flex space-x-2">
-                      {Array.from({
-                        length: Math.ceil(testimonials.length / 3),
-                      }).map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setCurrentTestimonialIndex(index * 3)}
-                          className={`w-3 h-3 rounded-full transition-all ${
-                            Math.floor(currentTestimonialIndex / 3) === index
-                              ? "bg-[#F28C38] w-5"
-                              : "bg-gray-300"
-                          }`}
-                          aria-label={`Go to testimonial group ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-
-                    <button
-                      onClick={goToNextTestimonial}
-                      className="bg-white p-3 rounded-full shadow-md text-[#1A9CB0] hover:text-[#F28C38] transition-colors"
-                      aria-label="Next testimonial"
-                    >
-                      <FaArrowRight className="h-5 w-5" />
-                    </button>
-                  </div>
-                )}
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-2 px-6 rounded-full text-lg transition-colors duration-300"
+                >
+                  View All Reviews
+                </button>
               </div>
             </div>
           </>
@@ -1591,6 +1595,7 @@ function LandingComponent() {
           }),
         }}
       />
+      {isModalOpen && renderAllReviewsModal()}
     </div>
   );
 }
