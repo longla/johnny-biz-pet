@@ -1538,12 +1538,12 @@ function LandingComponent() {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span className="text-xl">12207 Pintado, Irvine, CA, 92618</span>
+              <span className="text-xl">13212 Telmo, Irvine, CA, 92618</span>
             </div>
 
             <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.9727388869344!2d-117.74094292357964!3d33.65830823932711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dce780a7a164f9%3A0xef1ed94c97fe61b0!2s12207%20Pintado%2C%20Irvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1715195402075!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.943336989373!2d-117.7411249235784!3d33.68432313833967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dce780a7a164f9%3A0xef1ed94c97fe61b0!2s13212%20Telmo%2C%20Irvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1715195402075!5m2!1sen!2sus"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -1570,7 +1570,7 @@ function LandingComponent() {
             telephone: "+17143294534",
             address: {
               "@type": "PostalAddress",
-              streetAddress: "12207 Pintado",
+              streetAddress: "13212 Telmo",
               addressLocality: "Irvine",
               addressRegion: "CA",
               postalCode: "92618",

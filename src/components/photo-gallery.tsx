@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaArrowLeft, FaArrowRight, FaPaw, FaTimes } from "react-icons/fa";
 
 type Photo = {
@@ -18,7 +18,9 @@ const PhotoGallery: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mobileCurrentIndex, setMobileCurrentIndex] = useState(0);
   const [desktopPage, setDesktopPage] = useState(0);
-  const photosPerPage = 6; // Show 6 photos per page (2 rows of 3)
+  const [isAutoSlideActive, setIsAutoSlideActive] = useState(true);
+  const photosPerPage = 6;
+  const autoSlideIntervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -36,9 +38,25 @@ const PhotoGallery: React.FC = () => {
     fetchPhotos();
   }, []);
 
+  useEffect(() => {
+    if (isAutoSlideActive) {
+      autoSlideIntervalRef.current = setInterval(() => {
+        setMobileCurrentIndex((prev) => (prev + 1) % photos.length);
+        setDesktopPage((prev) => (prev + 1) % Math.ceil(photos.length / photosPerPage));
+      }, 3000);
+    }
+
+    return () => {
+      if (autoSlideIntervalRef.current) {
+        clearInterval(autoSlideIntervalRef.current);
+      }
+    };
+  }, [isAutoSlideActive, photos.length]);
+
   const openLightbox = (photo: Photo, index: number) => {
     setSelectedPhoto(photo);
     setCurrentIndex(index);
+    setIsAutoSlideActive(false);
   };
 
   const closeLightbox = () => {
@@ -49,29 +67,45 @@ const PhotoGallery: React.FC = () => {
     const newIndex = (currentIndex - 1 + photos.length) % photos.length;
     setSelectedPhoto(photos[newIndex]);
     setCurrentIndex(newIndex);
+    setIsAutoSlideActive(false);
   };
 
   const goToNext = () => {
     const newIndex = (currentIndex + 1) % photos.length;
     setSelectedPhoto(photos[newIndex]);
     setCurrentIndex(newIndex);
+    setIsAutoSlideActive(false);
   };
 
   const goToPreviousMobile = () => {
     setMobileCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+    setIsAutoSlideActive(false);
   };
 
   const goToNextMobile = () => {
     setMobileCurrentIndex((prev) => (prev + 1) % photos.length);
+    setIsAutoSlideActive(false);
   };
 
   const goToPreviousPage = () => {
     setDesktopPage((prev) => Math.max(0, prev - 1));
+    setIsAutoSlideActive(false);
   };
 
   const goToNextPage = () => {
     const maxPage = Math.ceil(photos.length / photosPerPage) - 1;
     setDesktopPage((prev) => Math.min(maxPage, prev + 1));
+    setIsAutoSlideActive(false);
+  };
+
+  const setPage = (page: number) => {
+    setDesktopPage(page);
+    setIsAutoSlideActive(false);
+  };
+
+  const setMobileIndex = (index: number) => {
+    setMobileCurrentIndex(index);
+    setIsAutoSlideActive(false);
   };
 
   const currentPagePhotos = photos.slice(
@@ -79,7 +113,6 @@ const PhotoGallery: React.FC = () => {
     (desktopPage + 1) * photosPerPage
   );
 
-  // Add keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedPhoto) return;
@@ -103,7 +136,6 @@ const PhotoGallery: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedPhoto, currentIndex, goToPrevious, goToNext, closeLightbox]);
 
-  // Paw print loading animation
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -139,7 +171,6 @@ const PhotoGallery: React.FC = () => {
         {/* Mobile Photo Carousel (visible only on mobile) */}
         <div className="block sm:hidden mb-8">
           <div className="relative">
-            {/* Current photo */}
             <div className="relative w-full h-80 rounded-lg overflow-hidden shadow-md">
               {photos.length > 0 && (
                 <Image
@@ -153,7 +184,6 @@ const PhotoGallery: React.FC = () => {
               )}
             </div>
 
-            {/* Navigation buttons */}
             <button
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white/80 rounded-full p-3 transition-colors duration-200 shadow-lg"
               onClick={goToPreviousMobile}
@@ -170,12 +200,11 @@ const PhotoGallery: React.FC = () => {
               <FaArrowRight className="text-gray-800" />
             </button>
 
-            {/* Paw indicators */}
             <div className="absolute -bottom-8 left-0 right-0 flex justify-center space-x-2 pt-2">
               {photos.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setMobileCurrentIndex(i)}
+                  onClick={() => setMobileIndex(i)}
                   className="transition-colors duration-200 p-1"
                 >
                   <FaPaw
@@ -224,7 +253,6 @@ const PhotoGallery: React.FC = () => {
               ))}
             </div>
 
-            {/* Desktop Navigation Arrows */}
             {desktopPage > 0 && (
               <button
                 className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
@@ -244,14 +272,13 @@ const PhotoGallery: React.FC = () => {
               </button>
             )}
 
-            {/* Page Indicators */}
             <div className="flex justify-center mt-6 space-x-2">
               {Array.from({
                 length: Math.ceil(photos.length / photosPerPage),
               }).map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setDesktopPage(i)}
+                  onClick={() => setPage(i)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     i === desktopPage ? "bg-[#1A9CB0] w-4" : "bg-gray-300"
                   }`}
@@ -283,7 +310,6 @@ const PhotoGallery: React.FC = () => {
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Close button */}
                 <button
                   className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors duration-200"
                   onClick={closeLightbox}
@@ -291,7 +317,6 @@ const PhotoGallery: React.FC = () => {
                   <FaTimes className="text-white text-xl" />
                 </button>
 
-                {/* Navigation buttons */}
                 <button
                   className="absolute left-0 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/40 hover:bg-white/60 rounded-full p-3 transition-colors duration-200 z-20 ml-2 md:ml-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-lg"
                   onClick={(e) => {
@@ -316,7 +341,6 @@ const PhotoGallery: React.FC = () => {
                   <FaArrowRight className="text-white text-base md:text-lg" />
                 </button>
 
-                {/* Image */}
                 <div className="relative w-full" style={{ height: "80vh" }}>
                   <Image
                     src={selectedPhoto.src}
@@ -328,7 +352,6 @@ const PhotoGallery: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* Paw print indicators */}
               <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-2">
                 {photos.map((_, i) => (
                   <button
@@ -337,6 +360,7 @@ const PhotoGallery: React.FC = () => {
                       e.stopPropagation();
                       setSelectedPhoto(photos[i]);
                       setCurrentIndex(i);
+                      setIsAutoSlideActive(false);
                     }}
                     className={`transition-colors duration-200 p-1`}
                   >
