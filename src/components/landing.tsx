@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -32,7 +32,7 @@ function LandingComponent() {
     petType: "dog",
     startDate: "",
     endDate: "",
-    addons: {},
+    addons: {} as { [key: string]: boolean },
     notes: "",
   });
 
@@ -171,6 +171,24 @@ function LandingComponent() {
     fetchTestimonials();
   }, []);
 
+  const goToPreviousTestimonial = useCallback(() => {
+    if (testimonialIntervalRef.current) {
+      clearInterval(testimonialIntervalRef.current);
+    }
+    setCurrentTestimonialIndex((prev) =>
+      prev === 0 ? highlightedTestimonials.length - 1 : prev - 1
+    );
+  }, [highlightedTestimonials.length]);
+
+  const goToNextTestimonial = useCallback(() => {
+    if (testimonialIntervalRef.current) {
+      clearInterval(testimonialIntervalRef.current);
+    }
+    setCurrentTestimonialIndex((prev) =>
+      prev === highlightedTestimonials.length - 1 ? 0 : prev + 1
+    );
+  }, [highlightedTestimonials.length]);
+
   useEffect(() => {
     testimonialIntervalRef.current = setInterval(() => {
       goToNextTestimonial();
@@ -181,25 +199,7 @@ function LandingComponent() {
         clearInterval(testimonialIntervalRef.current);
       }
     };
-  }, [highlightedTestimonials.length]);
-
-  const goToPreviousTestimonial = () => {
-    if (testimonialIntervalRef.current) {
-      clearInterval(testimonialIntervalRef.current);
-    }
-    setCurrentTestimonialIndex((prev) =>
-      prev === 0 ? highlightedTestimonials.length - 1 : prev - 1
-    );
-  };
-
-  const goToNextTestimonial = () => {
-    if (testimonialIntervalRef.current) {
-      clearInterval(testimonialIntervalRef.current);
-    }
-    setCurrentTestimonialIndex((prev) =>
-      prev === highlightedTestimonials.length - 1 ? 0 : prev + 1
-    );
-  };
+  }, [highlightedTestimonials.length, goToNextTestimonial]);
 
   // Handle input changes
   const handleInputChange = (
@@ -275,7 +275,7 @@ function LandingComponent() {
         petType: "dog",
         startDate: "",
         endDate: "",
-        addons: {},
+        addons: {} as { [key: string]: boolean },
         notes: "",
       });
       setNightsCount(null);
@@ -1435,7 +1435,7 @@ function LandingComponent() {
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
             <div
               className="calendly-inline-widget"
-              data-url="https://calendly.com/baolonguit/30min"
+              data-url="https://calendly.com/jgonzalez1089-yep_/30min"
               style={{ minWidth: "320px", height: "700px" }}
             >
               {isCalendlyLoading && (

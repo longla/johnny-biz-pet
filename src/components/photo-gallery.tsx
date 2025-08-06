@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { FaArrowLeft, FaArrowRight, FaPaw, FaTimes } from "react-icons/fa";
 
 type Photo = {
@@ -59,23 +59,23 @@ const PhotoGallery: React.FC = () => {
     setIsAutoSlideActive(false);
   };
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setSelectedPhoto(null);
-  };
+  }, []);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     const newIndex = (currentIndex - 1 + photos.length) % photos.length;
     setSelectedPhoto(photos[newIndex]);
     setCurrentIndex(newIndex);
     setIsAutoSlideActive(false);
-  };
+  }, [currentIndex, photos]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     const newIndex = (currentIndex + 1) % photos.length;
     setSelectedPhoto(photos[newIndex]);
     setCurrentIndex(newIndex);
     setIsAutoSlideActive(false);
-  };
+  }, [currentIndex, photos]);
 
   const goToPreviousMobile = () => {
     setMobileCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
