@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaCheckCircle,
+  FaStar,
+} from "react-icons/fa";
+import services from "../lib/services.js";
 import FloatingBone from "./floating-bone";
 import FloatingYogaDog from "./floating-yoga-dog";
 import PhotoGallery from "./photo-gallery";
@@ -26,11 +32,7 @@ function LandingComponent() {
     petType: "dog",
     startDate: "",
     endDate: "",
-    addons: {
-      spaBath: false,
-      specialCare: false,
-      premiumPlay: false,
-    },
+    addons: {},
     notes: "",
   });
 
@@ -273,11 +275,7 @@ function LandingComponent() {
         petType: "dog",
         startDate: "",
         endDate: "",
-        addons: {
-          spaBath: false,
-          specialCare: false,
-          premiumPlay: false,
-        },
+        addons: {},
         notes: "",
       });
       setNightsCount(null);
@@ -623,176 +621,164 @@ function LandingComponent() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-[#F4F4F4] relative">
+      <section id="services" className="py-20 bg-gray-50 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              My Services
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              A La Carte Services
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              I offer premium overnight boarding with luxury accommodations and
-              specialized add-on services tailored to your pet's needs.
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Every pet's stay includes my full attention, but you can enhance
+              their experience with these specialized add-ons. Mix and match to
+              create the perfect retreat for your furry friend.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Service 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Standard Care Card */}
             <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-blue-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                  />
-                </svg>
+              <div className="text-center mb-6">
+                <div className="text-5xl text-blue-500">🐾</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Standard Care
+                </h3>
+                <p className="text-gray-500">Included with every stay</p>
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-blue-600">
-                Luxury Overnight Boarding
-              </h3>
-              <p className="text-gray-600 mb-5">
-                Premium overnight care in my cozy home. Your pet will enjoy
-                comfortable accommodations, personalized attention, and a
-                home-like environment with my 24/7 supervision.
-              </p>
-              <p className="font-bold text-blue-600 mb-4 text-xl">
-                Starting at $40/night
-              </p>
-              <a
-                href="#"
-                className="text-[#F28C38] font-medium hover:underline"
-              >
-                Learn More →
-              </a>
+              <ul className="space-y-4 text-gray-600">
+                <li className="flex items-center">
+                  <FaCheckCircle className="text-blue-500 mr-3" />
+                  Four 15-minute walks daily
+                </li>
+                <li className="flex items-center">
+                  <FaCheckCircle className="text-blue-500 mr-3" />
+                  Potty breaks & yard cleanup
+                </li>
+                <li className="flex items-center">
+                  <FaCheckCircle className="text-blue-500 mr-3" />
+                  Fresh water & scheduled feeding
+                </li>
+                <li className="flex items-center">
+                  <FaCheckCircle className="text-blue-500 mr-3" />
+                  Daily photo & video updates
+                </li>
+                <li className="flex items-center">
+                  <FaCheckCircle className="text-blue-500 mr-3" />
+                  Constant companionship & affection
+                </li>
+              </ul>
             </motion.div>
 
-            {/* Service 2 */}
+            {/* Enrichment Activities Card */}
             <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-green-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+              <div className="text-center mb-6">
+                <div className="text-5xl text-green-500">🧠</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Enrichment Activities
+                </h3>
+                <p className="text-gray-500">Stimulate their mind & body</p>
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-sky-600">
-                Spa Bath Experience
-              </h3>
-              <p className="text-gray-600 mb-5">
-                Keep your pet fresh and clean with my premium bathing service.
-                Includes gentle shampoo, conditioning, towel-drying, and a light
-                brushing before they return home.
-              </p>
-              <p className="font-bold text-sky-600 mb-4 text-xl">Add-on: $25</p>
-              <a
-                href="#"
-                className="text-[#F28C38] font-medium hover:underline"
-              >
-                Learn More →
-              </a>
+              <ul className="space-y-3 text-gray-700">
+                <li>
+                  Sniffari Walk -{" "}
+                  <span className="font-semibold text-green-600">$10</span>
+                </li>
+                <li>
+                  Extended Walk (20 min) -{" "}
+                  <span className="font-semibold text-green-600">$15</span>
+                </li>
+                <li>
+                  Jogging Session (20 min) -{" "}
+                  <span className="font-semibold text-green-600">$20</span>
+                </li>
+                <li>
+                  Dog Park Trip -{" "}
+                  <span className="font-semibold text-green-600">$20</span>
+                </li>
+                <li>
+                  Puzzle Feeder / Frozen Kong -{" "}
+                  <span className="font-semibold text-green-600">$5</span>
+                </li>
+                <li>
+                  PAW-casso Painting -{" "}
+                  <span className="font-semibold text-green-600">$20</span>
+                </li>
+                <li>
+                  Puppuccino & Treat Outing -{" "}
+                  <span className="font-semibold text-green-600">$15</span>
+                </li>
+              </ul>
             </motion.div>
 
-            {/* Service 3 */}
+            {/* Wellness & Spa Card */}
             <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-purple-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
+              <div className="text-center mb-6">
+                <div className="text-5xl text-purple-500">💆‍♂️</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Wellness & Spa
+                </h3>
+                <p className="text-gray-500">For extra pampering & care</p>
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-emerald-600">
-                Special Care Package
-              </h3>
-              <p className="text-gray-600 mb-5">
-                For pets with special needs or seniors. Includes medication
-                administration, extra potty breaks, specialized diet
-                preparation, and additional comfort accommodations.
-              </p>
-              <p className="font-bold text-emerald-600 mb-4 text-xl">
-                Add-on: $15/night
-              </p>
-              <a
-                href="#"
-                className="text-[#F28C38] font-medium hover:underline"
-              >
-                Learn More →
-              </a>
+              <ul className="space-y-3 text-gray-700">
+                <li>
+                  Bath & Blow Dry -{" "}
+                  <span className="font-semibold text-purple-600">$40</span>
+                </li>
+                <li>
+                  Massage & Brushing -{" "}
+                  <span className="font-semibold text-purple-600">$15</span>
+                </li>
+                <li>
+                  Calming Aromatherapy -{" "}
+                  <span className="font-semibold text-purple-600">$10</span>
+                </li>
+                <li>
+                  Teeth Brushing -{" "}
+                  <span className="font-semibold text-purple-600">$5</span>
+                </li>
+                <li>
+                  Nail Trim -{" "}
+                  <span className="font-semibold text-purple-600">$10</span>
+                </li>
+                <li>
+                  Basic Obedience Reinforcement -{" "}
+                  <span className="font-semibold text-purple-600">$15</span>
+                </li>
+                <li>
+                  Cuddle & Movie Night -{" "}
+                  <span className="font-semibold text-purple-600">$10</span>
+                </li>
+              </ul>
             </motion.div>
+          </div>
 
-            {/* Service 4 */}
-            <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+          <div className="text-center mt-16">
+            <button
+              onClick={scrollToBooking}
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-4 px-10 rounded-full text-xl transition-transform transform hover:scale-105 duration-300 shadow-lg"
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-[#1A9CB0] rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-cyan-600">
-                Premium Play Sessions
-              </h3>
-              <p className="text-gray-600 mb-5">
-                Add extra one-on-one play time for your energetic pet. Each
-                session includes 30 minutes of dedicated activity tailored to
-                your pet's preferences and energy level.
-              </p>
-              <p className="font-bold text-cyan-600 mb-4 text-xl">
-                Add-on: $15/session
-              </p>
-              <a
-                href="#"
-                className="text-[#F28C38] font-medium hover:underline"
-              >
-                Learn More →
-              </a>
-            </motion.div>
+              Book Your Pet's Stay
+            </button>
           </div>
         </div>
         <FloatingYogaDog />
@@ -1337,52 +1323,35 @@ function LandingComponent() {
                   <label className="block text-gray-700 font-medium mb-3">
                     Additional Services (Optional)
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="spaBath"
-                        name="spaBath"
-                        checked={bookingForm.addons.spaBath}
-                        onChange={handleCheckboxChange}
-                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
-                      />
-                      <label htmlFor="spaBath" className="ml-2 text-gray-700">
-                        Spa Bath Experience (+$25)
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="specialCare"
-                        name="specialCare"
-                        checked={bookingForm.addons.specialCare}
-                        onChange={handleCheckboxChange}
-                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
-                      />
-                      <label
-                        htmlFor="specialCare"
-                        className="ml-2 text-gray-700"
-                      >
-                        Special Care Package (+$15/night)
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="premiumPlay"
-                        name="premiumPlay"
-                        checked={bookingForm.addons.premiumPlay}
-                        onChange={handleCheckboxChange}
-                        className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
-                      />
-                      <label
-                        htmlFor="premiumPlay"
-                        className="ml-2 text-gray-700"
-                      >
-                        Premium Play Sessions (+$15/session)
-                      </label>
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {Object.entries(services).map(([category, addons]) => (
+                      <div key={category}>
+                        <h4 className="font-semibold text-gray-800 mb-2">
+                          {category}
+                        </h4>
+                        {addons.map((addon) => (
+                          <div
+                            key={addon.name}
+                            className="flex items-center mb-2"
+                          >
+                            <input
+                              type="checkbox"
+                              id={addon.name}
+                              name={addon.name}
+                              checked={bookingForm.addons[addon.name] || false}
+                              onChange={handleCheckboxChange}
+                              className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                            />
+                            <label
+                              htmlFor={addon.name}
+                              className="ml-2 text-gray-700"
+                            >
+                              {addon.name} ({addon.price})
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
                   </div>
                 </div>
 
