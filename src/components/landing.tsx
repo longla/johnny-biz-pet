@@ -433,7 +433,7 @@ function LandingComponent() {
           </div>
         ) : (
           <>
-            <div className="relative">
+            <div className="relative overflow-x-hidden">
               <div className="max-w-2xl mx-auto relative">
                 {highlightedTestimonials.length > 0 &&
                   renderTestimonialCard(
@@ -470,7 +470,7 @@ function LandingComponent() {
   );
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
