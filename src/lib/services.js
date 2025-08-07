@@ -14,7 +14,7 @@ const services = {
     },
     {
       name: "Dog Park Trip",
-      price: "$20",
+      price: "$15",
     },
     {
       name: "Puzzle Feeder or Frozen Kong",

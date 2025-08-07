@@ -706,7 +706,7 @@ function LandingComponent() {
                 </li>
                 <li>
                   Dog Park Trip -{" "}
-                  <span className="font-semibold text-green-600">$20</span>
+                  <span className="font-semibold text-green-600">$15</span>
                 </li>
                 <li>
                   Puzzle Feeder / Frozen Kong -{" "}
