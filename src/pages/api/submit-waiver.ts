@@ -18,7 +18,7 @@ type ResponseData = {
 
 const EMAIL_CONFIG = {
   businessEmail:
-    process.env.BOOKING_RECIPIENT_EMAIL || "johnny_gerrard@icloud.com",
+    process.env.BOOKING_RECIPIENT_EMAIL || "hello@ruhrohretreat.com",
   subject: "New Pet Sitting Waiver Submitted",
 };
 
