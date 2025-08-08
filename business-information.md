@@ -15,7 +15,7 @@ Ruh-Roh Retreat provides premium overnight boarding with luxury accommodations a
 - **Phone:** +1 (714) 329-4534
 - **Email:** hello@ruhrohretreat.com
 - **Website:** https://www.ruhrohretreat.com
-- **Address:** 12207 Pintado, Irvine, CA, 92618
+- **Address:** Irvine, CA, 92618
 - **Operating Hours:** 7:00 AM - 9:00 PM (7 days a week)
 
 ## Geographic Information

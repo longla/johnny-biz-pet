@@ -318,7 +318,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({
             <div>
               <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
               <ul className="space-y-2 text-gray-300">
-                <li>12207 Pintado, Irvine, CA, 92618</li>
                 <li>
                   <a href="tel:+17143294534" className="hover:text-white">
                     +1 (714) 329-4534

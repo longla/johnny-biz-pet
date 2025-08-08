@@ -10,7 +10,7 @@ const services = {
     },
     {
       name: "Jogging Session (20 min)",
-      price: "$20",
+      price: "$15",
     },
     {
       name: "Dog Park Trip",

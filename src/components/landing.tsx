@@ -702,7 +702,7 @@ function LandingComponent() {
                 </li>
                 <li>
                   Jogging Session (20 min) -{" "}
-                  <span className="font-semibold text-green-600">$20</span>
+                  <span className="font-semibold text-green-600">$15</span>
                 </li>
                 <li>
                   Dog Park Trip -{" "}
@@ -1435,7 +1435,7 @@ function LandingComponent() {
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
             <div
               className="calendly-inline-widget"
-              data-url="https://calendly.com/jgonzalez1089-yep_/30min"
+              data-url="https://calendly.com/hello-ruhrohretreat/30min"
               style={{ minWidth: "320px", height: "700px" }}
             >
               {isCalendlyLoading && (
@@ -1538,12 +1538,12 @@ function LandingComponent() {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span className="text-xl">13212 Telmo, Irvine, CA, 92618</span>
+              <span className="text-xl">Irvine, CA, 92618</span>
             </div>
 
             <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.943336989373!2d-117.7411249235784!3d33.68432313833967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dce780a7a164f9%3A0xef1ed94c97fe61b0!2s13212%20Telmo%2C%20Irvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1715195402075!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53126.19753549337!2d-117.77879015134555!3d33.67303311505977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcc2ab294505d5%3A0xc632aac341d153b4!2sIrvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1754622274377!5m2!1sen!2sus"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

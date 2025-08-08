@@ -51,7 +51,6 @@ export const DefaultMetaData = () => (
           telephone: "+17143294534",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "12207 Pintado",
             addressLocality: "Irvine",
             addressRegion: "CA",
             postalCode: "92618",
