@@ -179,7 +179,7 @@ const PhotoGallery: React.FC = () => {
                   fill
                   sizes="100vw"
                   priority
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                 />
               )}
             </div>
@@ -245,7 +245,7 @@ const PhotoGallery: React.FC = () => {
                       alt={photo.alt}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: "contain" }}
                       className="transition-all duration-300"
                     />
                   </div>
