@@ -1429,8 +1429,8 @@ function LandingComponent() {
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               I believe in building trust before service begins. Schedule a free
-              30-minute Meet & Greet session to introduce your pets to me and
-              discuss your specific needs.
+              30-minute Meet & Greet to introduce your pets to me, discuss your
+              specific needs, and take a tour of my space.
             </p>
           </div>
 
