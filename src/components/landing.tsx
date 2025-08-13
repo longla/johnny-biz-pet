@@ -649,7 +649,9 @@ function LandingComponent() {
                 <h3 className="text-2xl font-bold text-gray-800 mt-4">
                   Standard Care
                 </h3>
-                <p className="text-gray-500">Included with every stay</p>
+                <p className="text-2xl font-bold text-blue-500 mt-4">
+                  $45/night
+                </p>
               </div>
               <ul className="space-y-4 text-gray-600">
                 <li className="flex items-center">
