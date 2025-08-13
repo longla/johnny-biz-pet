@@ -1089,6 +1089,22 @@ function LandingComponent() {
                 </p>
               </div>
             </div>
+
+            {/* Benefit 7 */}
+            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
+              <div className="text-4xl mr-4">🤝</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                  Trust & Transparency
+                </h3>
+                <p className="text-gray-600">
+                  I give pet parents peace of mind with a home tour during the
+                  Meet & Greet so you know exactly where your dog will stay. I’m
+                  always upfront about how I run my home and will check with you
+                  before doing anything out of the ordinary with your dog.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
