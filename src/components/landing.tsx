@@ -40,6 +40,7 @@ function LandingComponent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const bookingRef = useRef<HTMLElement>(null);
   const meetGreetRef = useRef<HTMLElement>(null);
+  const testimonialsRef = useRef<HTMLElement>(null);
 
   // Add state to track Calendly loading status
   const [isCalendlyLoading, setIsCalendlyLoading] = useState(true);
@@ -299,6 +300,11 @@ function LandingComponent() {
     meetGreetRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Scroll to testimonials section when "Read Reviews" is clicked
+  const scrollToTestimonials = () => {
+    testimonialsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   // Load Calendly script once component is mounted
   useEffect(() => {
     const script = document.createElement("script");
@@ -406,7 +412,7 @@ function LandingComponent() {
 
   // Testimonials Section
   const renderTestimonialsSection = () => (
-    <section id="testimonials" className="py-20">
+    <section id="testimonials" ref={testimonialsRef} className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
@@ -549,6 +555,18 @@ function LandingComponent() {
               and feel at ease. Customize their experience with unique add-ons
               tailored to their needs!
             </motion.p>
+            <motion.p
+              className="text-lg md:text-xl mb-8 text-white/90"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.4, 0, 0.2, 1],
+                delay: 0.75,
+              }}
+            >
+              Over 60 5-star reviews from happy pet parents on Rover
+            </motion.p>
             <motion.div
               className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
@@ -570,6 +588,12 @@ function LandingComponent() {
                 className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
               >
                 Meet & Greet
+              </button>
+              <button
+                onClick={scrollToTestimonials}
+                className="bg-transparent hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 border-2 border-white"
+              >
+                Read Reviews
               </button>
             </motion.div>
           </motion.div>
