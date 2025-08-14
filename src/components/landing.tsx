@@ -518,7 +518,7 @@ function LandingComponent() {
           ))}
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-white flex flex-col justify-center items-center text-center pb-32">
+        <div className="container mx-auto px-4 relative z-10 text-white flex flex-col justify-center items-center text-center pb-48">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -576,7 +576,7 @@ function LandingComponent() {
             {/* Call-to-action buttons */}
             <motion.div
               className="flex flex-wrap gap-4 justify-center mb-8"
-              initial={{ opacity: 0, y: 40 }} // Increased y for more space
+              initial={{ opacity: 0, y: 60 }} // Increased y for more space
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 1.2,
