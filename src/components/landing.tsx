@@ -576,7 +576,7 @@ function LandingComponent() {
             {/* Call-to-action buttons */}
             <motion.div
               className="flex flex-wrap gap-4 justify-center mb-8"
-              initial={{ opacity: 0, y: 60 }} // Increased y for more space
+              initial={{ opacity: 0, y: 80 }} // Increased y for more space
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 1.2,
