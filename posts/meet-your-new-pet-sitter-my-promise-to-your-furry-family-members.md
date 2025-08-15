@@ -2,18 +2,18 @@
 title: "Meet Your New Pet Sitter: My Promise to Your Furry Family Members"
 description: "Learn about my journey into professional pet sitting and the care standards I uphold for every animal in my care at Ruh-Roh Retreat."
 date: "2025-03-25"
-author: "Johny"
+author: "Johnny"
 categories: ["pet care", "introduction", "services"]
 tags: ["pet boarding", "overnight care", "cat care", "pet services"]
 ---
 
-Hello pet parents! I'm Johny, the founder of Ruh-Roh Retreat, and I'm thrilled to welcome you to our blog. This is where I'll share insights, tips, and stories about pet care while giving you a glimpse into what makes our premium pet boarding service special.
+Hello pet parents! I'm Johnny, the founder of Ruh-Roh Retreat, and I'm thrilled to welcome you to our blog. This is where I'll share insights, tips, and stories about pet care while giving you a glimpse into what makes our premium pet boarding service special.
 
 ## My Journey into Professional Pet Boarding
 
 My love for animals has been a constant in my life. Growing up, our home was always filled with furry, feathered, and even scaled companions. From rescuing injured birds to volunteering at local shelters during my teenage years, caring for animals has always felt like my calling.
 
-After 15 years of volunteering at various animal shelters and rescuing countless strays, I realized I could turn my passion into a profession that truly makes a difference. That's how Ruh-Roh Retreat was born – from a genuine desire to provide loving, professional care for pets when their owners are away.
+With over 15 years of hands-on experience caring for dogs, my journey has taken me from working as a veterinary assistant in a busy animal hospital, to helping a veterinarian care for his 20 Bernese Mountain Dogs, and eventually to running my own dog sitting business. Ruh-Roh Retreat was born from my passion for providing loving, professional care and creating a safe, comfortable home-away-from-home for every dog I meet.
 
 ## Why Luxury Pet Boarding Matters
 
@@ -55,5 +55,5 @@ Remember, when you're away, your pets deserve the very best care – and that's 
 
 Looking forward to caring for your precious companions,
 
-Johny  
+Johnny  
 Ruh-Roh Retreat
