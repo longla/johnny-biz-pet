@@ -22,53 +22,69 @@ const WaiverPage: React.FC = () => {
   // Waiver sections that require initials
   const waiverSections = [
     {
-      title: "Dog Behavior in New Environments",
-      content: `I understand that dogs may behave differently in unfamiliar environments. Barking, anxiety, destructive behavior, or stress responses may occur even if my dog has not displayed these behaviors at home.`,
+      title: "Dogs in New Environments",
+      content: `Dogs can act differently in a new place — even the sweetest pup might bark more, feel anxious, or chew things when they normally wouldn't. That's completely normal, but it helps to be prepared.`,
       requiresInitial: true,
     },
     {
-      title: "Accurate Behavior Disclosure",
-      content: `I confirm that I have truthfully disclosed all known behavioral issues, including but not limited to: barking, anxiety, destructiveness, reactivity, or intolerance to confinement. I understand that failure to disclose these issues may result in early termination of the stay and/or financial responsibility for damages.`,
+      title: "Honest Behavior Info",
+      content: `Please let me know about any habits or behaviors ahead of time — barking, chewing, reactivity, anxiety, etc. This isn't to judge your dog; it's so I can set them up for success. If something important isn't shared, I may need to end the stay early and any related damages would be the owner's responsibility.`,
       requiresInitial: true,
     },
     {
-      title: "Emergency Contact & Alternate Arrangements",
-      content: `I have provided a local emergency contact who is available to pick up my dog within 2 hours if requested. If the contact is unavailable, I understand that alternate arrangements with another sitter may be necessary.`,
+      title: "Emergency Contact",
+      content: `I'll need a local contact who can pick up your dog within 2 hours if needed. If that person isn't available, I may have to make other arrangements for your dog's care.`,
       requiresInitial: true,
     },
     {
-      title: "Property Damage Responsibility",
-      content: `I understand this is the sitter's personal residence, not a commercial facility. If my dog causes damage (e.g., carpet, furniture, doors, walls, or personal belongings), I agree to reimburse the full cost of repair or replacement.`,
+      title: "Damage to My Home",
+      content: `This is my personal home, not a kennel. If your dog directly causes damage (for example: carpet, furniture, walls, or personal items), I'll document it and share photos with you. You agree to cover the cost of repair or replacement for the specific damage your dog caused.`,
       requiresInitial: true,
     },
     {
-      title: "Veterinary Care Authorization",
-      content: `If my dog becomes ill or injured during the stay, I authorize the sitter to seek veterinary care and agree to reimburse any related expenses, including emergency transport fees.`,
+      title: "Vet Care",
+      content: `If your dog needs the vet, I'll always try to reach you first for non-emergencies. In an emergency, I'll do what's best for your dog right away. If possible, I'll use your preferred vet. Owners are responsible for any vet costs.`,
       requiresInitial: true,
     },
     {
-      title: "Early Pickup or Removal Due to Behavior",
-      content: `If my dog displays disruptive or unsafe behavior (e.g., excessive barking, destruction, aggression, or stress to other dogs), I understand that I may be required to pick up my dog early or arrange alternative care.`,
+      title: "Early Pickup for Behavior Issues",
+      content: `If your dog shows unsafe or very disruptive behavior (like constant barking, destruction, or aggression), I may need you to pick them up early or arrange other care.`,
       requiresInitial: true,
     },
     {
-      title: "Pet Separation When Sitter Is Away",
-      content: `Pet Separation When Sitter Is Away: I understand that while the sitter may be away from the home for short periods (typically 1-2 hours max), dogs will be safely separated into different areas of the home. These areas may include bedrooms, the master bathroom, the walk-in closet (for smaller dogs only), or the patio, depending on temperament and safety. Pets may also be placed in crates for safety during short absences, but only with prior client approval.`,
+      title: "Separation When I'm Away",
+      content: `When I'm out for short periods (usually no more than 1-2 hours), dogs are safely separated into their own spaces — like a bedroom, bathroom, or crate (with your permission). This keeps everyone safe and stress-free.`,
       requiresInitial: true,
     },
     {
-      title: "No Liability for Pre-Existing or Behavioral Issues",
-      content: `I agree not to hold the sitter liable for illness, injury, or behavioral regression during the stay, particularly in cases involving pre-existing conditions or behavioral issues that were not disclosed.`,
+      title: "Multi-Dog Environment",
+      content: `I work hard to match dogs who get along, supervise play, and keep everyone safe. Still, in any group of dogs, there’s always a small risk of accidental injury or disagreements. By booking, you accept this small inherent risk.`,
       requiresInitial: true,
     },
     {
-      title: "Refund Policy",
-      content: `I understand that refunds are at the discretion of the sitter. If damage, disruption, behavioral issues, or changes to my travel plans result in early termination of the stay, refunds may not be provided.`,
+      title: "Illness, Injury, and Negligence",
+      content: `I'm not responsible for illness, injury, or behavioral changes caused by pre-existing conditions or undisclosed behavioral issues.
+If something happens due to clear and provable negligence (which means ignoring basic safety steps that a reasonable sitter would follow), then I would take responsibility. This does not include unforeseeable accidents or things that could not have reasonably been prevented.`,
       requiresInitial: true,
     },
     {
-      title: "Privacy & Data Protection",
-      content: `I understand that any personal information I provide - including my name, phone number, address, and optional identification - will be kept strictly confidential and used only for the purpose of pet care and resolving emergencies. The sitter agrees not to misuse my personal data.`,
+      title: "Pre-Existing Conditions",
+      content: `I'm not responsible for medical costs or outcomes related to pre-existing or chronic conditions, or issues not disclosed before the stay.`,
+      requiresInitial: true,
+    },
+    {
+      title: "Flea Prevention",
+      content: `To keep our home a comfortable, itch-free space for all dogs, every pet must be up to date on a vet-approved flea prevention before their stay. If fleas are found at drop-off or during the stay, we will contact you right away. Your dog may need a flea bath or treatment (at your expense) and may be separated from other pets to prevent spreading. This policy helps protect all dogs in our care and ensures a safe, clean environment for everyone.`,
+      requiresInitial: true,
+    },
+    {
+      title: "Refunds",
+      content: `Refunds aren't guaranteed, but I always aim to be fair based on the circumstances.`,
+      requiresInitial: true,
+    },
+    {
+      title: "Privacy",
+      content: `Any personal info you share (name, phone, address, etc.) is kept private and used only for your dog’s care or emergencies.`,
       requiresInitial: true,
     },
   ];
@@ -592,13 +608,11 @@ const WaiverPage: React.FC = () => {
                   </h3>
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <p className="text-gray-700 leading-relaxed">
-                      This agreement is designed to help create a safe, happy
-                      environment for your dog and protect everyone involved. It
-                      is based on real experiences and reflects my commitment to
-                      quality care, transparency, and mutual protection. This
-                      agreement supplements the terms agreed upon via Rover and
-                      helps clarify responsibilities in cases not covered by
-                      Rover policies.
+                      This agreement is here to make sure your dog's stay is
+                      happy, safe, and comfortable — and that we both know what
+                      to expect. It's based on real experiences and is meant to
+                      protect you, your dog, and my home. It works alongside
+                      Rover's terms and covers things they may not.
                     </p>
                   </div>
                 </div>
@@ -682,15 +696,13 @@ const WaiverPage: React.FC = () => {
                 className="space-y-6"
               >
                 <h2 className="text-xl font-bold text-gray-800">
-                  Final Signature
+                  Customer Signature and Acknowledgment
                 </h2>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-gray-700 leading-relaxed">
-                    By signing below, I acknowledge that I have read,
-                    understood, and agree to all terms and conditions outlined
-                    in this Pet Sitting Agreement. I confirm that all
-                    information provided is accurate and complete.
+                    By signing below, I confirm I've read and agree to this
+                    agreement, and all the information I've given is accurate.
                   </p>
                 </div>
 
