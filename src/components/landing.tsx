@@ -981,7 +981,7 @@ function LandingComponent() {
                     </svg>
                   </div>
                   <span className="text-blue-800 font-medium">
-                    Background Checked & Insured
+                    Background Checked
                   </span>
                 </motion.div>
 
