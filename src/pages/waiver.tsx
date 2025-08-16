@@ -208,7 +208,7 @@ If something happens due to clear and provable negligence (which means ignoring 
     // Agreement introduction
     pdf.setFontSize(11);
     pdf.setFont("helvetica", "normal");
-    const introText = `This agreement is designed to help create a safe, happy environment for your dog and protect everyone involved. It is based on real experiences and reflects my commitment to quality care, transparency, and mutual protection. This agreement supplements the terms agreed upon via Rover and helps clarify responsibilities in cases not covered by Rover policies.`;
+    const introText = `This agreement is designed to help create a safe, happy environment for your dog and protect everyone involved. It is based on real experiences and reflects my commitment to quality care, transparency, and mutual protection.`;
     const splitIntro = pdf.splitTextToSize(introText, pageWidth - 40);
     pdf.text(splitIntro, 20, yPosition);
     yPosition += splitIntro.length * 5 + 10;
