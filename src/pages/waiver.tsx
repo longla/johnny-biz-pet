@@ -73,8 +73,10 @@ If something happens due to clear and provable negligence (which means ignoring 
       requiresInitial: true,
     },
     {
-      title: "Flea Prevention",
-      content: `To keep our home a comfortable, itch-free space for all dogs, every pet must be up to date on a vet-approved flea prevention before their stay. If fleas are found at drop-off or during the stay, we will contact you right away. Your dog may need a flea bath or treatment (at your expense) and may be separated from other pets to prevent spreading. This policy helps protect all dogs in our care and ensures a safe, clean environment for everyone.`,
+      title: "Flea Prevention & Vaccinations",
+      content: `To keep our home a comfortable, safe, and healthy space for all dogs:
+    •    Flea Prevention: Every pet must be up to date on a vet-approved flea prevention before their stay. If fleas are found at drop-off or during the stay, we will contact you right away. Your dog may need a flea bath or treatment (at your expense) and may be separated from other pets to prevent spreading.
+    •    Vaccinations: All dogs must be current on their core vaccinations (Rabies, DHPP, and Bordetella/kennel cough). Proof of vaccination may be requested at drop-off. This protects all pets in our care and ensures a safe, clean environment for everyone.`,
       requiresInitial: true,
     },
     {
