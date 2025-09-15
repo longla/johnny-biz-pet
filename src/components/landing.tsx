@@ -230,6 +230,7 @@ function LandingComponent() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    (window as any).clarity?.("event", "Request Booking Clicked");
 
     // Validate dates before submission
     if (dateError) {
