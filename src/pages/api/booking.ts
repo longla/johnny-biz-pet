@@ -107,8 +107,8 @@ export default async function handler(
       day: "numeric",
     });
 
-    // Create email content
-    const emailContent = `
+    // Create email content for the business
+    const businessEmailContent = `
       <h2>New Booking Request</h2>
       <p><strong>Customer:</strong> ${firstName} ${lastName}</p>
       <p><strong>Email:</strong> ${email}</p>
@@ -141,6 +141,22 @@ export default async function handler(
       }
     `;
 
+    // Create email content for the customer
+    const customerEmailContent = `
+      <h2>Booking Request Confirmation</h2>
+      <p>Dear ${firstName},</p>
+      <p>Thank you for your booking request for ${petName}. I have received your request and will get back to you within 24 hours to confirm your booking.</p>
+      <p><strong>Booking Summary:</strong></p>
+      <ul>
+        <li><strong>Pet Name:</strong> ${petName}</li>
+        <li><strong>Service Period:</strong> ${formattedStartDate} to ${formattedEndDate}</li>
+        <li><strong>Number of Nights:</strong> ${nights}</li>
+      </ul>
+      <p>I look forward to meeting you and ${petName}!</p>
+      <p>Best,</p>
+      <p>Johnny</p>
+    `;
+
     // Setup nodemailer transporter
     // IMPORTANT: EMAIL_SECURE must be set to 'false' in production
     // Setting it to 'true' will cause email sending to fail with most SMTP providers
@@ -155,15 +171,25 @@ export default async function handler(
       },
     });
 
-    // Send email
+    // Send email to business
     await transporter.sendMail({
       from: `"Ruh-Roh Retreat Website" <${
-        process.env.EMAIL_FROM || "book@qrganiz.com"
+        process.env.EMAIL_FROM || "hello@ruhrohretreat.com"
       }>`,
       to: EMAIL_CONFIG.recipientEmail,
       subject: EMAIL_CONFIG.subject,
-      html: emailContent,
+      html: businessEmailContent,
       replyTo: email,
+    });
+
+    // Send confirmation email to customer
+    await transporter.sendMail({
+      from: `"Johnny - Pet Sitting" <${
+        process.env.EMAIL_FROM || "hello@ruhrohretreat.com"
+      }>`,
+      to: email,
+      subject: "Booking Request Confirmation",
+      html: customerEmailContent,
     });
 
     // Return success response

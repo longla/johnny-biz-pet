@@ -192,7 +192,7 @@ export default async function handler(
     // Send email to business
     await transporter.sendMail({
       from: `"Pet Sitting Waiver System" <${
-        process.env.EMAIL_FROM || "book@qrganiz.com"
+        process.env.EMAIL_FROM || "hello@ruhrohretreat.com"
       }>`,
       to: EMAIL_CONFIG.businessEmail,
       subject: `${EMAIL_CONFIG.subject} - ${customerName} (${petName})`,
@@ -213,7 +213,7 @@ export default async function handler(
     // Send confirmation email to customer
     await transporter.sendMail({
       from: `"Johnny - Pet Sitting" <${
-        process.env.EMAIL_FROM || "book@qrganiz.com"
+        process.env.EMAIL_FROM || "hello@ruhrohretreat.com"
       }>`,
       to: customerEmail,
       subject: `Waiver Confirmation - Thank you, ${customerName}!`,
