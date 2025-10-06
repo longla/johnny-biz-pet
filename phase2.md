@@ -1,72 +1,78 @@
-# Phase 2 Implementation Plan
+# MVP2: Sitter Network and Booking Management
 
-## Goal
+## 1.0 Overview
 
-The goal of Phase 2 is to create a web application for internal use by sitters and administrators at Ruh Roh Retreat. This application will streamline operations, manage schedules, and provide a centralized platform for all internal activities.
+The goal of MVP2 is to extend the existing web application into a multi-sitter platform. This will enable the business owner (Admin) to manage a network of pet sitters, and for those sitters to receive and manage booking requests directly through the application.
 
-## Discovery Questions
+## 2.0 User Roles & Permissions
 
-To architect the solution and create a detailed project plan, we need to answer the following questions.
+The application will support two primary user roles with distinct permissions:
 
-### User Roles & Permissions
+*   **Admin (Business Owner):** Has complete oversight of the system. Manages sitters, rates, and all booking requests. This role is for the business owner.
+*   **Sitter:** A member of the sitter network, associated with a specific geographical area (County). They can receive and respond to booking requests within their county.
 
-*   **Question:** What are the specific roles needed for the application? (e.g., Admin, Sitter)
-    **Answer:** We need 2 roles:
-    1.  **Admin:** The business owner (Johnny).
-    2.  **Sitter:** There will be multiple sitters, and each sitter should be associated with a County (location).
-*   **Question:** What are the responsibilities of an Admin? What actions can they perform?
-    **Answer:** Based on the process description, the Admin's responsibilities are:
-    1.  **Oversee the entire booking process:**
-        *   View new booking requests from the landing page.
-        *   Monitor notifications sent to sitters.
-        *   Track whether sitters accept or reject requests.
-    2.  **Manage sitter rates:**
-        *   View and manage the rates for each sitter.
-*   **Question:** What are the responsibilities of a Sitter? What actions can they perform?
-    **Answer:** A sitter's responsibilities are:
-    1.  Receive booking requests for the county they are associated with.
-    2.  Respond to booking requests by either accepting or rejecting them.
-*   **Question:** Will there be a "Super Admin" role with unrestricted access?
-    **Answer:** No, a "Super Admin" role is not necessary for now. The "Admin" role will have the highest level of access.
-*   **Question:** How are users created and managed?
-    **Answer:** Users will be managed using Supabase authentication. This will handle user creation, login, and role management.
+## 3.0 Functional Requirements
 
-### Core Features
+### 3.1 Sitter Onboarding & Management (Admin)
 
-*   **Question:** What information should be visible on the main dashboard for each role?
-    **Answer:**
-    *   **Admin Dashboard:**
-        1.  View all booking requests.
-        2.  See the current status of each request (e.g., pending, accepted, rejected).
-        3.  Monitor booking notifications sent to sitters.
-        4.  Track which sitters have accepted or rejected a request.
-        5.  Manage sitter rates.
-    *   **Sitter Dashboard:**
-        1.  View pending booking requests assigned to them.
-        2.  See a list of their accepted requests.
-*   **Client Management:**
-    *   How will client information be managed? (create, read, update, delete)
-    *   What specific information needs to be stored for each client? (e.g., name, contact info, address)
-*   **Pet Management:**
-    *   How will pet information be managed?
-    *   What specific information needs to be stored for each pet? (e.g., name, breed, age, medical notes, feeding instructions, vet info)
-*   **Scheduling & Bookings:**
-    *   How will sitters manage their availability?
-    *   How will admins create and assign bookings to sitters?
-    *   What information is needed for a booking? (e.g., client, pet(s), dates, services, notes)
-    *   Should the system handle recurring bookings?
-*   **Reporting & Analytics:**
-    *   What kind of reports are needed? (e.g., financial reports, booking history, sitter performance)
-    *   What key metrics should be tracked?
+*   **Onboarding Workflow:** The Admin initiates sitter onboarding by creating an account with all required information (e.g., name, email, phone number, county) and setting a temporary password. The system then automatically sends an email to the sitter, prompting them to log in and set their permanent password. For now, this temporary password/link does not need to expire.
+*   **Profile Management:** Admins are responsible for managing all aspects of a sitter's profile information. Sitters will not have the ability to edit their own profiles in this version.
+*   **Sitter Deactivation:** Admins can deactivate a sitter's account via an `is_active` flag. Deactivated sitters cannot log in or receive new booking requests, but their historical data remains in the system.
+*   **Rate Control:** Admins can set and update a base per-night fee for each sitter.
+*   **Add-on Management:** Admins can define and manage a list of custom add-on services (e.g., 'Administer Medication', 'Grooming') and their prices for each individual sitter.
+*   **Discount Management:** Admins can define and manage long-term stay discounts for each sitter using a rule-based system (e.g., X% off for stays longer than Y days).
 
-### Technical & Infrastructure
+### 3.2 Booking & Request Workflow
 
-*   Given the main website is a Next.js app, should this internal app be part of the same project or a separate one?
-*   How will users authenticate? (e.g., email/password, Google)
-*   Will there be a need for email notifications? (e.g., new booking, booking reminder)
+1.  **Request Initiation:** A customer submits a booking request through the public-facing website.
+2.  **Notification:** The system identifies the `County` for the request and sends an **SMS notification** to all active sitters in that county.
+3.  **Sitter Action & Status Changes:**
+    *   Sitters log into their dashboard to view the full request details.
+    *   **Accept:** The first sitter to accept is assigned the booking. The request status changes to `ACCEPTED`.
+    *   **Decline:** If a sitter declines, the system checks if there are other pending sitters for that request. The status changes to `DECLINED` only after *every* notified sitter has declined.
+    *   **Expiration:** If no sitter accepts the request within a configurable time limit (defaulting to 12 hours), the status automatically changes to `EXPIRED_UNCLAIMED`.
+4.  **Status Tracking & Intervention (Admin):**
+    *   The Admin dashboard will display all booking requests and their current status.
+    *   The dashboard will provide a specific view to highlight `DECLINED` and `EXPIRED_UNCLAIMED` requests, allowing the Admin to intervene manually.
+5.  **Sitter Dashboard:** Sitters have a dashboard to view new incoming requests and a separate view for their upcoming, accepted bookings.
 
-### Milestones & Timeline
+### 3.3 Pet Profile Management
 
-*   What is the desired timeline for this project?
-*   What are the major milestones we should aim for? (e.g., MVP, full launch)
-*   What features are essential for the Minimum Viable Product (MVP)?
+*   For MVP2, pet information will be kept simple.
+*   When a customer submits a booking request, they will include all relevant pet information in a single "notes" or "details" field.
+
+### 3.4 Waiver System Extension
+
+*   Each sitter will have their own unique, shareable link to the waiver, which dynamically populates their information.
+*   Each sitter will have their own signature, which is uploaded once by the Admin and stored in the system. This signature is then used to generate the waiver PDF for a customer to review and countersign.
+*   For now, the signed waiver does not need to be stored in relation to a specific booking.
+
+### 3.5 Technical Considerations
+
+*   **SMS Notifications:** Will be implemented using a third-party service, with **Twilio** as the initial choice.
+*   **Expiration Time Limit:** The time limit for a request to expire will be a configurable value in the application settings.
+
+## 4.0 Initial Data Model Concepts
+
+*   **users:** (Handles authentication)
+    *   `id`, `email`, `phone_number` (for SMS), `role` (ADMIN or SITTER)
+*   **sitters:** (Profile information for sitters)
+    *   `id`, `user_id` (links to `users`), `county`, `base_rate`, `long_term_discount_rule`, `signature_url`, `is_active` (BOOLEAN, default: true)
+*   **sitter_addons:** (Custom services for each sitter)
+    *   `id`, `sitter_id` (links to `sitters`), `name`, `price`, `description`
+*   **booking_requests:**
+    *   `id`, `customer_name`, `customer_email`, `start_date`, `end_date`, `county`, `pet_details` (Text)
+    *   `status` (ENUM: `PENDING_SITTER_ACCEPTANCE`, `ACCEPTED`, `DECLINED`, `EXPIRED_UNCLAIMED`, `CANCELED_BY_ADMIN`, `COMPLETED`)
+    *   `assigned_sitter_id` (links to `sitters`, nullable)
+*   **booking_addons_junction:** (Links selected add-ons to a booking)
+    *   `booking_request_id`, `sitter_addon_id`
+
+## 5.0 Questions for Clarification
+
+We have two remaining high-level questions. Let's break down the "Admin Intervention" question to get more specific.
+
+1.  **[PENDING FEEDBACK] Add-on Selection:** When does a customer choose add-ons? Are they selected during the initial booking request, or are they added later by the Admin or Sitter after the booking is accepted?
+2.  **Admin Intervention Tools:** When an Admin is viewing a `DECLINED` or `EXPIRED_UNCLAIMED` request on their dashboard, what specific actions (tools) should be available to them? Please select all that apply:
+    *   **a) Manual Assignment:** The ability to override the process and assign the request directly to a specific sitter (this could even be a sitter outside the original county).
+    *   **b) Contact Customer:** A button to "Send Email to Customer" that could open a pre-filled email template (e.g., "We're sorry, we couldn't find a sitter for your requested dates...").
+    *   **c) Cancel Request:** The ability to mark the request as `CANCELED_BY_ADMIN`, effectively closing it out.
