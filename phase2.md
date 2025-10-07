@@ -53,14 +53,24 @@ The application will support two primary user roles with distinct permissions:
 
 ### 3.4 Waiver System Extension
 
-- Each sitter will have their own unique, shareable link to the waiver, which dynamically populates their information.
-- Each sitter will have their own signature, which is uploaded once by the Admin and stored in the system. This signature is then used to generate the waiver PDF for a customer to review and countersign.
-- For now, the signed waiver does not need to be stored in relation to a specific booking.
+- **Waiver Generation:** Each sitter will have a unique, shareable link to the waiver form, which dynamically includes their information. Sitter signatures will be uploaded by the Admin and stored in Supabase Storage.
+- **Customer Onboarding via Waiver:** When a customer fills out and signs a waiver:
+    - The customer's information (name, email, etc.) will be used to create or update their profile in the `customers` table.
+    - The final, signed PDF of the waiver will be stored in Supabase Storage.
+- **Waiver Record:** A record of the signed waiver will be created, linking the customer, the sitter, and the path to the signed PDF file in Supabase Storage.
 
 ### 3.5 Technical Considerations
 
 - **SMS Notifications:** Will be implemented using a third-party service, with **Twilio** as the initial choice.
 - **Expiration Time Limit:** The time limit for a request to expire will be a configurable value in the application settings.
+- **Authentication:** User authentication for Admins and Sitters will be handled by the Supabase Authentication service. This provides a secure and robust solution for user management and login workflows.
+- **Database and Storage:** The project will use Supabase for its PostgreSQL database and Supabase Storage for file management (e.g., signed waivers, sitter signatures).
+
+### 3.6 Financials & Payment Tracking
+
+- **Cost Calculation:** The total cost of a booking will be calculated based on the sitter's base rate, the duration of the stay, any applicable long-term discounts, and selected add-on services.
+- **Price Freezing:** To ensure historical accuracy, the calculated total cost and its components (base rate, discount, add-on costs) will be stored with the booking record at the time of confirmation.
+- **Payment Status:** The system will track the payment status of each booking (e.g., `UNPAID`, `PAID`, `REFUNDED`). For MVP2, updating the payment status will be a manual action performed by the Admin.
 
 ## 4.0 Initial Data Model
 

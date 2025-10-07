@@ -27,6 +27,14 @@ CREATE TABLE pets (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
+CREATE TABLE signed_waivers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+    sitter_id UUID REFERENCES sitters(id) ON DELETE CASCADE,
+    storage_path TEXT NOT NULL,
+    signed_at TIMESTAMTZO DEFAULT now()
+);
+
 -- ### Sitters & Services ###
 
 CREATE TABLE sitters (
@@ -74,6 +82,19 @@ CREATE TABLE booking_requests (
         'COMPLETED'
     )),
     assigned_sitter_id UUID REFERENCES sitters(id),
+
+    -- Financial Snapshot
+    total_cost_cents INT,
+    base_rate_at_booking_cents INT,
+    discount_applied_cents INT,
+    addons_total_cost_cents INT,
+
+    -- Payment Tracking
+    payment_status VARCHAR(50) DEFAULT 'UNPAID' CHECK (payment_status IN ('UNPAID', 'PAID', 'REFUNDED')),
+    amount_paid_cents INT DEFAULT 0,
+    payment_method VARCHAR(100),
+    paid_at TIMESTAMPTZ,
+
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
