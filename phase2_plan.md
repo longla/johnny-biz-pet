@@ -31,20 +31,20 @@ This section outlines the key design principles and technical requirements for t
 
 This milestone focuses on setting up the core infrastructure. All work is on the backend and has no impact on the current site.
 
-- [ ] **Implement Database:** Create all the tables (`users`, `sitters`, `booking_requests`, etc.) in Supabase as defined in the `database_schema.sql` file.
-- [ ] **Configure Authentication:** Set up Supabase Auth and establish the rules and triggers needed to link the authentication service with our public `users` table.
-- [ ] **Create Admin User:** Manually create the first `ADMIN` user directly in Supabase to enable access for developing the Admin Portal.
+- [x] **Implement Database:** Create all the tables (`users`, `sitters`, `booking_requests`, etc.) in Supabase as defined in the `database_schema.sql` file.
+- [x] **Configure Authentication:** Set up Supabase Auth and establish the rules and triggers needed to link the authentication service with our public `users` table.
+- [x] **Create Admin User:** Manually create the first `ADMIN` user directly in Supabase to enable access for developing the Admin Portal.
 
 ### Milestone 2: Build the Admin Portal
 
 This involves creating the secure dashboard for the business owner to manage the platform. This portal will be a section of the application accessible only to users with the `ADMIN` role.
 
-- [ ] **Build Admin UI:** Create the login page and the main dashboard layout for the admin section.
-- [ ] **Implement Sitter Management:**
-    - [ ] Build the interface for the Admin to create, view, and edit sitter profiles.
-    - [ ] Implement the sitter onboarding workflow (creating the user, sending the invite email).
-    - [ ] Build the tools for managing each sitter's rates, add-ons, and discounts.
-- [ ] **Build Booking Management:** Create the main dashboard view where the Admin can see all booking requests, their current status, and financial details. Allow the Admin to manually update payment status or cancel a booking.
+- [x] **Build Admin UI:** Create the login page and the main dashboard layout for the admin section.
+- [x] **Implement Sitter Management:**
+    - [x] Build the interface for the Admin to create, view, and edit sitter profiles.
+    - [x] Implement the sitter onboarding workflow (creating the user, sending the invite email).
+    - [x] Build the tools for managing each sitter's rates, add-ons, and discounts.
+- [x] **Build Booking Management:** Create the main dashboard view where the Admin can see all booking requests, their current status, and financial details. Allow the Admin to manually update payment status or cancel a booking.
 
 ### Milestone 3: Build the Sitter Portal
 
