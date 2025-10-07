@@ -18,41 +18,41 @@ The project plan is designed to build the backend and internal portals first, le
 
 This milestone focuses on setting up the core infrastructure. All work is on the backend and has no impact on the current site.
 
--   **Implement Database:** Create all the tables (`users`, `sitters`, `booking_requests`, etc.) in Supabase as defined in the `database_schema.sql` file.
--   **Configure Authentication:** Set up Supabase Auth and establish the rules and triggers needed to link the authentication service with our public `users` table.
--   **Create Admin User:** Manually create the first `ADMIN` user directly in Supabase to enable access for developing the Admin Portal.
+- [ ] **Implement Database:** Create all the tables (`users`, `sitters`, `booking_requests`, etc.) in Supabase as defined in the `database_schema.sql` file.
+- [ ] **Configure Authentication:** Set up Supabase Auth and establish the rules and triggers needed to link the authentication service with our public `users` table.
+- [ ] **Create Admin User:** Manually create the first `ADMIN` user directly in Supabase to enable access for developing the Admin Portal.
 
 ### Milestone 2: Build the Admin Portal
 
 This involves creating the secure dashboard for the business owner to manage the platform. This portal will be a section of the application accessible only to users with the `ADMIN` role.
 
--   **Build Admin UI:** Create the login page and the main dashboard layout for the admin section.
--   **Implement Sitter Management:**
-    -   Build the interface for the Admin to create, view, and edit sitter profiles.
-    -   Implement the sitter onboarding workflow (creating the user, sending the invite email).
-    -   Build the tools for managing each sitter's rates, add-ons, and discounts.
--   **Build Booking Management:** Create the main dashboard view where the Admin can see all booking requests, their current status, and financial details. Allow the Admin to manually update payment status or cancel a booking.
+- [ ] **Build Admin UI:** Create the login page and the main dashboard layout for the admin section.
+- [ ] **Implement Sitter Management:**
+    - [ ] Build the interface for the Admin to create, view, and edit sitter profiles.
+    - [ ] Implement the sitter onboarding workflow (creating the user, sending the invite email).
+    - [ ] Build the tools for managing each sitter's rates, add-ons, and discounts.
+- [ ] **Build Booking Management:** Create the main dashboard view where the Admin can see all booking requests, their current status, and financial details. Allow the Admin to manually update payment status or cancel a booking.
 
 ### Milestone 3: Build the Sitter Portal
 
 This involves creating the secure dashboard for sitters to manage their jobs. This portal will be a section of the application accessible only to users with the `SITTER` role.
 
--   **Implement Sitter Login:** Allow sitters to log in for the first time using the link from their invitation email to set their password.
--   **Build Sitter UI:** Create the dashboard layout for the Sitter portal.
--   **Develop Request Management:**
-    -   Display a list of new, pending booking requests assigned to the logged-in sitter.
-    -   Implement the "Accept" and "Decline" buttons and the backend logic that follows (e.g., updating status, notifying other sitters).
--   **Develop "My Bookings" View:** Create the views where a sitter can see their upcoming, confirmed bookings as well as a history of their past, completed bookings.
+- [ ] **Implement Sitter Login:** Allow sitters to log in for the first time using the link from their invitation email to set their password.
+- [ ] **Build Sitter UI:** Create the dashboard layout for the Sitter portal.
+- [ ] **Develop Request Management:**
+    - [ ] Display a list of new, pending booking requests assigned to the logged-in sitter.
+    - [ ] Implement the "Accept" and "Decline" buttons and the backend logic that follows (e.g., updating status, notifying other sitters).
+- [ ] **Develop "My Bookings" View:** Create the views where a sitter can see their upcoming, confirmed bookings as well as a history of their past, completed bookings.
 
 ### Milestone 4: Refactor the Public Booking & Waiver System
 
 This is the final milestone where we connect the new backend to the public-facing website.
 
--   **Update Booking Form:**
-    -   Redesign the form to allow customers to select a county, view available sitters, and choose one or more.
-    -   Display the selected sitter's specific add-ons for the customer to choose.
-    -   Update the form submission logic to create all the necessary records in the new database tables (`customers`, `pets`, `booking_requests`, etc.).
--   **Integrate Notifications:** Connect the form submission to a backend function that triggers the Twilio SMS notifications to sitters.
--   **Update Waiver System:**
-    -   Build the dynamic waiver page that pulls in sitter information.
-    -   Implement the waiver submission logic to save the customer's data, upload the signed PDF to Supabase Storage, and create the `signed_waivers` record.
+- [ ] **Update Booking Form:**
+    - [ ] Redesign the form to allow customers to select a county, view available sitters, and choose one or more.
+    - [ ] Display the selected sitter's specific add-ons for the customer to choose.
+    - [ ] Update the form submission logic to create all the necessary records in the new database tables (`customers`, `pets`, `booking_requests`, etc.).
+- [ ] **Integrate Notifications:** Connect the form submission to a backend function that triggers the Twilio SMS notifications to sitters.
+- [ ] **Update Waiver System:**
+    - [ ] Build the dynamic waiver page that pulls in sitter information.
+    - [ ] Implement the waiver submission logic to save the customer's data, upload the signed PDF to Supabase Storage, and create the `signed_waivers` record.
