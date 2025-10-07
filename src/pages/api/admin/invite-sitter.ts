@@ -13,7 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     process.env.SUPABASE_SERVICE_ROLE_KEY || ''
   );
 
-  const { data: { user }, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
+  const { data: { user }, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/set-password`,
+  });
 
   if (inviteError) {
     return res.status(500).json({ message: inviteError.message });
