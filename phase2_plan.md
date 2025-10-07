@@ -12,7 +12,20 @@ The project plan is designed to build the backend and internal portals first, le
 
 ---
 
-## 2.0 Proposed Project Breakdown
+## 2.0 UI/UX & Technical Requirements
+
+This section outlines the key design principles and technical requirements for the new Admin and Sitter portals.
+
+-   **Design System:** The portals will be built with a **clean, modern, and responsive** design aesthetic.
+-   **CSS Framework:** **Tailwind CSS** will be used for styling, consistent with the existing project.
+-   **State Handling:** All user-facing components must gracefully handle intermediate states, including:
+    -   **Loading States:** Displaying spinners or skeletons while data is being fetched.
+    -   **Error States:** Showing user-friendly error messages if an API call or action fails.
+    -   **Empty States:** Clearly indicating when a list or table has no data to show (e.g., "No new bookings found.").
+
+---
+
+## 3.0 Proposed Project Breakdown
 
 ### Milestone 1: Foundational Backend Setup
 
