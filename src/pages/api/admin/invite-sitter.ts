@@ -1,8 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 import crypto from 'crypto';
+import { isAdmin } from '@/utils/api/is-admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const isAdminUser = await isAdmin(req, res);
+  if (!isAdminUser) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }

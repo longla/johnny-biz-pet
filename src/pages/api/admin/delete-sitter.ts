@@ -1,30 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { isAdmin } from '@/utils/api/is-admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'DELETE') {
+  const isAdminUser = await isAdmin(req, res);
+  if (!isAdminUser) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { userId, adminPassword } = req.body;
+  const { user_id } = req.body;
 
-  if (!userId || !adminPassword) {
-    return res.status(400).json({ message: 'User ID and admin password are required' });
-  }
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  );
-
-  // Verify admin password
-  const { error: authError } = await supabase.auth.signInWithPassword({
-    email: process.env.ADMIN_EMAIL || '',
-    password: adminPassword,
-  });
-
-  if (authError) {
-    return res.status(401).json({ message: 'Invalid admin password' });
+  if (!user_id) {
+    return res.status(400).json({ message: 'user_id is required' });
   }
 
   const supabaseAdmin = createClient(
@@ -32,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     process.env.SUPABASE_SERVICE_ROLE_KEY || ''
   );
 
-  const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+  const { error } = await supabaseAdmin.rpc('delete_sitter', { user_id });
 
   if (error) {
     return res.status(500).json({ message: error.message });

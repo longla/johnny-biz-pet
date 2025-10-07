@@ -53,23 +53,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 function SittersPage({ sitters }) {
   const handleDelete = async (userId: string) => {
-    if (window.confirm('Are you sure you want to delete this sitter? This action cannot be undone.')) {
-      const adminPassword = window.prompt('Please enter your admin password to confirm.');
-      if (adminPassword) {
-        const response = await fetch('/api/admin/delete-sitter', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userId, adminPassword }),
-        });
+    const adminPassword = window.prompt('Please enter your admin password to confirm.');
+    if (adminPassword) {
+      const response = await fetch('/api/admin/delete-sitter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+                  body: JSON.stringify({ user_id: userId, adminPassword }),      });
 
-        if (response.ok) {
-          window.location.reload();
-        } else {
-          const data = await response.json();
-          alert(`Failed to delete sitter: ${data.message}`);
-        }
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const data = await response.json();
+        alert(`Failed to delete sitter: ${data.message}`);
       }
     }
   };
