@@ -40,8 +40,8 @@ function NewSitterPage() {
 
   return (
     <AdminLayout>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-8">Invite New Sitter</h1>
+      <div>
+        <h1 className="text-3xl font-bold mb-4 md:mb-8">Invite New Sitter</h1>
         <div className="max-w-md">
           <form onSubmit={handleCreateSitter} className="space-y-6">
             <div>

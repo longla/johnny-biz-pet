@@ -100,8 +100,8 @@ function EditSitterPage({ sitter }) {
 
   return (
     <AdminLayout>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-8">Edit Sitter: {sitter.user.email}</h1>
+      <div>
+        <h1 className="text-3xl font-bold mb-4 md:mb-8">Edit Sitter: {sitter.user.email}</h1>
         <div className="max-w-md">
           <form onSubmit={handleUpdateSitter} className="space-y-6">
             <div>

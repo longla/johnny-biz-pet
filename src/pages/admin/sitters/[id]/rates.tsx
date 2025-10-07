@@ -153,9 +153,9 @@ function SitterRatesPage({ sitter, addons, discounts }) {
 
   return (
     <AdminLayout>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-8">Manage Rates for {sitter.user.email}</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div>
+        <h1 className="text-3xl font-bold mb-4 md:mb-8">Manage Rates for {sitter.user.email}</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
           <div className="max-w-md">
             <h2 className="text-2xl font-bold mb-4">Base Rate</h2>
             <form onSubmit={handleUpdateRate} className="space-y-6">
@@ -195,7 +195,7 @@ function SitterRatesPage({ sitter, addons, discounts }) {
           </div>
           <div>
             <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
-            <div className="overflow-x-auto bg-white rounded-lg shadow mb-8">
+            <div className="overflow-x-auto bg-white rounded-lg shadow mb-4 md:mb-8">
               <table className="min-w-full">
                 <thead className="bg-gray-50">
                   <tr>
@@ -282,7 +282,7 @@ function SitterRatesPage({ sitter, addons, discounts }) {
           </div>
           <div>
             <h2 className="text-2xl font-bold mb-4">Discounts</h2>
-            <div className="overflow-x-auto bg-white rounded-lg shadow mb-8">
+            <div className="overflow-x-auto bg-white rounded-lg shadow mb-4 md:mb-8">
               <table className="min-w-full">
                 <thead className="bg-gray-50">
                   <tr>
