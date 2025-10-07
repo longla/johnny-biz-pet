@@ -32,7 +32,7 @@ describe('PostCardCompoent', () => {
     render(<PostCardCompoent post={mockPost} />);
 
     const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', expect.stringContaining('/about-image.jpeg'));
+    expect(decodeURIComponent(image.getAttribute('src'))).toContain('/about-image.jpeg');
   });
 
   it('renders the post cover image when hasCoverImage is true', () => {
@@ -43,6 +43,6 @@ describe('PostCardCompoent', () => {
     render(<PostCardCompoent post={postWithCover} />);
 
     const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', expect.stringContaining('/posts/test-post/cover.jpg'));
+    expect(decodeURIComponent(image.getAttribute('src'))).toContain('/posts/test-post/cover.jpg');
   });
 });
