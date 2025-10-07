@@ -5,6 +5,33 @@ import { GetServerSideProps } from 'next';
 import { createClient as createServerClient } from '@/utils/supabase/server-props';
 import AdminLayout from '../../_layout';
 
+interface Sitter {
+  id: string;
+  county: string;
+  base_rate_cents: number;
+  is_active: boolean;
+  user: {
+    email: string;
+  };
+}
+
+interface Addon {
+  id: string;
+  sitter_id: string;
+  name: string;
+  price_cents: number;
+  description: string;
+  created_at: string;
+}
+
+interface Discount {
+  id: string;
+  sitter_id: string;
+  min_days: number;
+  percentage: number;
+  created_at: string;
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createServerClient(context);
   const {
@@ -35,7 +62,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { id } = context.params;
+  const { id } = context.params || {};
+  if (typeof id !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
   const { data: sitter } = await supabase
     .from('sitters')
     .select(`
@@ -65,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function SitterRatesPage({ sitter, addons, discounts }) {
+function SitterRatesPage({ sitter, addons, discounts }: { sitter: Sitter; addons: Addon[]; discounts: Discount[] }) {
   const [baseRate, setBaseRate] = useState('');
   const [addonName, setAddonName] = useState('');
   const [addonPrice, setAddonPrice] = useState('');

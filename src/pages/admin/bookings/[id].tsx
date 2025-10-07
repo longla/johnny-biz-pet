@@ -5,6 +5,38 @@ import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+interface BookingRequest {
+  id: string;
+  start_date: string;
+  end_date: string;
+  status: string;
+  total_cost_cents: number;
+  payment_status: string;
+  customer: {
+    name: string;
+    email: string;
+  };
+  sitter: {
+    user: {
+      email: string;
+    };
+  };
+  pets: {
+    pet: {
+      id: string;
+      name: string;
+      breed: string;
+    };
+  }[];
+  addons: {
+    addon: {
+      id: string;
+      name: string;
+      price_cents: number;
+    };
+  }[];
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createClient(context);
   const {
@@ -35,7 +67,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { id } = context.params;
+  const { id } = context.params || {};
+  if (typeof id !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
   const { data: bookingRequest } = await supabase
     .from('booking_requests')
     .select(`
@@ -61,7 +99,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function BookingDetailsPage({ bookingRequest }) {
+function BookingDetailsPage({ bookingRequest }: { bookingRequest: BookingRequest }) {
   const supabase = createBrowserClient();
   const router = useRouter();
   const [error, setError] = useState('');

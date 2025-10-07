@@ -3,6 +3,17 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import AdminLayout from './_layout';
 
+interface Sitter {
+  id: string;
+  county: string;
+  base_rate_cents: number;
+  is_active: boolean;
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createClient(context);
   const {
@@ -49,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function SittersPage({ sitters }) {
+function SittersPage({ sitters }: { sitters: Sitter[] }) {
   const handleDelete = async (userId: string) => {
     const adminPassword = window.prompt(
       'Please enter your admin password to confirm.'

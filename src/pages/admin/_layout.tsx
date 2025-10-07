@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createClient } from '@/utils/supabase/client';
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const supabase = createClient();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

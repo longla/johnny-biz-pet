@@ -2,6 +2,24 @@ import { createClient } from '@/utils/supabase/server-props';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import AdminLayout from './_layout';
+import { User } from '@supabase/supabase-js';
+
+interface BookingRequest {
+  id: string;
+  start_date: string;
+  end_date: string;
+  status: string;
+  total_cost_cents: number;
+  payment_status: string;
+  customer: {
+    name: string;
+  };
+  sitter: {
+    user: {
+      email: string;
+    };
+  };
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createClient(context);
@@ -59,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function AdminDashboard({ user, bookingRequests }) {
+function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests: BookingRequest[] }) {
   return (
     <AdminLayout>
       <h1 className="text-3xl font-bold mb-4 md:mb-8">Admin Dashboard</h1>

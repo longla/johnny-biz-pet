@@ -1,11 +1,12 @@
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 
 export default function SitterDashboard() {
   const supabase = createClient();
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {

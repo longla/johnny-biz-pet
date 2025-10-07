@@ -5,6 +5,16 @@ import { GetServerSideProps } from 'next';
 import { createClient as createServerClient } from '@/utils/supabase/server-props';
 import AdminLayout from '../../_layout';
 
+interface Sitter {
+  id: string;
+  county: string;
+  base_rate_cents: number;
+  is_active: boolean;
+  user: {
+    email: string;
+  };
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createServerClient(context);
   const {
@@ -35,7 +45,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { id } = context.params;
+  const { id } = context.params || {};
+  if (typeof id !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
   const { data: sitter } = await supabase
     .from('sitters')
     .select(`
@@ -55,7 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function EditSitterPage({ sitter }) {
+function EditSitterPage({ sitter }: { sitter: Sitter }) {
   const [county, setCounty] = useState('');
   const [baseRate, setBaseRate] = useState('');
   const [isActive, setIsActive] = useState(false);
