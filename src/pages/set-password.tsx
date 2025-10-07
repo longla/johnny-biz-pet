@@ -11,35 +11,27 @@ export default function SetPassword() {
   const supabase = createClient();
 
   useEffect(() => {
-    console.log('set-password.tsx: useEffect triggered');
     const hash = window.location.hash;
-    console.log('URL Hash:', hash);
-
     if (hash) {
       const params = new URLSearchParams(hash.substring(1));
       const accessToken = params.get('access_token');
       const refreshToken = params.get('refresh_token');
-      console.log('Extracted Tokens:', { accessToken, refreshToken });
 
       if (accessToken && refreshToken) {
-        console.log('Calling setSession...');
         supabase.auth.setSession({
           access_token: accessToken,
           refresh_token: refreshToken,
         }).then(({ data, error }) => {
           if (error) {
-            console.error('Error setting session:', error);
             setError('Failed to set session.');
           } else {
-            console.log('setSession successful:', data);
             setSession(data.session);
           }
         });
       }
     }
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('onAuthStateChange event:', event, session);
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
