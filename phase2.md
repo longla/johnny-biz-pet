@@ -34,7 +34,10 @@ The application will support two primary user roles with distinct permissions:
 4.  **Status Tracking & Intervention (Admin):**
     - The Admin dashboard will display all booking requests and their current status.
     - The dashboard will provide a specific view to highlight `DECLINED` and `EXPIRED_UNCLAIMED` requests, allowing the Admin to intervene manually.
-5.  **Sitter Dashboard:** Sitters have a dashboard to view new incoming requests and a separate view for their upcoming, accepted bookings.
+5.  **Sitter Dashboard:** Sitters will have a dashboard to manage their work. This will include separate views for:
+    - New incoming requests.
+    - Upcoming, accepted bookings.
+    - A history of their past (completed) bookings.
 
 6.  **Post-Acceptance & Confirmation Workflow:**
     - **Notification to Other Sitters:** Once a request is `ACCEPTED`, the system will automatically notify all other sitters who received the initial request that the booking is no longer available.

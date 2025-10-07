@@ -42,7 +42,7 @@ This involves creating the secure dashboard for sitters to manage their jobs. Th
 -   **Develop Request Management:**
     -   Display a list of new, pending booking requests assigned to the logged-in sitter.
     -   Implement the "Accept" and "Decline" buttons and the backend logic that follows (e.g., updating status, notifying other sitters).
--   **Develop "My Bookings" View:** Create the view where a sitter can see their upcoming, confirmed bookings.
+-   **Develop "My Bookings" View:** Create the views where a sitter can see their upcoming, confirmed bookings as well as a history of their past, completed bookings.
 
 ### Milestone 4: Refactor the Public Booking & Waiver System
 
