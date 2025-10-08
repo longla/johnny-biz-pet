@@ -16,8 +16,8 @@ CREATE TABLE sitters (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     address TEXT,
-    county VARCHAR(100) NOT NULL,
-    base_rate_cents INT NOT NULL, -- Store currency in cents to avoid floating point issues
+    county VARCHAR(100),
+    base_rate_cents INT, -- Store currency in cents to avoid floating point issues
     signature_url TEXT,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now()

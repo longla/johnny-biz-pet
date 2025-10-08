@@ -1,191 +1,150 @@
 import { useState, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import { createClient as createServerClient } from '@/utils/supabase/server-props';
 import AdminLayout from '../../_layout';
+import { type User } from '@supabase/supabase-js';
 
-interface Sitter {
-  id: string;
-  county: string;
-  base_rate_cents: number;
-  is_active: boolean;
-  user: {
-    email: string;
-  };
+// Define a more complete Sitter type
+interface SitterProfile {
+  id: string; // user id
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  sitter_profile: {
+    address: string;
+    county: string;
+  } | null;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createServerClient(context);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return {
-      redirect: {
-        destination: '/admin/login',
-        permanent: false,
-      },
-    };
+    return { redirect: { destination: '/admin/login', permanent: false } };
   }
 
-  const { data: userDetails } = await supabase
-    .from('users')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-
-  if (userDetails?.role !== 'ADMIN') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
+  const { data: adminUser } = await supabase.from('users').select('role').eq('id', user.id).single();
+  if (adminUser?.role !== 'ADMIN') {
+    return { redirect: { destination: '/', permanent: false } };
   }
 
   const { id } = context.params || {};
   if (typeof id !== 'string') {
-    return {
-      notFound: true,
-    };
+    return { notFound: true };
   }
 
-  const { data: sitter } = await supabase
-    .from('sitters')
+  // Correctly fetch user and their related sitter profile
+  const { data: sitter, error } = await supabase
+    .from('users')
     .select(`
       id,
-      county,
-      base_rate_cents,
-      is_active,
-      user:users (
-        email
+      first_name,
+      last_name,
+      email,
+      phone_number,
+      sitter_profile:sitters!user_id (
+        address,
+        county
       )
     `)
     .eq('id', id)
     .single();
 
-  return {
-    props: { sitter },
-  };
+  if (error || !sitter) {
+    return { notFound: true };
+  }
+
+  return { props: { sitter } };
 };
 
-function EditSitterPage({ sitter }: { sitter: Sitter }) {
-  const [county, setCounty] = useState('');
-  const [baseRate, setBaseRate] = useState('');
-  const [isActive, setIsActive] = useState(false);
+export default function EditSitterPage({ sitter }: { sitter: SitterProfile }) {
+  const [formData, setFormData] = useState({
+    firstName: sitter.first_name || '',
+    lastName: sitter.last_name || '',
+    phone: sitter.phone_number || '',
+    address: sitter.sitter_profile?.address || '',
+    county: sitter.sitter_profile?.county || '',
+  });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
-  useEffect(() => {
-    if (sitter) {
-      setCounty(sitter.county);
-      setBaseRate((sitter.base_rate_cents / 100).toString());
-      setIsActive(sitter.is_active);
-    }
-  }, [sitter]);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleUpdateSitter = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setIsSubmitting(true);
 
-    const { error: sitterError } = await supabase
-      .from('sitters')
-      .update({
-        county,
-        base_rate_cents: parseInt(baseRate) * 100,
-        is_active: isActive,
-      })
-      .eq('id', sitter.id);
+    try {
+        const response = await fetch('/api/admin/update-sitter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: sitter.id, ...formData }),
+        });
 
-    if (sitterError) {
-      setError(sitterError.message);
-    } else {
-      router.push('/admin/sitters');
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+
+        setSuccess('Sitter profile updated successfully!');
+        // Optionally, refresh data or redirect
+        router.replace(router.asPath); // Refreshes server-side props
+
+    } catch (err: any) {
+        setError(err.message);
+    } finally {
+        setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
-
-  if (!sitter) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <AdminLayout>
-      <div>
-        <h1 className="text-3xl font-bold mb-4 md:mb-8">Edit Sitter: {sitter.user.email}</h1>
-        <div className="max-w-md">
-          <form onSubmit={handleUpdateSitter} className="space-y-6">
-            <div>
-              <label htmlFor="county" className="block text-sm font-medium text-gray-700">
-                County
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="county"
-                  id="county"
-                  required
-                  value={county}
-                  onChange={(e) => setCounty(e.target.value)}
-                  className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
+      <h1 className="text-3xl font-bold mb-2">Edit Sitter</h1>
+      <p className="text-gray-600 mb-6">Editing profile for <span className="font-medium">{sitter.email}</span></p>
+      
+      <div className="max-w-2xl bg-white p-8 rounded-lg shadow">
+        <form onSubmit={handleUpdateSitter} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                </div>
+                <div>
+                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                </div>
             </div>
             <div>
-              <label htmlFor="baseRate" className="block text-sm font-medium text-gray-700">
-                Base Rate (in dollars)
-              </label>
-              <div className="mt-1">
-                <input
-                  type="number"
-                  name="baseRate"
-                  id="baseRate"
-                  required
-                  value={baseRate}
-                  onChange={(e) => setBaseRate(e.target.value)}
-                  className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm-text-sm"
-                />
-              </div>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-            <div className="flex items-center">
-              <input
-                id="isActive"
-                name="isActive"
-                type="checkbox"
-                checked={isActive}
-                onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-              />
-              <label htmlFor="isActive" className="block ml-2 text-sm text-gray-900">
-                Active
-              </label>
+            <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+                <input type="text" id="address" name="address" value={formData.address} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            <div>
+                <label htmlFor="county" className="block text-sm font-medium text-gray-700">County</label>
+                <input type="text" id="county" name="county" value={formData.county} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
-            {error && (
-              <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg">
-                {error}
-              </div>
-            )}
+          {error && <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg">{error}</div>}
+          {success && <div className="p-4 text-sm text-green-700 bg-green-100 rounded-lg">{success}</div>}
 
-            <div>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400"
-              >
-                {isSubmitting ? 'Updating...' : 'Update Sitter'}
-              </button>
-            </div>
-          </form>
-        </div>
+          <div>
+            <button type="submit" disabled={isSubmitting} className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400">
+              {isSubmitting ? 'Saving...' : 'Save Changes'}
+            </button>
+          </div>
+        </form>
       </div>
     </AdminLayout>
   );
 }
-
-export default EditSitterPage;
