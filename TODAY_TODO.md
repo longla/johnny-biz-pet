@@ -1,4 +1,4 @@
 - [x] Figure out how to consolidate supabase migrations script and reset rrr_supabase_dev with migrations files to making sure all data scripts is corret
 - [x] Deploy dev environment on vercel for testing
-- [ ] Review testing implementation from jules and merged code changes
-- [ ] Work on phase2_plan.md - Milestone 3: Build the Sitter Portal (Mobile-First)
+- [x] Review testing implementation from jules and merged code changes
+- [x] Work on phase2_plan.md - Milestone 3: Build the Sitter Portal (Mobile-First)

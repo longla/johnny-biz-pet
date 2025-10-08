@@ -1,0 +1,149 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { createClient } from '@/utils/supabase/client';
+import SitterLayout from '../_layout';
+import { type BookingRequest, type Customer, type Pet } from '@/core/types';
+import { AlertTriangle, Calendar, Check, Loader, Mail, MapPin, Phone, User, X } from 'lucide-react';
+
+type FullBookingRequest = BookingRequest & {
+    customers: Customer | null;
+    pets: Pet[];
+};
+
+type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
+
+export default function BookingDetailPage() {
+    const router = useRouter();
+    const { id } = router.query;
+    const [request, setRequest] = useState<FullBookingRequest | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [actionStatus, setActionStatus] = useState<ActionStatus>('idle');
+    const [actionError, setActionError] = useState<string | null>(null);
+
+    const supabase = createClient();
+
+    useEffect(() => {
+        if (!id) return;
+
+        const fetchBookingDetails = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('booking_requests')
+                    .select(`
+                        *,
+                        customers (*),
+                        pets (*)
+                    `)
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+                if (!data) throw new Error("Booking not found.");
+
+                // The join with pets will be via a junction table, this is a simplification.
+                // A real implementation would need to query `booking_pets` then `pets`.
+                setRequest(data as FullBookingRequest);
+
+            } catch (e: any) {
+                setError("Failed to load booking details.");
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBookingDetails();
+    }, [id, supabase]);
+
+    const handleAction = async (action: 'accept' | 'decline') => {
+        setActionStatus('loading');
+        setActionError(null);
+
+        try {
+            const response = await fetch(`/api/sitter/${action}-booking`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bookingId: id }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || 'An unknown error occurred.');
+            }
+
+            setActionStatus('success');
+            // Redirect after a short delay to show success message
+            setTimeout(() => router.push('/sitter'), 2000);
+
+        } catch (e: any) {
+            setActionStatus('error');
+            setActionError(e.message);
+        }
+    };
+
+    if (loading) {
+        return <SitterLayout><div className="p-10 text-center"><Loader className="mx-auto animate-spin text-[#F28C38]" /></div></SitterLayout>;
+    }
+
+    if (error || !request) {
+        return <SitterLayout><div className="p-10 text-center text-red-600">{error || 'Booking not found.'}</div></SitterLayout>;
+    }
+
+    const InfoRow = ({ icon: Icon, label, value }) => (
+        <div className="flex items-center text-gray-700">
+            <Icon className="w-5 h-5 mr-3 text-gray-400" />
+            <span className="font-medium">{label}:</span>
+            <span className="ml-2">{value}</span>
+        </div>
+    );
+
+    return (
+        <SitterLayout>
+            <div className="container mx-auto p-4">
+                <h1 className="text-3xl font-bold text-gray-800 mb-6">Booking Details</h1>
+
+                {/* Customer Details */}
+                <div className="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Customer Information</h2>
+                    <div className="space-y-3">
+                        <InfoRow icon={User} label="Name" value={request.customers?.name} />
+                        <InfoRow icon={Mail} label="Email" value={request.customers?.email} />
+                        {/* Phone number would be on the customer table */}
+                    </div>
+                </div>
+
+                {/* Booking Details */}
+                <div className="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Booking Information</h2>
+                    <div className="space-y-3">
+                        <InfoRow icon={Calendar} label="Dates" value={`${new Date(request.start_date).toLocaleDateString()} - ${new Date(request.end_date).toLocaleDateString()}`} />
+                        <InfoRow icon={MapPin} label="County" value={request.county} />
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                {request.status === 'PENDING_SITTER_ACCEPTANCE' && (
+                    <div className="bg-white p-6 rounded-lg shadow">
+                        <h2 className="text-xl font-bold text-gray-700 mb-4">Actions</h2>
+                        {actionStatus === 'idle' && (
+                            <div className="flex space-x-4">
+                                <button onClick={() => handleAction('accept')} className="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center">
+                                    <Check className="mr-2" /> Accept
+                                </button>
+                                <button onClick={() => handleAction('decline')} className="flex-1 bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center">
+                                    <X className="mr-2" /> Decline
+                                </button>
+                            </div>
+                        )}
+                        {actionStatus === 'loading' && <div className="text-center"><Loader className="mx-auto animate-spin" /></div>}
+                        {actionStatus === 'success' && <div className="text-center text-green-600 font-bold">Action successful! Redirecting...</div>}
+                        {actionStatus === 'error' && <div className="text-center text-red-600 font-bold">{actionError}</div>}
+                    </div>
+                )}
+            </div>
+        </SitterLayout>
+    );
+}

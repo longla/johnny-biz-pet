@@ -1,15 +1,10 @@
 #!/bin/bash
 
-# A script to create a new task for Jules, based on the 'dev' branch.
+# A script to create a new remote session for Jules in the current repo.
 #
 # Usage:
 # ./scripts/create-jules-task.sh "Your Task Title" "path/to/description.md"
 
-# --- Configuration ---
-ASSIGNEE="jules"
-BASE_BRANCH="dev"
-
-# --- Script Logic ---
 # Check if both title and description file are provided
 if [ -z "$1" ] || [ -z "$2" ]; then
   echo "❌ Error: Missing arguments."
@@ -26,17 +21,16 @@ if [ ! -f "$DESCRIPTION_FILE" ]; then
   exit 1
 fi
 
-echo "🚀 Creating task for '$ASSIGNEE' based on branch '$BASE_BRANCH'..."
-echo "   - Title: $TITLE"
-echo "   - Description File: $DESCRIPTION_FILE"
+# Read the description file content
+DESCRIPTION_CONTENT=$(cat "$DESCRIPTION_FILE")
+
+# Combine title and description into a single string for the session
+SESSION_CONTENT="Task Title: $TITLE\n\n---\n\n$DESCRIPTION_CONTENT"
+
+echo "🚀 Creating new remote session..."
 echo "--------------------------------------------------"
 
-# Execute the jules CLI command
-jules task:create \
-  --title "$TITLE" \
-  --description-file "$DESCRIPTION_FILE" \
-  --assignee "$ASSIGNEE" \
-  --base-branch "$BASE_BRANCH"
+# Pipe the combined content into the 'jules remote new' command
+echo "$SESSION_CONTENT" | jules remote new --repo .
 
-echo "--------------------------------------------------"
-echo "✅ Task creation command executed."
+echo "✅ Session creation command executed."
