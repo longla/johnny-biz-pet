@@ -35,6 +35,22 @@ EMAIL_USER=your_email_username
 EMAIL_PASS=your_email_password
 EMAIL_FROM=sending_email_address
 BOOKING_RECIPIENT_EMAIL=recipient_email_address
+
+# Supabase Configuration
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# AWS S3 Configuration
+S3_BUCKET_NAME=your_s3_bucket_name
+AWS_REGION=your_aws_region
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+
+# Admin Account Creation
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
 ```
 
 ### ⚠️ IMPORTANT EMAIL CONFIGURATION NOTE ⚠️
