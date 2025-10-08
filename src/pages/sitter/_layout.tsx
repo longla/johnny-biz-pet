@@ -1,11 +1,17 @@
-import { useEffect, useState, type PropsWithChildren } from 'react';
+import { useEffect, useState, type PropsWithChildren, type ElementType } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { type User } from '@supabase/supabase-js';
-import { Home, Book, User as UserIcon, LogOut } from 'lucide-react';
+import { Home, Book, User as UserIcon, LogOut, type LucideProps } from 'lucide-react';
 import Link from 'next/link';
 
 type SitterLayoutProps = PropsWithChildren;
+
+interface NavLinkProps {
+  href: string;
+  icon: ElementType<LucideProps>;
+  label: string;
+}
 
 export default function SitterLayout({ children }: SitterLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -48,7 +54,7 @@ export default function SitterLayout({ children }: SitterLayoutProps) {
     );
   }
 
-  const MobileNavLink = ({ href, icon: Icon, label }) => {
+  const MobileNavLink = ({ href, icon: Icon, label }: NavLinkProps) => {
     const isActive = router.pathname === href;
     return (
       <Link href={href} className={`flex flex-col items-center justify-center w-full h-full transition-colors duration-200 ${isActive ? 'text-[#F28C38]' : 'text-gray-500 hover:text-[#F28C38]'}`}>
@@ -58,7 +64,7 @@ export default function SitterLayout({ children }: SitterLayoutProps) {
     );
   };
 
-  const DesktopNavLink = ({ href, icon: Icon, label }) => {
+  const DesktopNavLink = ({ href, icon: Icon, label }: NavLinkProps) => {
     const isActive = router.pathname === href;
     return (
       <Link href={href} className={`flex items-center px-4 py-3 text-gray-700 rounded-lg transition-colors duration-200 ${isActive ? 'bg-[#F28C38] text-white shadow-sm' : 'hover:bg-gray-100'}`}>

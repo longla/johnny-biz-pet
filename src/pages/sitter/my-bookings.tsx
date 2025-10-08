@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ElementType } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import SitterLayout from './_layout';
 import { type BookingRequest } from '@/core/types';
-import { Loader, AlertTriangle, BookOpen, History } from 'lucide-react';
+import { Loader, AlertTriangle, BookOpen, History, type LucideProps } from 'lucide-react';
 
 type BookingWithCustomer = BookingRequest & { customers: { name: string } | null };
 type View = 'upcoming' | 'past';
+
+interface TabButtonProps {
+    tabName: View;
+    label: string;
+    icon: ElementType<LucideProps>;
+}
 
 export default function MyBookingsPage() {
     const [view, setView] = useState<View>('upcoming');
@@ -75,7 +81,7 @@ export default function MyBookingsPage() {
         );
     };
 
-    const TabButton = ({ tabName, label, icon: Icon }: { tabName: View, label: string, icon: React.ElementType }) => (
+    const TabButton = ({ tabName, label, icon: Icon }: TabButtonProps) => (
         <button 
             onClick={() => setView(tabName)}
             className={`flex-1 py-3 px-2 text-center font-medium border-b-4 transition-colors duration-200 flex items-center justify-center gap-2 

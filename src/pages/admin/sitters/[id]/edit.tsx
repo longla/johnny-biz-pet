@@ -1,24 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { type GetServerSideProps } from 'next';
 import { createClient as createServerClient } from '@/utils/supabase/server-props';
 import AdminLayout from '../../_layout';
-import { type User } from '@supabase/supabase-js';
 
-// Define a more complete Sitter type
+// Define a more complete Sitter type for the page props
 interface SitterProfile {
   id: string; // user id
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
   email: string;
-  phone_number: string;
+  phone_number: string | null;
   sitter_profile: {
-    address: string;
-    county: string;
+    address: string | null;
+    county: string | null;
   } | null;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+interface EditSitterPageProps {
+    sitter: SitterProfile;
+}
+
+export const getServerSideProps: GetServerSideProps<EditSitterPageProps> = async (context) => {
   const supabase = createServerClient(context);
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -57,10 +60,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { notFound: true };
   }
 
-  return { props: { sitter } };
+  return { props: { sitter: sitter as SitterProfile } };
 };
 
-export default function EditSitterPage({ sitter }: { sitter: SitterProfile }) {
+export default function EditSitterPage({ sitter }: EditSitterPageProps) {
   const [formData, setFormData] = useState({
     firstName: sitter.first_name || '',
     lastName: sitter.last_name || '',
@@ -95,8 +98,7 @@ export default function EditSitterPage({ sitter }: { sitter: SitterProfile }) {
         if (!response.ok) throw new Error(data.message);
 
         setSuccess('Sitter profile updated successfully!');
-        // Optionally, refresh data or redirect
-        router.replace(router.asPath); // Refreshes server-side props
+        router.replace(router.asPath); // Refreshes server-side props to get fresh data
 
     } catch (err: any) {
         setError(err.message);

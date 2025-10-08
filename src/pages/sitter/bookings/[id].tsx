@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ElementType } from 'react';
 import { useRouter } from 'next/router';
 import { createClient } from '@/utils/supabase/client';
 import SitterLayout from '../_layout';
 import { type BookingRequest, type Customer, type Pet } from '@/core/types';
-import { AlertTriangle, Calendar, Check, Loader, Mail, MapPin, Phone, User, X } from 'lucide-react';
+import { AlertTriangle, Calendar, Check, Loader, Mail, MapPin, Phone, User, X, type LucideProps } from 'lucide-react';
 
 type FullBookingRequest = BookingRequest & {
     customers: Customer | null;
@@ -11,6 +11,12 @@ type FullBookingRequest = BookingRequest & {
 };
 
 type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
+
+interface InfoRowProps {
+    icon: ElementType<LucideProps>;
+    label: string;
+    value: string | number | null | undefined;
+}
 
 export default function BookingDetailPage() {
     const router = useRouter();
@@ -41,8 +47,6 @@ export default function BookingDetailPage() {
                 if (error) throw error;
                 if (!data) throw new Error("Booking not found.");
 
-                // The join with pets will be via a junction table, this is a simplification.
-                // A real implementation would need to query `booking_pets` then `pets`.
                 setRequest(data as FullBookingRequest);
 
             } catch (e: any) {
@@ -75,7 +79,6 @@ export default function BookingDetailPage() {
             }
 
             setActionStatus('success');
-            // Redirect after a short delay to show success message
             setTimeout(() => router.push('/sitter'), 2000);
 
         } catch (e: any) {
@@ -92,7 +95,7 @@ export default function BookingDetailPage() {
         return <SitterLayout><div className="p-10 text-center text-red-600">{error || 'Booking not found.'}</div></SitterLayout>;
     }
 
-    const InfoRow = ({ icon: Icon, label, value }) => (
+    const InfoRow = ({ icon: Icon, label, value }: InfoRowProps) => (
         <div className="flex items-center text-gray-700">
             <Icon className="w-5 h-5 mr-3 text-gray-400" />
             <span className="font-medium">{label}:</span>
@@ -105,17 +108,14 @@ export default function BookingDetailPage() {
             <div className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6">Booking Details</h1>
 
-                {/* Customer Details */}
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
                     <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Customer Information</h2>
                     <div className="space-y-3">
                         <InfoRow icon={User} label="Name" value={request.customers?.name} />
                         <InfoRow icon={Mail} label="Email" value={request.customers?.email} />
-                        {/* Phone number would be on the customer table */}
                     </div>
                 </div>
 
-                {/* Booking Details */}
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
                     <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Booking Information</h2>
                     <div className="space-y-3">
@@ -124,7 +124,6 @@ export default function BookingDetailPage() {
                     </div>
                 </div>
 
-                {/* Action Buttons */}
                 {request.status === 'PENDING_SITTER_ACCEPTANCE' && (
                     <div className="bg-white p-6 rounded-lg shadow">
                         <h2 className="text-xl font-bold text-gray-700 mb-4">Actions</h2>

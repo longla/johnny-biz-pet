@@ -61,8 +61,8 @@ This involves creating the secure dashboard for sitters to manage their jobs. Th
 
 This milestone focuses on expanding the data we store for sitters and updating the Admin Portal to manage this new information.
 
-- [ ] **Update Database Schema:** Add `first_name`, `last_name`, and `address` fields to the database.
-- [ ] **Update Admin UI:** Modify the "New Sitter" and "Edit Sitter" forms in the Admin Portal to support the new fields.
+- [x] **Update Database Schema:** Add `first_name`, `last_name`, and `address` fields to the database.
+- [x] **Update Admin UI:** Modify the "New Sitter" and "Edit Sitter" forms in the Admin Portal to support the new fields.
 
 ### Milestone 5: Refactor the Public Booking & Waiver System
 
