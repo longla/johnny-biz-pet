@@ -134,7 +134,7 @@ function SittersPage({ sitters }: { sitters: Sitter[] }) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap space-x-4">
                       <Link
-                        href={`/admin/sitters/${sitter.id}/edit`}
+href={`/admin/sitters/${sitter.user.id}/edit`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Edit
@@ -174,7 +174,7 @@ function SittersPage({ sitters }: { sitters: Sitter[] }) {
                 <div>Base Rate: ${sitter.base_rate_cents / 100}</div>
                 <div className="mt-2 space-x-4">
                   <Link
-                    href={`/admin/sitters/${sitter.id}/edit`}
+                    href={`/admin/sitters/${sitter.user.id}/edit`}
                     className="text-indigo-600 hover:text-indigo-900"
                   >
                     Edit
