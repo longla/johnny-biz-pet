@@ -50,14 +50,21 @@ This involves creating the secure dashboard for the business owner to manage the
 
 This involves creating the secure dashboard for sitters to manage their jobs. This portal will be a section of the application accessible only to users with the `SITTER` role. The UI will be designed with a mobile-first approach.
 
-- [ ] **Implement Sitter Login:** Allow sitters to log in for the first time using the link from their invitation email to set their password.
-- [ ] **Build Sitter UI:** Create the dashboard layout for the Sitter portal, ensuring it is responsive and mobile-friendly.
-- [ ] **Develop Request Management:**
-  - [ ] Display a list of new, pending booking requests assigned to the logged-in sitter in a mobile-friendly way.
-  - [ ] Implement the "Accept" and "Decline" buttons and the backend logic that follows (e.g., updating status, notifying other sitters).
-- [ ] **Develop "My Bookings" View:** Create the views where a sitter can see their upcoming, confirmed bookings as well as a history of their past, completed bookings, optimized for mobile.
+- [x] **Implement Sitter Login:** Allow sitters to log in for the first time using the link from their invitation email to set their password.
+- [x] **Build Sitter UI:** Create the dashboard layout for the Sitter portal, ensuring it is responsive and mobile-friendly.
+- [x] **Develop Request Management:**
+  - [x] Display a list of new, pending booking requests assigned to the logged-in sitter in a mobile-friendly way.
+  - [x] Implement the "Accept" and "Decline" buttons and the backend logic that follows (e.g., updating status, notifying other sitters).
+- [x] **Develop "My Bookings" View:** Create the views where a sitter can see their upcoming, confirmed bookings as well as a history of their past, completed bookings, optimized for mobile.
 
-### Milestone 4: Refactor the Public Booking & Waiver System
+### Milestone 4: Enhance Sitter Profile Management
+
+This milestone focuses on expanding the data we store for sitters and updating the Admin Portal to manage this new information.
+
+- [ ] **Update Database Schema:** Add `first_name`, `last_name`, and `address` fields to the database.
+- [ ] **Update Admin UI:** Modify the "New Sitter" and "Edit Sitter" forms in the Admin Portal to support the new fields.
+
+### Milestone 5: Refactor the Public Booking & Waiver System
 
 This is the final milestone where we connect the new backend to the public-facing website.
 
@@ -69,20 +76,3 @@ This is the final milestone where we connect the new backend to the public-facin
 - [ ] **Update Waiver System:**
   - [ ] Build the dynamic waiver page that pulls in sitter information.
   - [ ] Implement the waiver submission logic to save the customer's data, upload the signed PDF to Supabase Storage, and create the `signed_waivers` record.
-
-### Milestone 5: Admin Portal 2.0 (Mobile-First Redesign)
-
-This milestone focuses on redesigning and rebuilding the Admin Portal with a mobile-first approach to ensure a seamless experience on all devices.
-
-- **Admin Dashboard:**
-  - [ ] Design and implement a responsive layout for the dashboard that prioritizes mobile usability.
-  - [ ] Ensure key metrics (e.g., total bookings, revenue, new sitters) are displayed clearly on small screens.
-  - [ ] Redesign dashboard components (charts, tables, etc.) to be responsive and touch-friendly.
-  - [ ] Re-implement loading, error, and empty states for all data visualisations.
-- **Sitters Management:**
-  - [ ] Design and implement a mobile-friendly list or card view for sitters that is easy to navigate on a small screen.
-  - [ ] Create a new, responsive page for viewing sitter details.
-  - [ ] Redesign the "Add Sitter" and "Edit Sitter" forms to be fully responsive and easy to use on mobile devices.
-  - [ ] Implement a mobile-friendly search and filtering solution for the sitters list.
-  - [ ] Ensure all actions (e.g., adding, editing, deleting a sitter) use responsive modals or confirmation dialogs.
-  - [ ] Re-implement loading, error, and empty states for the sitters list and details pages.

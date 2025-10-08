@@ -2,6 +2,8 @@
 
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(50),
     role VARCHAR(50) NOT NULL CHECK (role IN ('ADMIN', 'SITTER')),
@@ -13,6 +15,7 @@ CREATE TABLE users (
 CREATE TABLE sitters (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    address TEXT,
     county VARCHAR(100) NOT NULL,
     base_rate_cents INT NOT NULL, -- Store currency in cents to avoid floating point issues
     signature_url TEXT,
