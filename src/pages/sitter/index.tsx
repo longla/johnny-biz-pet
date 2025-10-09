@@ -28,13 +28,6 @@ export default function SitterDashboard() {
             }
 
             try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) {
-                    setLoading(false);
-                    setError("You must be logged in to view requests.");
-                    return;
-                }
-
                 const { data: sitterProfile, error: sitterError } = await supabase
                     .from('sitters')
                     .select('id')
@@ -83,6 +76,26 @@ export default function SitterDashboard() {
         };
 
         fetchRequests();
+
+        const channel = supabase
+            .channel('booking-sitter-recipients-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'booking_sitter_recipients',
+                },
+                (payload) => {
+                    console.log('Change received!', payload);
+                    fetchRequests();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [supabase]);
 
     const BookingRequestCard = ({ request }: { request: BookingRequestWithCustomer }) => (
