@@ -20,16 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { bookingId } = req.body;
         if (!bookingId) throw new Error('Booking ID is required');
 
-        // This is a simplified implementation.
-        // A robust solution would use a database function (RPC) to perform this check
-        // and potentially update the booking_requests status to 'DECLINED' if this
-        // was the last sitter to decline.
-
-        const { error } = await supabase
-            .from('booking_sitter_recipients')
-            .update({ status: 'declined' })
-            .eq('booking_request_id', bookingId)
-            .eq('sitter_id', user.id);
+        const { error } = await supabase.rpc('decline_booking_request', {
+          p_booking_id: bookingId,
+          p_sitter_user_id: user.id,
+        });
 
         if (error) throw error;
 

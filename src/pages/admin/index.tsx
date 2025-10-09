@@ -22,7 +22,13 @@ interface BookingRequest {
     };
   } | null;
   booking_sitter_recipients: {
-    count: number;
+    status: string;
+    sitter: {
+      user: {
+        first_name: string;
+        last_name: string;
+      };
+    };
   }[];
 }
 
@@ -31,8 +37,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-
 
   if (!user) {
     return {
@@ -64,7 +68,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         )
       ),
       booking_sitter_recipients (
-        count
+        status,
+        sitter:sitters (
+          user:users (
+            first_name,
+            last_name
+          )
+        )
       )
     `
     );
@@ -160,7 +170,11 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                     {request.payment_status}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {request.booking_sitter_recipients[0]?.count || 0}
+                    {request.booking_sitter_recipients.map(recipient => (
+                      <div key={recipient.sitter.user.first_name}>
+                        {recipient.sitter.user.first_name} {recipient.sitter.user.last_name}: {recipient.status}
+                      </div>
+                    ))}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-4">
                     <Link
@@ -189,6 +203,14 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                 {request.start_date} to {request.end_date}
               </div>
               <div>Sitter: {request.sitter?.user?.email || 'N/A'}</div>
+              <div>
+                Notified Sitters:
+                {request.booking_sitter_recipients.map(recipient => (
+                  <div key={recipient.sitter.user.first_name}>
+                    {recipient.sitter.user.first_name} {recipient.sitter.user.last_name}: {recipient.status}
+                  </div>
+                ))}
+              </div>
               <div>Total: ${request.total_cost_cents / 100}</div>
               <div>Payment: {request.payment_status}</div>
               <div className="mt-2">

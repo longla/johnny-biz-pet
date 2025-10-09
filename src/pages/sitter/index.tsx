@@ -42,7 +42,8 @@ export default function SitterDashboard() {
                 const { data: recipientData, error: recipientError } = await supabase
                     .from('booking_sitter_recipients')
                     .select('booking_request_id')
-                    .eq('sitter_id', sitterProfile.id);
+                    .eq('sitter_id', sitterProfile.id)
+                    .eq('status', 'NOTIFIED');
 
                 if (recipientError) throw recipientError;
 

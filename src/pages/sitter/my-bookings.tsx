@@ -92,6 +92,11 @@ export default function MyBookingsPage() {
                     ))}
                 </ul>
             </div>
+            <div className="mt-4">
+                <Link href={`/sitter/bookings/${booking.id}`} className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                    View Detail
+                </Link>
+            </div>
         </div>
     );
 
@@ -107,7 +112,7 @@ export default function MyBookingsPage() {
         }
         return (
             <div className="space-y-4">
-                {bookings.map(b => <Link href={`/sitter/bookings/${b.id}`} key={b.id}><BookingCard booking={b} /></Link>)}
+                {bookings.map(b => <BookingCard booking={b} key={b.id} />)}
             </div>
         );
     };
