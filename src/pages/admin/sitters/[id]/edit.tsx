@@ -60,7 +60,17 @@ export const getServerSideProps: GetServerSideProps<EditSitterPageProps> = async
     return { notFound: true };
   }
 
-  return { props: { sitter: sitter as SitterProfile } };
+  // Safely handle the sitter_profile which can be an array
+  const sitterProfile = Array.isArray(sitter.sitter_profile) && sitter.sitter_profile.length > 0
+    ? sitter.sitter_profile[0]
+    : null;
+
+  const finalSitter: SitterProfile = {
+    ...sitter,
+    sitter_profile: sitterProfile,
+  };
+
+  return { props: { sitter: finalSitter } };
 };
 
 export default function EditSitterPage({ sitter }: EditSitterPageProps) {
