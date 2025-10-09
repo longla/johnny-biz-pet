@@ -1,3 +1,7 @@
+import { type User } from '@supabase/supabase-js';
+
+export type { User };
+
 export type Post = {
   id: string;
   slug: string;

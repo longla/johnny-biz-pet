@@ -1,7 +1,7 @@
 import { useEffect, useState, type ElementType } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import SitterLayout from './_layout';
-import { type BookingRequest } from '@/core/types';
+import { type BookingRequest, type Pet } from '@/core/types';
 import { Loader, AlertTriangle, BookOpen, History, type LucideProps } from 'lucide-react';
 import Link from 'next/link';
 

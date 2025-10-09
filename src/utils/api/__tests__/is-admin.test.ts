@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 jest.mock('@supabase/ssr');
 
-const createMockSupabaseClient = (user, userData, error) => ({
+const createMockSupabaseClient = (user: any, userData: any, error: any) => ({
   auth: {
     getUser: jest.fn().mockResolvedValue({ data: { user } }),
   },

@@ -1,4 +1,5 @@
-import { type BookingRequest, type Customer, type Pet } from "@/core/types";
+import { type BookingRequest, type Customer, type Pet, type BookingNote } from "@/core/types";
+import { type User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import {
   Calendar,
@@ -6,7 +7,7 @@ import {
   Loader,
   Mail,
   MapPin,
-  User,
+  User as UserIcon,
   X,
   type LucideProps,
 } from "lucide-react";
@@ -205,7 +206,7 @@ export default function BookingDetailPage() {
             Customer Information
           </h2>
           <div className="space-y-3">
-            <InfoRow icon={User} label="Name" value={request.customers?.name} />
+            <InfoRow icon={UserIcon} label="Name" value={request.customers?.name} />
             <InfoRow
               icon={Mail}
               label="Email"
@@ -261,11 +262,13 @@ export default function BookingDetailPage() {
           <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">
             Booking Notes
           </h2>
-          <BookingNotes
-            bookingId={request.id}
-            notes={request.booking_notes || []}
-            user={user}
-          />
+          {user && (
+            <BookingNotes
+              bookingId={request.id}
+              notes={request.booking_notes || []}
+              user={user}
+            />
+          )}
         </div>
 
         {request.status === "PENDING_SITTER_ACCEPTANCE" && (

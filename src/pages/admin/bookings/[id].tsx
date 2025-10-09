@@ -140,7 +140,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>
                             <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
                             <p><strong>Status:</strong> {bookingRequest.status}</p>
-                            <p><strong>Total Cost:</strong> ${bookingRequest.total_cost_cents / 100}</p>
+                            <p><strong>Total Cost:</strong> ${bookingRequest.total_cost_cents ? bookingRequest.total_cost_cents / 100 : 'N/A'}</p>
                             <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
                         </div>
                         <div>
