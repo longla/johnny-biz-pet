@@ -27,7 +27,7 @@ interface InfoRowProps {
 }
 
 import BookingNotes from '@/components/booking-notes';
-import { User } from '@supabase/supabase-js';
+
 
 // ... (rest of the file)
 
