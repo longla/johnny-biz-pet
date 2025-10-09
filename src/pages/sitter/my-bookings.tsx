@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/client';
 import SitterLayout from './_layout';
 import { type BookingRequest } from '@/core/types';
 import { Loader, AlertTriangle, BookOpen, History, type LucideProps } from 'lucide-react';
+import Link from 'next/link';
 
 type BookingWithCustomer = BookingRequest & { 
     customers: { name: string } | null; 
