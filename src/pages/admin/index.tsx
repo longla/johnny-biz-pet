@@ -119,6 +119,9 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                   Payment Status
                 </th>
                 <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  Notified Sitters
+                </th>
+                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                   Actions
                 </th>
               </tr>
@@ -143,6 +146,9 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {request.payment_status}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    0/2
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-4">
                     <Link
