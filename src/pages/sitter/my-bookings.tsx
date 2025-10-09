@@ -106,7 +106,7 @@ export default function MyBookingsPage() {
         }
         return (
             <div className="space-y-4">
-                {bookings.map(b => <BookingCard key={b.id} booking={b} />)}
+                {bookings.map(b => <Link href={`/sitter/bookings/${b.id}`} key={b.id}><BookingCard booking={b} /></Link>)}
             </div>
         );
     };

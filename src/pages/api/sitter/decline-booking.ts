@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { error } = await supabase
             .from('booking_sitter_recipients')
-            .delete()
+            .update({ status: 'declined' })
             .eq('booking_request_id', bookingId)
             .eq('sitter_id', user.id);
 

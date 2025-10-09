@@ -15,6 +15,7 @@ type FullBookingRequest = BookingRequest & {
             price_cents: number;
         };
     }[];
+    booking_notes: BookingNote[];
 };
 
 type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -41,19 +42,42 @@ export default function BookingDetailPage() {
 
         const fetchBookingDetails = async () => {
             try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    setError("You must be logged in.");
+                    setLoading(false);
+                    return;
+                }
+
                 const { data, error } = await supabase
                     .from('booking_requests')
                     .select(`
                         *,
                         customers (*),
                         booking_pets(pets(*)),
-                        booking_addons(sitter_addons(*))
+                        booking_addons(sitter_addons(*)),
+                        booking_notes(*, user:users(first_name, last_name))
                     `)
                     .eq('id', id)
                     .single();
 
                 if (error) throw error;
                 if (!data) throw new Error("Booking not found.");
+
+                if (data.status === 'ACCEPTED') {
+                    const { data: sitterProfile, error: sitterError } = await supabase
+                        .from('sitters')
+                        .select('id')
+                        .eq('user_id', user.id)
+                        .single();
+
+                    if (sitterError || !sitterProfile || sitterProfile.id !== data.assigned_sitter_id) {
+                        setError("You are not authorized to view this booking.");
+                        setRequest(null);
+                        setLoading(false);
+                        return;
+                    }
+                }
 
                 setRequest(data as FullBookingRequest);
 
@@ -141,6 +165,10 @@ export default function BookingDetailPage() {
                     </ul>
                 </div>
 
+import BookingNotes from '@/components/booking-notes';
+
+// ... (rest of the file)
+
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
                     <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Add-ons</h2>
                     <ul>
@@ -148,6 +176,11 @@ export default function BookingDetailPage() {
                             <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
                         ))}
                     </ul>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Booking Notes</h2>
+                    <BookingNotes bookingId={request.id} notes={request.booking_notes || []} user={user} />
                 </div>
 
                 {request.status === 'PENDING_SITTER_ACCEPTANCE' && (
