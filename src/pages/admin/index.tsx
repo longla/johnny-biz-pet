@@ -158,7 +158,7 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-4">
                     <Link
-                      href={`/bookings/${request.id}`}>
+                      href={`/admin/bookings/${request.id}`}>
                       View
                     </Link>
                   </td>
@@ -187,8 +187,7 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
               <div>Payment: {request.payment_status}</div>
               <div className="mt-2">
                 <Link
-                  href={`/bookings/${request.id}`}
-                  className="text-indigo-600 hover:text-indigo-900"
+                  href={`/admin/bookings/${request.id}`}
                 >
                   View Details
                 </Link>
