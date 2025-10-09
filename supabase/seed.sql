@@ -54,6 +54,20 @@ DECLARE
   customer8_id uuid;
   customer9_id uuid;
   customer10_id uuid;
+  pet1_id uuid;
+  pet2_id uuid;
+  addon1_id uuid;
+  addon2_id uuid;
+  booking_request1_id uuid;
+  booking_request2_id uuid;
+  booking_request3_id uuid;
+  booking_request4_id uuid;
+  booking_request5_id uuid;
+  booking_request6_id uuid;
+  booking_request7_id uuid;
+  booking_request8_id uuid;
+  booking_request9_id uuid;
+  booking_request10_id uuid;
 BEGIN
   -- Create users and get their IDs
   admin_id := create_user('admin@mailinator.com', 'password', 'ADMIN');
@@ -74,9 +88,15 @@ BEGIN
   -- Create Sitter Add-ons
   INSERT INTO sitter_addons (sitter_id, name, price_cents, description)
   VALUES
-  (sitter_profile1_id, 'Daily Walk', 1000, 'A 30-minute walk every day.'),
-  (sitter_profile1_id, 'Grooming', 2500, 'A full grooming session.'),
-  (sitter_profile2_id, 'Medication Administration', 500, 'Administer medication as required.'),
+  (sitter_profile1_id, 'Daily Walk', 1000, 'A 30-minute walk every day.') RETURNING id INTO addon1_id;
+  INSERT INTO sitter_addons (sitter_id, name, price_cents, description)
+  VALUES
+  (sitter_profile1_id, 'Grooming', 2500, 'A full grooming session.') RETURNING id INTO addon2_id;
+  INSERT INTO sitter_addons (sitter_id, name, price_cents, description)
+  VALUES
+  (sitter_profile2_id, 'Medication Administration', 500, 'Administer medication as required.');
+  INSERT INTO sitter_addons (sitter_id, name, price_cents, description)
+  VALUES
   (sitter_profile2_id, 'Special Diet Fee', 1000, 'Fee for preparing special meals.');
 
   -- Create Customers
@@ -94,30 +114,54 @@ BEGIN
   -- Create Pets
   INSERT INTO pets (customer_id, name, breed, age, notes)
   VALUES
-  (customer1_id, 'Buddy', 'Golden Retriever', 5, 'Loves to play fetch.'),
-  (customer2_id, 'Lucy', 'Beagle', 3, 'Eats everything.'),
-  (customer3_id, 'Max', 'German Shepherd', 7, 'Very protective.'),
-  (customer4_id, 'Daisy', 'Poodle', 2, 'Allergic to chicken.'),
-  (customer5_id, 'Rocky', 'Boxer', 4, 'Needs a lot of exercise.'),
-  (customer6_id, 'Molly', 'Labrador', 6, 'Very friendly.'),
-  (customer7_id, 'Charlie', 'Bulldog', 8, 'Snores loudly.'),
-  (customer8_id, 'Sadie', 'Chihuahua', 1, 'A bit shy.'),
-  (customer9_id, 'Toby', 'Shih Tzu', 9, 'Loves to be cuddled.'),
-  (customer10_id, 'Zoe', 'Dachshund', 4, 'Very playful.');
+  (customer1_id, 'Buddy', 'Golden Retriever', 5, 'Loves to play fetch.') RETURNING id INTO pet1_id;
+  INSERT INTO pets (customer_id, name, breed, age, notes)
+  VALUES
+  (customer2_id, 'Lucy', 'Beagle', 3, 'Eats everything.') RETURNING id INTO pet2_id;
 
   -- Create Booking Requests
   INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
   VALUES
-  (customer1_id, '2025-10-10', '2025-10-15', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer2_id, '2025-10-12', '2025-10-17', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer3_id, '2025-10-15', '2025-10-20', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer4_id, '2025-10-18', '2025-10-22', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 24000, 24000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer5_id, '2025-10-20', '2025-10-25', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer6_id, '2025-10-22', '2025-10-28', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 36000, 36000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer7_id, '2025-10-25', '2025-10-30', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer8_id, '2025-10-28', '2025-11-02', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer9_id, '2025-11-01', '2025-11-05', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 20000, 20000, 0, 0, 'UNPAID', 0, NULL, NULL),
-  (customer10_id, '2025-11-05', '2025-11-10', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL);
+  (customer1_id, '2025-10-10', '2025-10-15', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request1_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer2_id, '2025-10-12', '2025-10-17', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request2_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer3_id, '2025-10-15', '2025-10-20', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request3_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer4_id, '2025-10-18', '2025-10-22', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 24000, 24000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request4_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer5_id, '2025-10-20', '2025-10-25', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request5_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer6_id, '2025-10-22', '2025-10-28', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 36000, 36000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request6_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer7_id, '2025-10-25', '2025-10-30', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request7_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer8_id, '2025-10-28', '2025-11-02', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request8_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer9_id, '2025-11-01', '2025-11-05', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 20000, 20000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request9_id;
+  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
+  VALUES
+  (customer10_id, '2025-11-05', '2025-11-10', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request10_id;
+
+  -- Create booking_pets
+  INSERT INTO booking_pets (booking_request_id, pet_id)
+  VALUES
+  (booking_request1_id, pet1_id),
+  (booking_request2_id, pet2_id);
+
+  -- Create booking_addons
+  INSERT INTO booking_addons (booking_request_id, sitter_addon_id)
+  VALUES
+  (booking_request1_id, addon1_id),
+  (booking_request2_id, addon2_id);
 END $$;
 
 -- 5. Seed booking_sitter_recipients
