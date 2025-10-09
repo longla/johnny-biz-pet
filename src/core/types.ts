@@ -26,6 +26,36 @@ export type Pet = {
   created_at: string;
 };
 
+export type Sitter = {
+    id: string;
+    user: {
+        email: string;
+        first_name: string;
+        last_name: string;
+    }
+}
+
+export type BookingNote = {
+    id: string;
+    note: string;
+    created_at: string;
+    user: {
+        first_name: string;
+        last_name: string;
+    }
+}
+
+export type NotifiedSitter = {
+    status: string;
+    sitters: {
+        id: string;
+        users: {
+            first_name: string;
+            last_name: string;
+        } | null
+    } | null;
+}
+
 export type BookingRequest = {
   id: string;
   customer_id: string | null;
@@ -43,4 +73,18 @@ export type BookingRequest = {
   payment_method: string | null;
   paid_at: string | null;
   created_at: string;
+  customers: Customer | null;
+  booking_pets: {
+    pets: Pet;
+  }[];
+  booking_addons: {
+    sitter_addons: {
+      id: string;
+      name: string;
+      price_cents: number;
+    };
+  }[];
+  booking_sitter_recipients: NotifiedSitter[];
+  booking_notes: BookingNote[];
+  assigned_sitter: Sitter | null;
 };

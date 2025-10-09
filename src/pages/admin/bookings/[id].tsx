@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const { data: booking, error } = await supabase
         .from('booking_requests')
-        .select('*, customers(*), pets(*), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name)))')
+        .select('*, customer:customers(*), booking_pets(pets(*)), booking_addons(sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters(*, user:users(*)))')
         .eq('id', id)
         .single();
 
@@ -128,11 +128,12 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Customer</h2>
-                                          <p><strong>Name:</strong> {bookingRequest.customer?.name}</p>
-                                          <p><strong>Email:</strong> {bookingRequest.customer?.email}</p>                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Sitter</h2>
-                            <p><strong>Email:</strong> {bookingRequest.sitter?.user?.email || 'N/A'}</p>
+                                                        <p><strong>Name:</strong> {bookingRequest.customers?.name}</p>
+                                                        <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
+                                                      </div>
+                                                      <div>
+                                                        <h2 className="text-2xl font-bold mb-4">Sitter</h2>
+                                                        <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>
@@ -143,20 +144,19 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Pets</h2>
-                                          <ul>
-                                            {bookingRequest.pets?.map(({ pet }) => (
-                                              <li key={pet.id}>{pet.name} ({pet.breed})</li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                        <div>
-                                          <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
-                                          <ul>
-                                            {bookingRequest.addons?.map(({ addon }) => (
-                                              <li key={addon.id}>{addon.name} (${addon.price_cents / 100})</li>
-                                            ))}
-                                          </ul>
-                                        </div>
+                                                        <ul>
+                                                          {bookingRequest.booking_pets?.map(({ pets }) => (
+                                                            <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                                                          ))}
+                                                        </ul>
+                                                      </div>
+                                                      <div>
+                                                        <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
+                                                        <ul>
+                                                          {bookingRequest.booking_addons?.map(({ sitter_addons }) => (
+                                                            <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
+                                                          ))}
+                                                        </ul>                                        </div>
                                         <div>
                                           <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
                                           <ul>
