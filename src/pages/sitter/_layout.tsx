@@ -23,7 +23,7 @@ export default function SitterLayout({ children }: SitterLayoutProps) {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push('/admin/login');
+        router.push('/sitter/login');
         return;
       }
       const { data: userData, error } = await supabase

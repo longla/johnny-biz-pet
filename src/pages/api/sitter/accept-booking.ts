@@ -38,12 +38,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(409).json({ message: 'This booking has already been taken.' });
         }
 
-        // 2. Update the booking
+        // 2. Get the sitter profile for the current user
+        const { data: sitterProfile, error: sitterError } = await supabase
+            .from('sitters')
+            .select('id')
+            .eq('user_id', user.id)
+            .single();
+
+        if (sitterError || !sitterProfile) {
+            return res.status(404).json({ message: 'Sitter profile not found.' });
+        }
+
+        // 3. Update the booking
         const { error: updateError } = await supabase
             .from('booking_requests')
             .update({
                 status: 'ACCEPTED',
-                assigned_sitter_id: user.id,
+                assigned_sitter_id: sitterProfile.id,
             })
             .eq('id', bookingId);
 

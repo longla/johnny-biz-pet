@@ -28,11 +28,28 @@ export default function SitterDashboard() {
             }
 
             try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    setLoading(false);
+                    setError("You must be logged in to view requests.");
+                    return;
+                }
+
+                const { data: sitterProfile, error: sitterError } = await supabase
+                    .from('sitters')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (sitterError || !sitterProfile) {
+                    throw new Error("Could not find sitter profile.");
+                }
+
                 // First, get the booking IDs the sitter has been notified for.
                 const { data: recipientData, error: recipientError } = await supabase
                     .from('booking_sitter_recipients')
                     .select('booking_request_id')
-                    .eq('sitter_id', user.id);
+                    .eq('sitter_id', sitterProfile.id);
 
                 if (recipientError) throw recipientError;
 

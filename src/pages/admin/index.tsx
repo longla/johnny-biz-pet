@@ -13,12 +13,12 @@ interface BookingRequest {
   payment_status: string;
   customer: {
     name: string;
-  };
+  } | null;
   sitter: {
     user: {
       email: string;
     };
-  };
+  } | null;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -27,25 +27,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     data: { user },
   } = await supabase.auth.getUser();
 
+  console.log("user", user);
+
   if (!user) {
     return {
       redirect: {
         destination: '/admin/login',
-        permanent: false,
-      },
-    };
-  }
-
-  const { data: userDetails } = await supabase
-    .from('users')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-
-  if (userDetails?.role !== 'ADMIN') {
-    return {
-      redirect: {
-        destination: '/',
         permanent: false,
       },
     };
@@ -64,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       customer:customers (
         name
       ),
-      sitter:sitters (
+      sitter:sitters!booking_requests_assigned_sitter_id_fkey (
         user:users (
           email
         )
