@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const { data: booking, error } = await supabase
         .from('booking_requests')
-        .select('*, customer:customers(*), booking_pets(pets(*)), booking_addons(sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters(*, user:users(*)))')
+    .select('*, customers(*), booking_pets(pets(*)), booking_addons(sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters!booking_requests_assigned_sitter_id_fkey(*, user:users(*)))')
         .eq('id', id)
         .single();
 
@@ -128,12 +128,12 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Customer</h2>
-                                                        <p><strong>Name:</strong> {bookingRequest.customers?.name}</p>
-                                                        <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
-                                                      </div>
-                                                      <div>
-                                                        <h2 className="text-2xl font-bold mb-4">Sitter</h2>
-                                                        <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
+                            <p><strong>Name:</strong> {bookingRequest.customers?.name}</p>
+                            <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold mb-4">Sitter</h2>
+                            <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>
@@ -144,33 +144,35 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Pets</h2>
-                                                        <ul>
-                                                          {bookingRequest.booking_pets?.map(({ pets }) => (
-                                                            <li key={pets.id}>{pets.name} ({pets.breed})</li>
-                                                          ))}
-                                                        </ul>
-                                                      </div>
-                                                      <div>
-                                                        <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
-                                                        <ul>
-                                                          {bookingRequest.booking_addons?.map(({ sitter_addons }) => (
-                                                            <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
-                                                          ))}
-                                                        </ul>                                        </div>
-                                        <div>
-                                          <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
-                                          <ul>
-                                            {bookingRequest.booking_sitter_recipients?.map(recipient => (
-                                              <li key={recipient.sitters?.id}>
-                                                {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                        <div>
-                                          <h2 className="text-2xl font-bold mb-4">Booking Notes</h2>
-                                          <BookingNotes bookingId={bookingRequest.id} notes={bookingRequest.booking_notes || []} user={user} />
-                                        </div>                    </div>
+                            <ul>
+                                {bookingRequest.booking_pets?.map(({ pets }) => (
+                                    <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
+                            <ul>
+                                {bookingRequest.booking_addons?.map(({ sitter_addons }) => (
+                                    <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
+                            <ul>
+                                {bookingRequest.booking_sitter_recipients?.map(recipient => (
+                                    <li key={recipient.sitters?.id}>
+                                        {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold mb-4">Booking Notes</h2>
+                            <BookingNotes bookingId={bookingRequest.id} notes={bookingRequest.booking_notes || []} user={user} />
+                        </div>
+                    </div>
                     <div className="mt-8 flex space-x-4">
                         <button
                             onClick={handleUpdatePaymentStatus}
