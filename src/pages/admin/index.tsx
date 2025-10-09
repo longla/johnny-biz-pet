@@ -158,7 +158,8 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-4">
                     <Link
-                      href={`/bookings/${request.id}`}
+                      href={`/bookings/${request.id}`}>
+                      View
                     </Link>
                   </td>
                 </tr>
