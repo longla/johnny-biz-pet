@@ -100,6 +100,32 @@ export default function BookingDetailPage() {
             setLoading(false);
             return;
           }
+        } else if (data.status === "PENDING_SITTER_ACCEPTANCE") {
+          const { data: sitterProfile, error: sitterError } = await supabase
+            .from("sitters")
+            .select("id")
+            .eq("user_id", user.id)
+            .single();
+
+          if (sitterError || !sitterProfile) {
+            throw new Error("Could not find sitter profile.");
+          }
+
+          const { data: recipientData, error: recipientError } = await supabase
+            .from("booking_sitter_recipients")
+            .select("status")
+            .eq("booking_request_id", id)
+            .eq("sitter_id", sitterProfile.id)
+            .single();
+
+          if (recipientError) throw recipientError;
+
+          if (recipientData && recipientData.status === "DECLINED") {
+            setError("You have declined this booking and can no longer view it.");
+            setRequest(null);
+            setLoading(false);
+            return;
+          }
         }
 
         setRequest(data as FullBookingRequest);
