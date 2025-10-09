@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("user", user);
+
 
   if (!user) {
     return {

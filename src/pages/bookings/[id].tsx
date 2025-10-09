@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { createClient } from '@/utils/supabase/server-props';
-import AdminLayout from '../_layout';
+import AdminLayout from '@/pages/admin/_layout';
+import SitterLayout from '@/pages/sitter/_layout';
 import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -62,12 +63,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return {
-      redirect: {
-        destination: '/admin/login',
-        permanent: false,
-      },
-    };
+    return { redirect: { destination: '/', permanent: false } };
+  }
+
+  const { id } = context.params!;
+
+  const { data: booking, error } = await supabase
+    .from('booking_requests')
+    .select('*, customers(*), pets(*), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name)))')
+    .eq('id', id)
+    .single();
+
+  if (error || !booking) {
+    return { notFound: true };
   }
 
   const { data: userDetails } = await supabase
@@ -77,54 +85,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .single();
 
   if (userDetails?.role !== 'ADMIN') {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
+    if (booking.assigned_sitter_id) {
+        const { data: sitterProfile, error: sitterError } = await supabase
+            .from('sitters')
+            .select('id')
+            .eq('user_id', user.id)
+            .single();
+
+        if (sitterError || !sitterProfile || sitterProfile.id !== booking.assigned_sitter_id) {
+            return { notFound: true };
+        }
+    } else {
+        return { notFound: true };
+    }
   }
 
-  const { id } = context.params || {};
-  if (typeof id !== 'string') {
-    return {
-      notFound: true,
-    };
-  }
-
-  const { data: bookingRequest } = await supabase
-    .from('booking_requests')
-    .select(`
-      *,
-      customer:customers (*),
-      sitter:sitters (
-        user:users (
-          email
-        )
-      ),
-      pets:booking_pets (
-        pet:pets (*)
-      ),
-      addons:booking_addons (
-        addon:sitter_addons (*)
-      ),
-      booking_sitter_recipients(*, sitters(*, users(first_name, last_name))),
-      booking_notes(*, user:users(first_name, last_name))
-    `)
-    .eq('id', id)
-    .single();
-
-  return {
-    props: { bookingRequest },
-  };
+  return { props: { user, booking, userDetails } };
 };
 
-function BookingDetailsPage({ bookingRequest: initialBookingRequest }: { bookingRequest: BookingRequest }) {
+function BookingDetailsPage({ user, bookingRequest: initialBookingRequest, userDetails }: { user:User, bookingRequest: BookingRequest, userDetails: {role: string} | null }) {
   const [bookingRequest, setBookingRequest] = useState(initialBookingRequest);
   const supabase = createBrowserClient();
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isAdmin = userDetails?.role === 'ADMIN';
 
   useEffect(() => {
     const channel = supabase
@@ -185,8 +170,7 @@ function BookingDetailsPage({ bookingRequest: initialBookingRequest }: { booking
     return <div>Loading...</div>;
   }
 
-  return (
-    <AdminLayout>
+  const Layout = isAdmin ? AdminLayout : SitterLayout;
       <div className="p-8">
         <h1 className="text-3xl font-bold mb-8">Booking Details</h1>
         <div className="bg-white rounded-lg shadow p-8">
