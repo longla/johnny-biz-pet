@@ -29,6 +29,9 @@ interface FullBookingRequest extends BookingRequest {
 interface BookingDetailsPageProps {
     user: User;
     booking: FullBookingRequest;
+    userDetails: {
+        role: string;
+    } | null;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -73,13 +76,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    return { props: { user, booking } };
+    return { props: { user, booking, userDetails } };
 };
 
-export default function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPageProps) {
+export default function BookingDetailsPage({ user, booking: initialBooking, userDetails }: BookingDetailsPageProps) {
     const [booking, setBooking] = useState(initialBooking);
     const supabase = createClientComponent();
-    const isAdmin = user.user_metadata.role === 'ADMIN';
+    const isAdmin = userDetails?.role === 'ADMIN';
 
     useEffect(() => {
         const channel = supabase
