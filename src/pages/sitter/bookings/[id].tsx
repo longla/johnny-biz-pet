@@ -26,6 +26,11 @@ interface InfoRowProps {
     value: string | number | null | undefined;
 }
 
+import BookingNotes from '@/components/booking-notes';
+import { User } from '@supabase/supabase-js';
+
+// ... (rest of the file)
+
 export default function BookingDetailPage() {
     const router = useRouter();
     const { id } = router.query;
@@ -34,6 +39,7 @@ export default function BookingDetailPage() {
     const [error, setError] = useState<string | null>(null);
     const [actionStatus, setActionStatus] = useState<ActionStatus>('idle');
     const [actionError, setActionError] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     const supabase = createClient();
 
@@ -48,6 +54,7 @@ export default function BookingDetailPage() {
                     setLoading(false);
                     return;
                 }
+                setUser(user);
 
                 const { data, error } = await supabase
                     .from('booking_requests')
