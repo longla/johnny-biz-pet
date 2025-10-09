@@ -20,47 +20,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { bookingId } = req.body;
         if (!bookingId) throw new Error('Booking ID is required');
 
-        // TODO: This logic should be moved to a Postgres function (RPC) for atomicity 
-        // to prevent race conditions where two sitters accept at the same time.
+        const { error } = await supabase.rpc('accept_booking_request', {
+            booking_id: bookingId,
+            sitter_user_id: user.id,
+        });
 
-        // 1. Check if the booking is still pending
-        const { data: booking, error: fetchError } = await supabase
-            .from('booking_requests')
-            .select('status')
-            .eq('id', bookingId)
-            .single();
-
-        if (fetchError || !booking) {
-            return res.status(404).json({ message: 'Booking not found.' });
-        }
-
-        if (booking.status !== 'PENDING_SITTER_ACCEPTANCE') {
-            return res.status(409).json({ message: 'This booking has already been taken.' });
-        }
-
-        // 2. Get the sitter profile for the current user
-        const { data: sitterProfile, error: sitterError } = await supabase
-            .from('sitters')
-            .select('id')
-            .eq('user_id', user.id)
-            .single();
-
-        if (sitterError || !sitterProfile) {
-            return res.status(404).json({ message: 'Sitter profile not found.' });
-        }
-
-        // 3. Update the booking
-        const { error: updateError } = await supabase
-            .from('booking_requests')
-            .update({
-                status: 'ACCEPTED',
-                assigned_sitter_id: sitterProfile.id,
-            })
-            .eq('id', bookingId);
-
-        if (updateError) throw updateError;
-
-        // A real implementation would also trigger notifications to other sitters here.
+        if (error) throw error;
 
         res.status(200).json({ message: 'Booking accepted successfully!' });
 
