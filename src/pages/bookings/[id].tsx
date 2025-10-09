@@ -6,6 +6,7 @@ import SitterLayout from '@/pages/sitter/_layout';
 import { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { createClient as createClientComponent } from '@/utils/supabase/client';
+import BookingNotes from '@/components/booking-notes';
 
 interface NotifiedSitter {
     status: string;
@@ -133,13 +134,9 @@ export default function BookingDetailsPage({ user, booking: initialBooking }: Bo
                             </ul>
                         </div>
 
-import BookingNotes from '@/components/booking-notes';
-
-// ... (rest of the file)
-
                         <div className="bg-white p-6 rounded-lg shadow mb-6">
                             <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Booking Notes</h2>
-                            <BookingNotes bookingId={booking.id} notes={booking.booking_notes} />
+                            <BookingNotes bookingId={booking.id} notes={booking.booking_notes} user={user} />
                         </div>
                     </div>
 

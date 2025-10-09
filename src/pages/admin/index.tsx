@@ -19,6 +19,9 @@ interface BookingRequest {
       email: string;
     };
   } | null;
+  booking_sitter_recipients: {
+    count: number;
+  }[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -55,6 +58,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         user:users (
           email
         )
+      ),
+      booking_sitter_recipients (
+        count
       )
     `
     );
@@ -148,7 +154,7 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                     {request.payment_status}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    0/2
+                    {request.booking_sitter_recipients[0]?.count || 0}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap space-x-4">
                     <Link

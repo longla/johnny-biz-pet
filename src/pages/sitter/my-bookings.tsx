@@ -32,13 +32,23 @@ export default function MyBookingsPage() {
                 return;
             }
 
-            const status = view === 'upcoming' ? 'ACCEPTED' : 'COMPLETED';
-
             try {
+                const { data: sitterProfile, error: sitterError } = await supabase
+                    .from('sitters')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (sitterError || !sitterProfile) {
+                    throw new Error("Could not find sitter profile.");
+                }
+
+                const status = view === 'upcoming' ? 'ACCEPTED' : 'COMPLETED';
+
                 const { data, error } = await supabase
                     .from('booking_requests')
                     .select(`*, customers (name)`)
-                    .eq('assigned_sitter_id', user.id)
+                    .eq('assigned_sitter_id', sitterProfile.id)
                     .eq('status', status)
                     .order('start_date', { ascending: view === 'upcoming' });
 
