@@ -16,6 +16,8 @@ interface BookingRequest {
   } | null;
   sitter: {
     user: {
+      first_name: string;
+      last_name: string;
       email: string;
     };
   } | null;
@@ -56,6 +58,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ),
       sitter:sitters!booking_requests_assigned_sitter_id_fkey (
         user:users (
+          first_name,
+          last_name,
           email
         )
       ),
@@ -139,6 +143,8 @@ function AdminDashboard({ user, bookingRequests }: { user: User; bookingRequests
                     {request.customer?.name || 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
+                    {request.sitter?.user?.first_name} {request.sitter?.user?.last_name}
+                    <br />
                     {request.sitter?.user?.email || 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

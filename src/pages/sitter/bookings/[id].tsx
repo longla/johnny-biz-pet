@@ -8,6 +8,13 @@ import { AlertTriangle, Calendar, Check, Loader, Mail, MapPin, Phone, User, X, t
 type FullBookingRequest = BookingRequest & {
     customers: Customer | null;
     pets: Pet[];
+    booking_addons: {
+        sitter_addons: {
+            id: string;
+            name: string;
+            price_cents: number;
+        };
+    }[];
 };
 
 type ActionStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -39,7 +46,8 @@ export default function BookingDetailPage() {
                     .select(`
                         *,
                         customers (*),
-                        pets (*)
+                        booking_pets(pets(*)),
+                        booking_addons(sitter_addons(*))
                     `)
                     .eq('id', id)
                     .single();
@@ -122,6 +130,24 @@ export default function BookingDetailPage() {
                         <InfoRow icon={Calendar} label="Dates" value={`${new Date(request.start_date).toLocaleDateString()} - ${new Date(request.end_date).toLocaleDateString()}`} />
                         <InfoRow icon={MapPin} label="County" value={request.county} />
                     </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Pet Information</h2>
+                    <ul>
+                        {request.booking_pets?.map(({ pets }) => (
+                            <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">Add-ons</h2>
+                    <ul>
+                        {request.booking_addons?.map(({ sitter_addons }) => (
+                            <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
+                        ))}
+                    </ul>
                 </div>
 
                 {request.status === 'PENDING_SITTER_ACCEPTANCE' && (

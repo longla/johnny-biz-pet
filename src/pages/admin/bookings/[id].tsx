@@ -133,7 +133,8 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Sitter</h2>
-                            <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
+                            <p><strong>Name:</strong> {bookingRequest.assigned_sitter?.user?.first_name} {bookingRequest.assigned_sitter?.user?.last_name}</p>
+              <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>

@@ -4,7 +4,11 @@ import SitterLayout from './_layout';
 import { type BookingRequest } from '@/core/types';
 import { Loader, AlertTriangle, BookOpen, History, type LucideProps } from 'lucide-react';
 
-type BookingWithCustomer = BookingRequest & { customers: { name: string } | null };
+type BookingWithCustomer = BookingRequest & { 
+    customers: { name: string } | null; 
+    booking_pets: { pets: Pet }[];
+    booking_addons: { sitter_addons: { id: string; name: string; price_cents: number; } }[];
+};
 type View = 'upcoming' | 'past';
 
 interface TabButtonProps {
@@ -47,7 +51,7 @@ export default function MyBookingsPage() {
 
                 const { data, error } = await supabase
                     .from('booking_requests')
-                    .select(`*, customers (name)`)
+                    .select(`*, customers (name), booking_pets(pets(*)), booking_addons(sitter_addons(*))`)
                     .eq('assigned_sitter_id', sitterProfile.id)
                     .eq('status', status)
                     .order('start_date', { ascending: view === 'upcoming' });
@@ -71,6 +75,22 @@ export default function MyBookingsPage() {
             <h3 className="font-bold text-gray-800">{booking.customers?.name || 'Customer'}</h3>
             <p className="text-sm text-gray-500">{new Date(booking.start_date).toLocaleDateString()} - {new Date(booking.end_date).toLocaleDateString()}</p>
             <p className="text-sm text-gray-500 mt-1">Status: <span className="font-medium">{booking.status}</span></p>
+            <div className="mt-2">
+                <h4 className="font-semibold">Pets:</h4>
+                <ul>
+                    {booking.booking_pets?.map(({ pets }) => (
+                        <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                    ))}
+                </ul>
+            </div>
+            <div className="mt-2">
+                <h4 className="font-semibold">Add-ons:</h4>
+                <ul>
+                    {booking.booking_addons?.map(({ sitter_addons }) => (
+                        <li key={sitter_addons.id}>{sitter_addons.name}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 
