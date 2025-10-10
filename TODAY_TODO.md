@@ -1,4 +1,3 @@
-- [x] Figure out how to consolidate supabase migrations script and reset rrr_supabase_dev with migrations files to making sure all data scripts is corret
-- [x] Deploy dev environment on vercel for testing
-- [x] Review testing implementation from jules and merged code changes
-- [x] Work on phase2_plan.md - Milestone 3: Build the Sitter Portal (Mobile-First)
+- [ ] admin dashboard, allow admin to edit booking all fields, only admin can change booking details
+- [ ] Sitter dasboard after sitter accepted, booking status should changed to PENDING_BOOKING, sitter can request payment and after payment is made, status of booking request should change to BOOKED
+- [ ] sitter dasboard home  now should have tab for new requests and pending booking request

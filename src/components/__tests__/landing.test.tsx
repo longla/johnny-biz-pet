@@ -19,22 +19,22 @@ jest.mock('../floating-yoga-dog', () => ({
 jest.mock('framer-motion', () => {
     const realFramerMotion = jest.requireActual('framer-motion');
     const motion = {
-        div: ({ children, whileHover, whileInView, initial, animate, transition, ...props }) => <div {...props}>{children}</div>,
-        h1: ({ children, whileHover, whileInView, initial, animate, transition, ...props }) => <h1 {...props}>{children}</h1>,
-        p: ({ children, whileHover, whileInView, initial, animate, transition, ...props }) => <p {...props}>{children}</p>,
-        button: ({ children, whileHover, whileInView, initial, animate, transition, whileTap, ...props }) => <button {...props}>{children}</button>,
+        div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+        h1: ({ children, ...props }: any) => <h1 {...props}>{children}</h1>,
+        p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
+        button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
     };
     return {
         ...realFramerMotion,
         motion,
-        AnimatePresence: ({ children }) => <>{children}</>,
+        AnimatePresence: ({ children }: any) => <>{children}</>,
     };
 });
 
 // Mock next/image to be a simple <img> tag and handle props correctly
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: (props: any) => {
     const { src, alt, objectFit, layout, quality, priority, ...rest } = props;
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img src={src} alt={alt} {...rest} />;

@@ -1,10 +1,15 @@
 import { useEffect, useState, type ElementType } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import SitterLayout from './_layout';
-import { type BookingRequest } from '@/core/types';
+import { type BookingRequest, type Pet } from '@/core/types';
 import { Loader, AlertTriangle, BookOpen, History, type LucideProps } from 'lucide-react';
+import Link from 'next/link';
 
-type BookingWithCustomer = BookingRequest & { customers: { name: string } | null };
+type BookingWithCustomer = BookingRequest & { 
+    customers: { name: string } | null; 
+    booking_pets: { pets: Pet }[];
+    booking_addons: { sitter_addons: { id: string; name: string; price_cents: number; } }[];
+};
 type View = 'upcoming' | 'past';
 
 interface TabButtonProps {
@@ -32,13 +37,23 @@ export default function MyBookingsPage() {
                 return;
             }
 
-            const status = view === 'upcoming' ? 'ACCEPTED' : 'COMPLETED';
-
             try {
+                const { data: sitterProfile, error: sitterError } = await supabase
+                    .from('sitters')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (sitterError || !sitterProfile) {
+                    throw new Error("Could not find sitter profile.");
+                }
+
+                const status = view === 'upcoming' ? 'ACCEPTED' : 'COMPLETED';
+
                 const { data, error } = await supabase
                     .from('booking_requests')
-                    .select(`*, customers (name)`)
-                    .eq('assigned_sitter_id', user.id)
+                    .select(`*, customers (name), booking_pets(pets(*)), booking_addons(sitter_addons(*))`)
+                    .eq('assigned_sitter_id', sitterProfile.id)
                     .eq('status', status)
                     .order('start_date', { ascending: view === 'upcoming' });
 
@@ -61,6 +76,27 @@ export default function MyBookingsPage() {
             <h3 className="font-bold text-gray-800">{booking.customers?.name || 'Customer'}</h3>
             <p className="text-sm text-gray-500">{new Date(booking.start_date).toLocaleDateString()} - {new Date(booking.end_date).toLocaleDateString()}</p>
             <p className="text-sm text-gray-500 mt-1">Status: <span className="font-medium">{booking.status}</span></p>
+            <div className="mt-2">
+                <h4 className="font-semibold">Pets:</h4>
+                <ul>
+                    {booking.booking_pets?.map(({ pets }) => (
+                        <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                    ))}
+                </ul>
+            </div>
+            <div className="mt-2">
+                <h4 className="font-semibold">Add-ons:</h4>
+                <ul>
+                    {booking.booking_addons?.map(({ sitter_addons }) => (
+                        <li key={sitter_addons.id}>{sitter_addons.name}</li>
+                    ))}
+                </ul>
+            </div>
+            <div className="mt-4">
+                <Link href={`/sitter/bookings/${booking.id}`} className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                    View Detail
+                </Link>
+            </div>
         </div>
     );
 
@@ -76,7 +112,7 @@ export default function MyBookingsPage() {
         }
         return (
             <div className="space-y-4">
-                {bookings.map(b => <BookingCard key={b.id} booking={b} />)}
+                {bookings.map(b => <BookingCard booking={b} key={b.id} />)}
             </div>
         );
     };

@@ -73,6 +73,30 @@ npm run build
 npm run start
 ```
 
+## Database Seeding
+
+This project uses Supabase for the database. The seed data is located in the `supabase/seed.sql` file.
+
+To seed the database, you can use the Supabase CLI:
+
+```bash
+# Reset the database and apply the seed data
+npx supabase db reset
+```
+
+This command will drop all the tables in your local database, recreate them based on your migrations, and then run the `supabase/seed.sql` file to populate the tables with initial data.
+
+### Seeding Auth Users
+
+The `supabase/seed.sql` file seeds the `public.users` table, but it does not create the corresponding authentication users in Supabase's `auth.users` table. To create the auth users, you can use the `scripts/seed-auth-users.js` script:
+
+```bash
+# Run the script to create auth users
+node scripts/seed-auth-users.js
+```
+
+This script will read the users from the `public.users` table and create corresponding users in the `auth.users` table with a default password of `password`.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Project Structure

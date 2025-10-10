@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server-props';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import AdminLayout from './_layout';
@@ -15,7 +15,21 @@ interface Sitter {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const supabase = createClient(context);
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return context.req.cookies[name]
+        },
+        set(name: string, value: string, options: CookieOptions) {
+        },
+        remove(name: string, options: CookieOptions) {
+        },
+      },
+    }
+  )
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -84,7 +98,7 @@ function SittersPage({ sitters }: { sitters: Sitter[] }) {
   };
   return (
     <AdminLayout>
-      <div>
+      <div className="p-4 md:p-8">
         <div className="flex justify-between items-center mb-4 md:mb-8">
           <h1 className="text-3xl font-bold">Sitter Management</h1>
           <Link

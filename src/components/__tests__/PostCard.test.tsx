@@ -4,11 +4,13 @@ import { Post } from '@/core/types';
 
 describe('PostCardCompoent', () => {
   const mockPost: Post = {
+    id: '1',
     title: 'Test Post',
     slug: 'test-post',
     description: 'This is a test post.',
     author: 'Test Author',
     date: '2025-10-07',
+    content: 'This is the content of the test post.',
     hasCoverImage: false,
   };
 
@@ -32,7 +34,7 @@ describe('PostCardCompoent', () => {
     render(<PostCardCompoent post={mockPost} />);
 
     const image = screen.getByRole('img');
-    expect(decodeURIComponent(image.getAttribute('src'))).toContain('/about-image.jpeg');
+    expect(decodeURIComponent(image.getAttribute('src')!)).toContain('/about-image.jpeg');
   });
 
   it('renders the post cover image when hasCoverImage is true', () => {
@@ -43,6 +45,6 @@ describe('PostCardCompoent', () => {
     render(<PostCardCompoent post={postWithCover} />);
 
     const image = screen.getByRole('img');
-    expect(decodeURIComponent(image.getAttribute('src'))).toContain('/posts/test-post/cover.jpg');
+    expect(decodeURIComponent(image.getAttribute('src')!)).toContain('/posts/test-post/cover.jpg');
   });
 });

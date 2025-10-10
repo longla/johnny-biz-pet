@@ -1,0 +1,2 @@
+ALTER PUBLICATION supabase_realtime
+ADD TABLE booking_requests, booking_sitter_recipients;

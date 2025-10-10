@@ -28,11 +28,22 @@ export default function SitterDashboard() {
             }
 
             try {
+                const { data: sitterProfile, error: sitterError } = await supabase
+                    .from('sitters')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (sitterError || !sitterProfile) {
+                    throw new Error("Could not find sitter profile.");
+                }
+
                 // First, get the booking IDs the sitter has been notified for.
                 const { data: recipientData, error: recipientError } = await supabase
                     .from('booking_sitter_recipients')
                     .select('booking_request_id')
-                    .eq('sitter_id', user.id);
+                    .eq('sitter_id', sitterProfile.id)
+                    .eq('status', 'NOTIFIED');
 
                 if (recipientError) throw recipientError;
 
@@ -66,6 +77,26 @@ export default function SitterDashboard() {
         };
 
         fetchRequests();
+
+        const channel = supabase
+            .channel('booking-sitter-recipients-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'booking_sitter_recipients',
+                },
+                (payload) => {
+                    console.log('Change received!', payload);
+                    fetchRequests();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [supabase]);
 
     const BookingRequestCard = ({ request }: { request: BookingRequestWithCustomer }) => (
