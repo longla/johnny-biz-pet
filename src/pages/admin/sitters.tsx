@@ -98,7 +98,7 @@ function SittersPage({ sitters }: { sitters: Sitter[] }) {
   };
   return (
     <AdminLayout>
-      <div>
+      <div className="p-4 md:p-8">
         <div className="flex justify-between items-center mb-4 md:mb-8">
           <h1 className="text-3xl font-bold">Sitter Management</h1>
           <Link
