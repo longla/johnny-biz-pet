@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { type GetServerSideProps } from 'next';
-import { createClient as createServerClient } from '@/utils/supabase/server-props';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import AdminLayout from '../../_layout';
 
 // Define a more complete Sitter type for the page props
@@ -22,7 +22,21 @@ interface EditSitterPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<EditSitterPageProps> = async (context) => {
-  const supabase = createServerClient(context);
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return context.req.cookies[name]
+        },
+        set(name: string, value: string, options: CookieOptions) {
+        },
+        remove(name: string, options: CookieOptions) {
+        },
+      },
+    }
+  )
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
