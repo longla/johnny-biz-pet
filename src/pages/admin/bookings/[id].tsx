@@ -4,32 +4,8 @@ import AdminLayout from '../_layout';
 import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import PaymentBreakdown from '@/components/payment-breakdown';
 import BookingNotes from '@/components/booking-notes';
-import { type BookingRequest, type Customer, type Pet, type BookingNote, type Sitter } from '@/core/types';
-import { User } from '@supabase/supabase-js';
-
-interface NotifiedSitter {
-    status: string;
-    sitters: {
-        id: string;
-        users: {
-            first_name: string;
-            last_name: string;
-        } | null
-    } | null;
-}
-
-interface FullBookingRequest extends BookingRequest {
-    customers: Customer | null;
-    pets: Pet[];
-    booking_notes: BookingNote[];
-    booking_sitter_recipients: NotifiedSitter[];
-}
-
-interface BookingDetailsPageProps {
-    user: User;
-    booking: FullBookingRequest;
-}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const supabase = createServerClient(
@@ -68,6 +44,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { user, booking } };
 };
 
+import { type BookingRequest, type Pet, type NotifiedSitter } from '@/core/types';
+
+interface BookingDetailsPageProps {
+    user: any; // Replace with a more specific user type if available
+    booking: BookingRequest;
+}
+
 function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPageProps) {
     const [bookingRequest, setBookingRequest] = useState(initialBooking);
     const supabase = createBrowserClient();
@@ -75,9 +58,19 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedBooking, setEditedBooking] = useState<Partial<FullBookingRequest>>(initialBooking);
+    const [editedBooking, setEditedBooking] = useState<Partial<BookingRequest>>(initialBooking);
+
+    const calculateNights = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end.getTime() - start.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
 
     useEffect(() => {
+        if (!bookingRequest) return;
+
         const channel = supabase
             .channel(`booking-details-${bookingRequest.id}`)
             .on(
@@ -89,7 +82,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     filter: `id=eq.${bookingRequest.id}`,
                 },
                 (payload) => {
-                    setBookingRequest(prev => ({ ...prev, ...payload.new as BookingRequest }));
+                    setBookingRequest((prev: BookingRequest) => ({ ...prev, ...payload.new as BookingRequest }));
                 }
             )
             .subscribe();
@@ -97,7 +90,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
         return () => {
             supabase.removeChannel(channel);
         };
-    }, [supabase, bookingRequest.id]);
+    }, [supabase, bookingRequest]);
 
     const handleSave = async () => {
         setError('');
@@ -181,14 +174,15 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>
                             <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
+                            <p><strong>Nights:</strong> {calculateNights(bookingRequest.start_date, bookingRequest.end_date)}</p>
                             <p><strong>Status:</strong> {bookingRequest.status}</p>
-                            <p><strong>Total Cost:</strong> ${bookingRequest.total_cost_cents ? bookingRequest.total_cost_cents / 100 : 'N/A'}</p>
                             <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
                         </div>
+                        <PaymentBreakdown booking={bookingRequest} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Pets</h2>
                             <ul>
-                                {bookingRequest.booking_pets?.map(({ pets }) => (
+                                {bookingRequest.booking_pets?.map(({ pets }: { pets: Pet }) => (
                                     <li key={pets.id}>{pets.name} ({pets.breed})</li>
                                 ))}
                             </ul>
@@ -196,7 +190,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
                             <ul>
-                                {bookingRequest.booking_addons?.map(({ sitter_addons }) => (
+                                {bookingRequest.booking_addons?.map(({ sitter_addons }: { sitter_addons: { id: string; name: string; price_cents: number } }) => (
                                     <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
                                 ))}
                             </ul>
@@ -204,7 +198,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
                             <ul>
-                                {bookingRequest.booking_sitter_recipients?.map(recipient => (
+                                {bookingRequest.booking_sitter_recipients?.map((recipient: NotifiedSitter) => (
                                     <li key={recipient.sitters?.id}>
                                         {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
                                     </li>

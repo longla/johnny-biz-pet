@@ -36,6 +36,7 @@ interface InfoRowProps {
   value: string | number | null | undefined;
 }
 
+import PaymentBreakdown from "@/components/payment-breakdown";
 import BookingNotes from "@/components/booking-notes";
 
 // ... (rest of the file)
@@ -53,6 +54,14 @@ export default function BookingDetailPage() {
   const [requestPaymentError, setRequestPaymentError] = useState<string | null>(null);
 
   const supabase = createClient();
+
+  const calculateNights = (startDate: string, endDate: string) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -74,6 +83,7 @@ export default function BookingDetailPage() {
           .select(
             `
                         *,
+                        total_cost_cents,
                         customers (*),
                         booking_pets(pets(*)),
                         booking_addons(sitter_addons(*)),
@@ -220,6 +230,7 @@ export default function BookingDetailPage() {
     </div>
   );
 
+
   return (
     <SitterLayout>
       <div className="container mx-auto p-4">
@@ -255,6 +266,11 @@ export default function BookingDetailPage() {
                 request.end_date
               ).toLocaleDateString()}`}
             />
+            <InfoRow
+              icon={Calendar}
+              label="Nights"
+              value={calculateNights(request.start_date, request.end_date)}
+            />
             <InfoRow icon={MapPin} label="County" value={request.county} />
           </div>
         </div>
@@ -271,6 +287,9 @@ export default function BookingDetailPage() {
             ))}
           </ul>
         </div>
+
+        <PaymentBreakdown booking={request} nights={calculateNights(request.start_date, request.end_date)} />
+
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">
             Add-ons

@@ -82,6 +82,7 @@ export type BookingRequest = {
     pets: Pet;
   }[];
   booking_addons: {
+    price_cents_at_booking: number;
     sitter_addons: {
       id: string;
       name: string;

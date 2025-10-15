@@ -75,10 +75,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // 6. Link selected add-ons to the booking (if any)
     if (selected_addon_ids && selected_addon_ids.length > 0) {
-        const addonData = selected_addon_ids.map((addonId: string) => ({
-            booking_request_id: bookingId,
-            sitter_addon_id: addonId,
-        }));
+        const { data: addonPrices, error: addonPricesError } = await supabaseAdmin
+            .from('sitter_addons')
+            .select('id, price_cents')
+            .in('id', selected_addon_ids);
+
+        if (addonPricesError) throw new Error(`Failed to fetch addon prices: ${addonPricesError.message}`);
+
+        const addonData = selected_addon_ids.map((addonId: string) => {
+            const price = addonPrices.find(p => p.id === addonId)?.price_cents;
+            if (price === undefined) {
+                // This should not happen if the addon exists
+                throw new Error(`Could not find price for addon ${addonId}`);
+            }
+            return {
+                booking_request_id: bookingId,
+                sitter_addon_id: addonId,
+                price_cents_at_booking: price,
+            };
+        });
+
         const { error: addonError } = await supabaseAdmin
             .from('booking_addons')
             .insert(addonData);

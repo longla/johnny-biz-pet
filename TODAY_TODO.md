@@ -1,3 +1,2 @@
-- [x] admin dashboard, allow admin to edit booking all fields, only admin can change booking details
-- [x] Sitter dasboard after sitter accepted, booking status should changed to PENDING_BOOKING, sitter can request payment and after payment is made, status of booking request should change to BOOKED
-- [x] sitter dasboard home  now should have tab for new requests and pending booking request
+[] Booking details (admin,sitter) should show how many nights of the booking (cost will be calculate per night stay)
+[] Booking details (admin,sitter) should have breakdown of total amount based on price per night, add-ons if we have any
