@@ -125,9 +125,6 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
         setIsSubmitting(false);
     };
 
-
-
-
     const handleUpdatePaymentStatus = async () => {
         setError('');
         setIsSubmitting(true);
@@ -276,27 +273,36 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Status</label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 value={editedBooking.status}
-                                                onChange={(e) => setEditedBooking({ ...editedBooking, status: e.target.value })}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, status: e.target.value as any })}
                                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
+                                            >
+                                                <option value="PENDING_SITTER_ACCEPTANCE">PENDING_SITTER_ACCEPTANCE</option>
+                                                <option value="ACCEPTED">ACCEPTED</option>
+                                                <option value="DECLINED">DECLINED</option>
+                                                <option value="EXPIRED_UNCLAIMED">EXPIRED_UNCLAIMED</option>
+                                                <option value="CANCELED_BY_ADMIN">CANCELED_BY_ADMIN</option>
+                                                <option value="COMPLETED">COMPLETED</option>
+                                            </select>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Payment Status</label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 value={editedBooking.payment_status}
-                                                onChange={(e) => setEditedBooking({ ...editedBooking, payment_status: e.target.value })}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, payment_status: e.target.value as any })}
                                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
+                                            >
+                                                <option value="UNPAID">UNPAID</option>
+                                                <option value="PAID">PAID</option>
+                                                <option value="REFUNDED">REFUNDED</option>
+                                            </select>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">Total Cost (Cents)</label>
                                             <input
                                                 type="number"
-                                                value={editedBooking.total_cost_cents}
+                                                value={editedBooking.total_cost_cents || ''}
                                                 onChange={(e) => setEditedBooking({ ...editedBooking, total_cost_cents: parseInt(e.target.value) })}
                                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                             />
