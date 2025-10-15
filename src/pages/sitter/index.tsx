@@ -1,166 +1,130 @@
-import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import Link from 'next/link';
-import { type BookingRequest } from '@/core/types'; // Assuming types are defined here
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 import SitterLayout from './_layout';
-import { AlertTriangle, Inbox, Loader } from 'lucide-react';
-
-// Extend the type to include customer name if we can join it
-type BookingRequestWithCustomer = BookingRequest & {
-    customers: {
-        name: string;
-    } | null;
-};
+import { type BookingRequest } from '@/core/types';
 
 export default function SitterDashboard() {
-    const [requests, setRequests] = useState<BookingRequestWithCustomer[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const supabase = createClient();
+  const supabase = createClient();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [bookings, setBookings] = useState<BookingRequest[]>([]);
+  const [activeTab, setActiveTab] = useState('new-requests');
 
-    useEffect(() => {
-        const fetchRequests = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) {
-                setLoading(false);
-                setError("You must be logged in to view requests.");
-                return;
-            }
+  useEffect(() => {
+    const fetchUserAndBookings = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
 
-            try {
-                const { data: sitterProfile, error: sitterError } = await supabase
-                    .from('sitters')
-                    .select('id')
-                    .eq('user_id', user.id)
-                    .single();
+      if (user) {
+        const { data: sitter, error: sitterError } = await supabase
+          .from('sitters')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
 
-                if (sitterError || !sitterProfile) {
-                    throw new Error("Could not find sitter profile.");
-                }
-
-                // First, get the booking IDs the sitter has been notified for.
-                const { data: recipientData, error: recipientError } = await supabase
-                    .from('booking_sitter_recipients')
-                    .select('booking_request_id')
-                    .eq('sitter_id', sitterProfile.id)
-                    .eq('status', 'NOTIFIED');
-
-                if (recipientError) throw recipientError;
-
-                const requestIds = recipientData.map(r => r.booking_request_id);
-
-                if (requestIds.length === 0) {
-                    setRequests([]);
-                    setLoading(false);
-                    return;
-                }
-
-                // Now, fetch the actual booking requests that are pending
-                const { data: requestData, error: requestError } = await supabase
-                    .from('booking_requests')
-                    .select(`
-                        *,
-                        customers ( name )
-                    `)
-                    .in('id', requestIds)
-                    .eq('status', 'PENDING_SITTER_ACCEPTANCE');
-
-                if (requestError) throw requestError;
-
-                setRequests(requestData as BookingRequestWithCustomer[]);
-            } catch (e: any) {
-                setError("Failed to fetch booking requests.");
-                console.error(e);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchRequests();
-
-        const channel = supabase
-            .channel('booking-sitter-recipients-changes')
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'booking_sitter_recipients',
-                },
-                (payload) => {
-                    console.log('Change received!', payload);
-                    fetchRequests();
-                }
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
-    }, [supabase]);
-
-    const BookingRequestCard = ({ request }: { request: BookingRequestWithCustomer }) => (
-        <Link href={`/sitter/bookings/${request.id}`} className="block bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
-            <div className="flex justify-between items-center">
-                <h3 className="font-bold text-lg text-gray-800">{request.customers?.name || 'New Customer'}</h3>
-                <span className="text-sm text-gray-500">{request.county}</span>
-            </div>
-            <div className="mt-2 text-gray-600">
-                <p><span className="font-medium">Dates:</span> {new Date(request.start_date).toLocaleDateString()} - {new Date(request.end_date).toLocaleDateString()}</p>
-                {/* We would need another join to get pet names, keeping it simple for now */}
-            </div>
-            <div className="mt-4 text-right">
-                <span className="text-sm font-semibold text-[#1A9CB0]">View Details &rarr;</span>
-            </div>
-        </Link>
-    );
-
-    const renderContent = () => {
-        if (loading) {
-            return (
-                <div className="text-center p-10">
-                    <Loader className="mx-auto animate-spin text-[#F28C38]" size={48} />
-                    <p className="mt-4 text-gray-500">Loading new requests...</p>
-                </div>
-            );
+        if (sitterError || !sitter) {
+          console.error('Error fetching sitter:', sitterError);
+          return;
         }
 
-        if (error) {
-            return (
-                <div className="text-center p-10 bg-red-50 rounded-lg">
-                    <AlertTriangle className="mx-auto text-red-500" size={48} />
-                    <p className="mt-4 font-semibold text-red-700">Could not load requests</p>
-                    <p className="text-red-600">{error}</p>
-                </div>
-            );
+        const { data: assignedBookings, error: assignedError } = await supabase
+          .from('booking_requests')
+          .select('*, customers(name)')
+          .eq('assigned_sitter_id', sitter.id)
+          .eq('status', 'ACCEPTED')
+          .eq('payment_status', 'UNPAID');
+
+        const { data: recipientBookingIds, error: recipientError } = await supabase
+          .from('booking_sitter_recipients')
+          .select('booking_request_id')
+          .eq('sitter_id', sitter.id);
+
+        if (recipientError) {
+          console.error('Error fetching recipient bookings:', recipientError);
+          return;
         }
 
-        if (requests.length === 0) {
-            return (
-                <div className="text-center p-10 bg-gray-100 rounded-lg">
-                    <Inbox className="mx-auto text-gray-400" size={48} />
-                    <p className="mt-4 font-semibold text-gray-600">No new booking requests</p>
-                    <p className="text-gray-500">We'll notify you when a new request comes in.</p>
-                </div>
-            );
-        }
+        const bookingIds = recipientBookingIds.map(r => r.booking_request_id);
 
-        return (
-            <div className="space-y-4">
-                {requests.map(req => <BookingRequestCard key={req.id} request={req} />)}
-            </div>
-        );
+        const { data: recipientBookings, error: recipientBookingsError } = await supabase
+          .from('booking_requests')
+          .select('*, customers(name)')
+          .in('id', bookingIds)
+          .eq('status', 'PENDING_SITTER_ACCEPTANCE');
+
+        if (assignedError || recipientBookingsError) {
+          console.error('Error fetching bookings:', assignedError || recipientBookingsError);
+        } else {
+          const allBookings = [...(assignedBookings || []), ...(recipientBookings || [])];
+          const uniqueBookings = Array.from(new Map(allBookings.map(item => [item.id, item])).values());
+          // @ts-ignore
+          setBookings(uniqueBookings);
+        }
+      }
     };
+    fetchUserAndBookings();
+  }, [supabase]);
 
-    return (
-        <SitterLayout>
-            <div className="container mx-auto p-4">
-                <div className="mb-6">
-                    <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-                    <p className="text-gray-500">You have {requests.length} new booking request{requests.length !== 1 && 's'}.</p>
+  const newRequests = bookings.filter(b => b.status === 'PENDING_SITTER_ACCEPTANCE');
+  const pendingBookings = bookings.filter(b => b.status === 'ACCEPTED' && b.payment_status === 'UNPAID');
+
+  return (
+    <SitterLayout>
+      <div className="p-4 md:p-8">
+        <h1 className="text-3xl font-bold mb-4 md:mb-8">Sitter Dashboard</h1>
+        <div className="sm:hidden">
+          <select
+            id="tabs"
+            name="tabs"
+            className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+            onChange={(e) => setActiveTab(e.target.value)}
+            value={activeTab}
+          >
+            <option value="new-requests">New Requests ({newRequests.length})</option>
+            <option value="pending-bookings">Pending Bookings ({pendingBookings.length})</option>
+          </select>
+        </div>
+        <div className="hidden sm:flex border-b">
+          <button
+            className={`py-2 px-4 ${activeTab === 'new-requests' ? 'border-b-2 border-indigo-600' : ''}`}
+            onClick={() => setActiveTab('new-requests')}
+          >
+            New Requests ({newRequests.length})
+          </button>
+          <button
+            className={`py-2 px-4 ${activeTab === 'pending-bookings' ? 'border-b-2 border-indigo-600' : ''}`}
+            onClick={() => setActiveTab('pending-bookings')}
+          >
+            Pending Bookings ({pendingBookings.length})
+          </button>
+        </div>
+        <div className="py-4">
+          {activeTab === 'new-requests' && (
+            <div>
+              {newRequests.map(booking => (
+                <div key={booking.id} className="bg-white p-4 rounded-lg shadow mb-4">
+                  <p><strong>Customer:</strong> {booking.customers?.name}</p>
+                  <p><strong>Dates:</strong> {booking.start_date} to {booking.end_date}</p>
+                  <button onClick={() => router.push(`/sitter/bookings/${booking.id}`)} className="text-indigo-600">View Details</button>
                 </div>
-                {renderContent()}
+              ))}
             </div>
-        </SitterLayout>
-    );
+          )}
+          {activeTab === 'pending-bookings' && (
+            <div>
+              {pendingBookings.map(booking => (
+                <div key={booking.id} className="bg-white p-4 rounded-lg shadow mb-4">
+                  <p><strong>Customer:</strong> {booking.customers?.name}</p>
+                  <p><strong>Dates:</strong> {booking.start_date} to {booking.end_date}</p>
+                  <button onClick={() => router.push(`/sitter/bookings/${booking.id}`)} className="text-indigo-600">View Details</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </SitterLayout>
+  );
 }
