@@ -74,6 +74,8 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedBooking, setEditedBooking] = useState<Partial<FullBookingRequest>>(initialBooking);
 
     useEffect(() => {
         const channel = supabase
@@ -96,6 +98,35 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
             supabase.removeChannel(channel);
         };
     }, [supabase, bookingRequest.id]);
+
+    const handleSave = async () => {
+        setError('');
+        setIsSubmitting(true);
+
+        const updateData = { ...bookingRequest, ...editedBooking };
+
+        const response = await fetch('/api/admin/update-booking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateData),
+        });
+
+        if (response.ok) {
+            const updatedBooking = await response.json();
+            setBookingRequest(updatedBooking.data);
+            setIsEditing(false);
+        } else {
+            const errorData = await response.json();
+            setError(errorData.message || 'Failed to update booking');
+        }
+
+        setIsSubmitting(false);
+    };
+
+
+
 
     const handleUpdatePaymentStatus = async () => {
         setError('');
@@ -190,6 +221,12 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     </div>
                     <div className="mt-8 flex space-x-4">
                         <button
+                            onClick={() => setIsEditing(true)}
+                            className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                        >
+                            Edit
+                        </button>
+                        <button
                             onClick={handleUpdatePaymentStatus}
                             disabled={isSubmitting || bookingRequest.payment_status === 'PAID'}
                             className="px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
@@ -211,6 +248,80 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     )}
                 </div>
             </div>
+            {isEditing && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                    <div className="relative top-20 mx-auto p-5 border w-1/2 shadow-lg rounded-md bg-white">
+                        <div className="mt-3 text-center">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">Edit Booking</h3>
+                            <div className="mt-2 px-7 py-3">
+                                <form className="text-left">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                                            <input
+                                                type="date"
+                                                value={editedBooking.start_date}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, start_date: e.target.value })}
+                                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">End Date</label>
+                                            <input
+                                                type="date"
+                                                value={editedBooking.end_date}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, end_date: e.target.value })}
+                                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Status</label>
+                                            <input
+                                                type="text"
+                                                value={editedBooking.status}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, status: e.target.value })}
+                                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Payment Status</label>
+                                            <input
+                                                type="text"
+                                                value={editedBooking.payment_status}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, payment_status: e.target.value })}
+                                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Total Cost (Cents)</label>
+                                            <input
+                                                type="number"
+                                                value={editedBooking.total_cost_cents}
+                                                onChange={(e) => setEditedBooking({ ...editedBooking, total_cost_cents: parseInt(e.target.value) })}
+                                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="items-center px-4 py-3">
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                    className="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSave}
+                                    className="px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 ml-4"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 }

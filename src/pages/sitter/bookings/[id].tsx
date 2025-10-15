@@ -49,6 +49,8 @@ export default function BookingDetailPage() {
   const [actionStatus, setActionStatus] = useState<ActionStatus>("idle");
   const [actionError, setActionError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [requestPaymentStatus, setRequestPaymentStatus] = useState<ActionStatus>("idle");
+  const [requestPaymentError, setRequestPaymentError] = useState<string | null>(null);
 
   const supabase = createClient();
 
@@ -163,6 +165,30 @@ export default function BookingDetailPage() {
     } catch (e: any) {
       setActionStatus("error");
       setActionError(e.message);
+    }
+  };
+
+  const handleRequestPayment = async () => {
+    setRequestPaymentStatus("loading");
+    setRequestPaymentError(null);
+
+    try {
+      const response = await fetch(`/api/sitter/request-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId: id }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "An unknown error occurred.");
+      }
+
+      setRequestPaymentStatus("success");
+    } catch (e: any) {
+      setRequestPaymentStatus("error");
+      setRequestPaymentError(e.message);
     }
   };
 
@@ -306,6 +332,35 @@ export default function BookingDetailPage() {
               </div>
             )}
           </div>
+        )}
+
+        {request.status === "ACCEPTED" && request.payment_status === "UNPAID" && (
+            <div className="bg-white p-6 rounded-lg shadow">
+                <h2 className="text-xl font-bold text-gray-700 mb-4">Actions</h2>
+                {requestPaymentStatus === "idle" && (
+                    <button
+                        onClick={() => handleRequestPayment()}
+                        className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
+                    >
+                        <Mail className="mr-2" /> Request Payment
+                    </button>
+                )}
+                {requestPaymentStatus === "loading" && (
+                    <div className="text-center">
+                        <Loader className="mx-auto animate-spin" />
+                    </div>
+                )}
+                {requestPaymentStatus === "success" && (
+                    <div className="text-center text-green-600 font-bold">
+                        Payment request sent successfully!
+                    </div>
+                )}
+                {requestPaymentStatus === "error" && (
+                    <div className="text-center text-red-600 font-bold">
+                        {requestPaymentError}
+                    </div>
+                )}
+            </div>
         )}
       </div>
     </SitterLayout>
