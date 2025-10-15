@@ -33,7 +33,8 @@ export default function SitterDashboard() {
           .from('booking_requests')
           .select('*, customers(name)')
           .eq('assigned_sitter_id', sitter.id)
-          .in('status', ['ACCEPTED']);
+          .eq('status', 'ACCEPTED')
+          .eq('payment_status', 'UNPAID');
 
         const { data: recipientBookingIds, error: recipientError } = await supabase
           .from('booking_sitter_recipients')
