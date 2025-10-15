@@ -74,7 +74,19 @@ export default function SitterDashboard() {
     <SitterLayout>
       <div className="p-4 md:p-8">
         <h1 className="text-3xl font-bold mb-4 md:mb-8">Sitter Dashboard</h1>
-        <div className="flex border-b">
+        <div className="sm:hidden">
+          <select
+            id="tabs"
+            name="tabs"
+            className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+            onChange={(e) => setActiveTab(e.target.value)}
+            value={activeTab}
+          >
+            <option value="new-requests">New Requests ({newRequests.length})</option>
+            <option value="pending-bookings">Pending Bookings ({pendingBookings.length})</option>
+          </select>
+        </div>
+        <div className="hidden sm:flex border-b">
           <button
             className={`py-2 px-4 ${activeTab === 'new-requests' ? 'border-b-2 border-indigo-600' : ''}`}
             onClick={() => setActiveTab('new-requests')}
