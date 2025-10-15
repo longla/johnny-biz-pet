@@ -38,7 +38,7 @@ export default function SitterDashboard() {
 
         const { data: recipientBookingIds, error: recipientError } = await supabase
           .from('booking_sitter_recipients')
-          .select('booking_request_id')
+          .select('booking_request_id, status')
           .eq('sitter_id', sitter.id);
 
         if (recipientError) {
@@ -46,7 +46,7 @@ export default function SitterDashboard() {
           return;
         }
 
-        const bookingIds = recipientBookingIds.map(r => r.booking_request_id);
+        const bookingIds = recipientBookingIds.filter(r => r.status !== 'DECLINED').map(r => r.booking_request_id);
 
         const { data: recipientBookings, error: recipientBookingsError } = await supabase
           .from('booking_requests')
