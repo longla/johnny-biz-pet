@@ -127,3 +127,30 @@ Post content goes here...
 ## License
 
 All rights reserved © Ruh-Roh Retreat
+
+## Testing
+
+### Pricing Calculation Test
+
+This project includes a script to test the end-to-end pricing calculation for bookings. The script simulates the full booking and acceptance workflow to verify that the final price is calculated correctly.
+
+To run the test:
+
+1.  **Seed the Database:** Before running the script, ensure your local database is seeded with the initial data. This will create the necessary sitter and add-on data for the test.
+
+    ```bash
+    npx supabase db reset
+    ```
+
+2.  **Run the Test Script:** Execute the following command from the project root:
+
+    ```bash
+    node scripts/test-pricing-calculation.js
+    ```
+
+The script will perform the following steps:
+- Authenticate as a test sitter.
+- Create a new booking request.
+- Accept the booking, which triggers the price calculation on the backend.
+- Query the database to retrieve the final calculated cost.
+- Log the results and verify that the calculated total matches the expected total.

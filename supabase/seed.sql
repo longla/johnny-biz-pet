@@ -99,91 +99,182 @@ BEGIN
   VALUES
   (sitter_profile2_id, 'Special Diet Fee', 1000, 'Fee for preparing special meals.');
 
-  -- Create Customers
-  INSERT INTO customers (name, email) VALUES ('Customer One', 'customer1@mailinator.com') RETURNING id INTO customer1_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Two', 'customer2@mailinator.com') RETURNING id INTO customer2_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Three', 'customer3@mailinator.com') RETURNING id INTO customer3_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Four', 'customer4@mailinator.com') RETURNING id INTO customer4_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Five', 'customer5@mailinator.com') RETURNING id INTO customer5_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Six', 'customer6@mailinator.com') RETURNING id INTO customer6_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Seven', 'customer7@mailinator.com') RETURNING id INTO customer7_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Eight', 'customer8@mailinator.com') RETURNING id INTO customer8_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Nine', 'customer9@mailinator.com') RETURNING id INTO customer9_id;
-  INSERT INTO customers (name, email) VALUES ('Customer Ten', 'customer10@mailinator.com') RETURNING id INTO customer10_id;
+    -- Create Sitter Discounts
 
-  -- Create Pets
-  INSERT INTO pets (customer_id, name, breed, age, notes)
-  VALUES
-  (customer1_id, 'Buddy', 'Golden Retriever', 5, 'Loves to play fetch.') RETURNING id INTO pet1_id;
-  INSERT INTO pets (customer_id, name, breed, age, notes)
-  VALUES
-  (customer2_id, 'Lucy', 'Beagle', 3, 'Eats everything.') RETURNING id INTO pet2_id;
+    INSERT INTO sitter_discounts (sitter_id, min_days, percentage)
 
-  -- Create Booking Requests
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer1_id, '2025-10-10', '2025-10-15', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request1_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer2_id, '2025-10-12', '2025-10-17', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request2_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer3_id, '2025-10-15', '2025-10-20', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request3_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer4_id, '2025-10-18', '2025-10-22', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 24000, 24000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request4_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer5_id, '2025-10-20', '2025-10-25', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request5_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer6_id, '2025-10-22', '2025-10-28', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 36000, 36000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request6_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer7_id, '2025-10-25', '2025-10-30', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 25000, 25000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request7_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer8_id, '2025-10-28', '2025-11-02', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request8_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer9_id, '2025-11-01', '2025-11-05', 'County One', 'PENDING_SITTER_ACCEPTANCE', NULL, 20000, 20000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request9_id;
-  INSERT INTO booking_requests (customer_id, start_date, end_date, county, status, assigned_sitter_id, total_cost_cents, base_rate_at_booking_cents, discount_applied_cents, addons_total_cost_cents, payment_status, amount_paid_cents, payment_method, paid_at)
-  VALUES
-  (customer10_id, '2025-11-05', '2025-11-10', 'County Two', 'PENDING_SITTER_ACCEPTANCE', NULL, 30000, 30000, 0, 0, 'UNPAID', 0, NULL, NULL) RETURNING id INTO booking_request10_id;
+    VALUES
 
-  -- Create booking_pets
-  INSERT INTO booking_pets (booking_request_id, pet_id)
-  VALUES
-  (booking_request1_id, pet1_id),
-  (booking_request2_id, pet2_id);
+    (sitter_profile1_id, 8, 10), -- 10% off for stays longer than 7 days
 
-  -- Create booking_addons
-  INSERT INTO booking_addons (booking_request_id, sitter_addon_id)
-  VALUES
-  (booking_request1_id, addon1_id),
-  (booking_request2_id, addon2_id);
-END $$;
+    (sitter_profile1_id, 15, 20), -- 20% off for stays longer than 14 days
 
--- 5. Seed booking_sitter_recipients
-DO $$
-DECLARE
-  sitter1_profile_id uuid;
-  sitter2_profile_id uuid;
-  booking_id uuid;
-BEGIN
-  -- Get sitter profile ids
-  SELECT id INTO sitter1_profile_id FROM sitters WHERE user_id = (SELECT id FROM users WHERE email = 'sitter1@mailinator.com');
-  SELECT id INTO sitter2_profile_id FROM sitters WHERE user_id = (SELECT id FROM users WHERE email = 'sitter2@mailinator.com');
+    (sitter_profile2_id, 6, 5), -- 5% off for stays longer than 5 days
 
-  -- Insert into booking_sitter_recipients for all booking requests for sitter1
-  FOR booking_id IN SELECT id FROM booking_requests LOOP
+    (sitter_profile2_id, 11, 15); -- 15% off for stays longer than 10 days
+
+  
+
+    -- Create Customers
+
+    INSERT INTO customers (name, email) VALUES ('Customer One', 'customer1@mailinator.com') RETURNING id INTO customer1_id;
+
+    INSERT INTO customers (name, email) VALUES ('Customer Two', 'customer2@mailinator.com') RETURNING id INTO customer2_id;
+
+    INSERT INTO customers (name, email) VALUES ('Customer Three', 'customer3@mailinator.com') RETURNING id INTO customer3_id;
+
+    INSERT INTO customers (name, email) VALUES ('Customer Four', 'customer4@mailinator.com') RETURNING id INTO customer4_id;
+
+    INSERT INTO customers (name, email) VALUES ('Customer Five', 'customer5@mailinator.com') RETURNING id INTO customer5_id;
+
+  
+
+    -- Create Pets
+
+    INSERT INTO pets (customer_id, name, breed, age, notes)
+
+    VALUES
+
+    (customer1_id, 'Buddy', 'Golden Retriever', 5, 'Loves to play fetch.') RETURNING id INTO pet1_id;
+
+    INSERT INTO pets (customer_id, name, breed, age, notes)
+
+    VALUES
+
+    (customer2_id, 'Lucy', 'Beagle', 3, 'Eats everything.') RETURNING id INTO pet2_id;
+
+  
+
+    -- Create Booking Requests for testing various scenarios
+
+    -- Booking 1: Sitter 1, 5 days, 1 addon, no discount
+
+    INSERT INTO booking_requests (customer_id, start_date, end_date, county, status)
+
+    VALUES (customer1_id, '2025-11-01', '2025-11-06', 'County One', 'PENDING_SITTER_ACCEPTANCE') RETURNING id INTO booking_request1_id;
+
+    INSERT INTO booking_pets (booking_request_id, pet_id) VALUES (booking_request1_id, pet1_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id) VALUES (booking_request1_id, addon1_id);
+
+  
+
+    -- Booking 2: Sitter 1, 8 days, 2 addons, 10% discount
+
+    INSERT INTO booking_requests (customer_id, start_date, end_date, county, status)
+
+    VALUES (customer2_id, '2025-11-10', '2025-11-18', 'County One', 'PENDING_SITTER_ACCEPTANCE') RETURNING id INTO booking_request2_id;
+
+    INSERT INTO booking_pets (booking_request_id, pet_id) VALUES (booking_request2_id, pet2_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id) VALUES (booking_request2_id, addon1_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id) VALUES (booking_request2_id, addon2_id);
+
+  
+
+    -- Booking 3: Sitter 1, 16 days, 1 addon, 20% discount
+
+    INSERT INTO booking_requests (customer_id, start_date, end_date, county, status)
+
+    VALUES (customer3_id, '2025-12-01', '2025-12-17', 'County One', 'PENDING_SITTER_ACCEPTANCE') RETURNING id INTO booking_request3_id;
+
+    INSERT INTO booking_pets (booking_request_id, pet_id) VALUES (booking_request3_id, pet1_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id) VALUES (booking_request3_id, addon2_id);
+
+  
+
+    -- Booking 4: Sitter 2, 4 days, 1 addon, no discount
+
+    INSERT INTO booking_requests (customer_id, start_date, end_date, county, status)
+
+    VALUES (customer4_id, '2025-11-05', '2025-11-09', 'County Two', 'PENDING_SITTER_ACCEPTANCE') RETURNING id INTO booking_request4_id;
+
+    INSERT INTO booking_pets (booking_request_id, pet_id) VALUES (booking_request4_id, pet2_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id)
+
+      SELECT booking_request4_id, id FROM sitter_addons WHERE sitter_id = sitter_profile2_id AND name = 'Medication Administration';
+
+  
+
+    -- Booking 5: Sitter 2, 7 days, 1 addon, 5% discount
+
+    INSERT INTO booking_requests (customer_id, start_date, end_date, county, status)
+
+    VALUES (customer5_id, '2025-11-20', '2025-11-27', 'County Two', 'PENDING_SITTER_ACCEPTANCE') RETURNING id INTO booking_request5_id;
+
+    INSERT INTO booking_pets (booking_request_id, pet_id) VALUES (booking_request5_id, pet1_id);
+
+    INSERT INTO booking_addons (booking_request_id, sitter_addon_id)
+
+      SELECT booking_request5_id, id FROM sitter_addons WHERE sitter_id = sitter_profile2_id AND name = 'Special Diet Fee';
+
+  
+
+  
+
+  END $$;
+
+  
+
+  -- 5. Seed booking_sitter_recipients
+
+  DO $$
+
+  DECLARE
+
+    sitter1_profile_id uuid;
+
+    sitter2_profile_id uuid;
+
+    booking_id uuid;
+
+  BEGIN
+
+    -- Get sitter profile ids
+
+    SELECT id INTO sitter1_profile_id FROM sitters WHERE user_id = (SELECT id FROM users WHERE email = 'sitter1@mailinator.com');
+
+    SELECT id INTO sitter2_profile_id FROM sitters WHERE user_id = (SELECT id FROM users WHERE email = 'sitter2@mailinator.com');
+
+  
+
+    -- Assign sitters to booking requests
+
+    -- Sitter 1 gets bookings 1, 2, 3
+
+    FOR booking_id IN SELECT id FROM booking_requests WHERE county = 'County One' LOOP
+
+      INSERT INTO booking_sitter_recipients (booking_request_id, sitter_id)
+
+      VALUES (booking_id, sitter1_profile_id);
+
+    END LOOP;
+
+  
+
+    -- Sitter 2 gets bookings 4, 5
+
+    FOR booking_id IN SELECT id FROM booking_requests WHERE county = 'County Two' LOOP
+
+      INSERT INTO booking_sitter_recipients (booking_request_id, sitter_id)
+
+      VALUES (booking_id, sitter2_profile_id);
+
+    END LOOP;
+
+  
+
+    -- Also assign sitter 1 to booking 4 for testing multiple sitters
+
     INSERT INTO booking_sitter_recipients (booking_request_id, sitter_id)
-    VALUES (booking_id, sitter1_profile_id);
-  END LOOP;
 
-  -- Insert into booking_sitter_recipients for some booking requests for sitter2
-  FOR booking_id IN SELECT id FROM booking_requests LIMIT 3 LOOP
-    INSERT INTO booking_sitter_recipients (booking_request_id, sitter_id)
-    VALUES (booking_id, sitter2_profile_id);
-  END LOOP;
-END $$;
+    SELECT id, sitter1_profile_id FROM booking_requests WHERE county = 'County Two' LIMIT 1;
+
+  
+
+  END $$;
+
+  

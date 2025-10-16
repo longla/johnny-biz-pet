@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '.env.local' });
 const { createClient } = require('@supabase/supabase-js');
+const fetch = require('node-fetch');
 
 // This script creates a test booking request by calling the /api/booking-v2 endpoint.
 
@@ -11,23 +12,22 @@ async function createTestBooking() {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  // 1. Fetch up to two existing sitters to assign the request to.
+  // 1. Fetch specific sitters from the seed data.
   console.log('🔍 Finding sitters to notify...');
   const { data: sitters, error: sitterError } = await supabaseAdmin
-    .from('sitters')
-    .select('id')
-    .eq('is_active', true)
-    .limit(2);
+    .from('users')
+    .select('id, sitters!inner(id)')
+    .in('email', ['sitter1@mailinator.com', 'sitter2@mailinator.com']);
 
   if (sitterError) {
     console.error('❌ Error fetching sitters:', sitterError.message);
     return;
   }
   if (!sitters || sitters.length === 0) {
-    console.error('❌ No active sitters found. Please create a sitter first.');
+    console.error('❌ Could not find the seeded sitters. Please re-seed the database.');
     return;
   }
-  const selected_sitter_ids = sitters.map(s => s.id);
+  const selected_sitter_ids = sitters.map(s => s.sitters.id);
   console.log(`✅ Found ${selected_sitter_ids.length} sitter(s) to notify.`);
 
   // 2. Fetch up to 2 add-ons associated with the first sitter found.
@@ -64,7 +64,7 @@ async function createTestBooking() {
     booking: {
       start_date: '2025-12-01',
       end_date: '2025-12-05',
-      county: 'Orange'
+      county: 'County One'
     },
     selected_sitter_ids,
     selected_addon_ids,

@@ -6,6 +6,11 @@ This document provides context for the Gemini CLI to understand the Ruh Roh Retr
 
 Ruh Roh Retreat is a boutique-style dog care service that offers a personalized and comfortable experience for pets. The project is a Next.js application that allows customers to learn about the services, book a stay for their pet, and sign a waiver.
 
+## Database Access
+
+-   **Development Database:** `supabase_rrr_dev`
+    -   Accessed via MCP.
+
 ## Local Memory
 
 This project uses a `.gemini/config` file to store local memory for the Gemini CLI. The following keys are available:

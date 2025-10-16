@@ -14,7 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const token = req.headers.authorization?.split(' ')[1];
+        const { data: { user } } = token ? await supabase.auth.getUser(token) : await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
         const { bookingId } = req.body;
