@@ -1,17 +1,11 @@
 
-import { type BookingRequest } from '@/core/types';
+import { type BookingRequest, type Sitter } from '@/core/types';
+import { calculateBookingCost } from '@/utils/booking';
 import { Calendar } from 'lucide-react';
 
 interface PaymentBreakdownProps {
-  booking: BookingRequest & {
-    booking_addons?: {
-      price_cents_at_booking: number;
-      sitter_addons: {
-        id: string;
-        name: string;
-      };
-    }[];
-  };
+  booking: BookingRequest;
+  sitter?: Sitter;
   nights: number;
 }
 
@@ -23,11 +17,24 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-export default function PaymentBreakdown({ booking, nights }: PaymentBreakdownProps) {
-  const baseRate = (booking.base_rate_at_booking_cents || 0) * nights;
-  const addOnsCost = booking.booking_addons?.reduce((total, addon) => total + addon.price_cents_at_booking, 0) || 0;
-  const discount = booking.discount_applied_cents || 0;
-  const totalCost = baseRate + addOnsCost - discount;
+export default function PaymentBreakdown({ booking, sitter, nights }: PaymentBreakdownProps) {
+  let cost: {
+    baseRate: number;
+    addOnsCost: number;
+    discount: number;
+    totalCost: number;
+  };
+
+  if (booking.status === 'PENDING_SITTER_ACCEPTANCE' && sitter) {
+    cost = calculateBookingCost(booking, sitter);
+  } else {
+    cost = {
+      baseRate: (booking.base_rate_at_booking_cents || 0) * nights,
+      addOnsCost: booking.addons_total_cost_cents || 0,
+      discount: booking.discount_applied_cents || 0,
+      totalCost: booking.total_cost_cents || 0,
+    };
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow mb-6">
@@ -37,22 +44,32 @@ export default function PaymentBreakdown({ booking, nights }: PaymentBreakdownPr
       <div className="space-y-3">
         <InfoRow
           label="Base Rate"
-          value={`$${baseRate ? baseRate / 100 : 'N/A'}`}
+          value={`$${cost.baseRate ? cost.baseRate / 100 : 'N/A'}`}
         />
-        {booking.booking_addons?.map((addon) => (
-          <InfoRow
-            key={addon.sitter_addons.id}
-            label={`Add-on: ${addon.sitter_addons.name}`}
-            value={`$${addon.price_cents_at_booking / 100}`}
-          />
-        ))}
+        {booking.booking_addons?.map((addon) => {
+          let price;
+          if (booking.status === 'PENDING_SITTER_ACCEPTANCE' && sitter) {
+            const sitterAddon = sitter.sitter_addons?.find(sa => sa.id === addon.sitter_addons.id);
+            price = sitterAddon?.price_cents;
+          } else {
+            price = addon.price_cents_at_booking;
+          }
+
+          return (
+            <InfoRow
+              key={addon.sitter_addons.id}
+              label={`Add-on: ${addon.sitter_addons.name}`}
+              value={`$${price ? price / 100 : 'N/A'}`}
+            />
+          );
+        })}
         <InfoRow
           label="Discount"
-          value={`-$${discount / 100}`}
+          value={`-$${cost.discount / 100}`}
         />
         <InfoRow
           label="Total Cost"
-          value={`$${totalCost ? totalCost / 100 : 'N/A'}`}
+          value={`$${cost.totalCost ? cost.totalCost / 100 : 'N/A'}`}
         />
       </div>
     </div>

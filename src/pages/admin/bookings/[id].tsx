@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import PaymentBreakdown from '@/components/payment-breakdown';
 import BookingNotes from '@/components/booking-notes';
+import { type BookingRequest, type Pet, type NotifiedSitter, type Sitter } from '@/core/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const supabase = createServerClient(
@@ -33,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const { data: booking, error } = await supabase
         .from('booking_requests')
-    .select('*, customers(*), booking_pets(pets(*)), booking_addons(sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters!booking_requests_assigned_sitter_id_fkey(*, user:users(*)))')
+        .select('*, customers(*), booking_pets(pets(*)), booking_addons(*, sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters!booking_requests_assigned_sitter_id_fkey(*, user:users(*)))')
         .eq('id', id)
         .single();
 
@@ -41,17 +42,42 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { notFound: true };
     }
 
-    return { props: { user, booking } };
-};
+    let notifiedSitters: Sitter[] = [];
+    // @ts-ignore
+    if (booking.status === 'PENDING_SITTER_ACCEPTANCE') {
+        // @ts-ignore
+        const sitterIds = booking.booking_sitter_recipients.map(r => r.sitters.id);
+        const { data: sitters, error: sittersError } = await supabase
+            .from('sitters')
+            .select('*, user:users(*), sitter_addons(*), sitter_discounts(*)')
+            .in('id', sitterIds);
+        if (sitters) {
+            notifiedSitters = sitters as Sitter[];
+        }
+    // @ts-ignore
+    } else if (booking.assigned_sitter) {
+        const { data: sitter, error: sitterError } = await supabase
+            .from('sitters')
+            .select('*, users(*), sitter_addons(*), sitter_discounts(*)')
+            // @ts-ignore
+            .eq('id', booking.assigned_sitter.id)
+            .single();
+        if (sitter) {
+            // @ts-ignore
+            booking.assigned_sitter = sitter as Sitter;
+        }
+    }
 
-import { type BookingRequest, type Pet, type NotifiedSitter } from '@/core/types';
+    return { props: { user, booking, notifiedSitters } };
+};
 
 interface BookingDetailsPageProps {
     user: any; // Replace with a more specific user type if available
     booking: BookingRequest;
+    notifiedSitters: Sitter[];
 }
 
-function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPageProps) {
+function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: BookingDetailsPageProps) {
     const [bookingRequest, setBookingRequest] = useState(initialBooking);
     const supabase = createBrowserClient();
     const router = useRouter();
@@ -167,9 +193,14 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                             <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold mb-4">Sitter</h2>
-                            <p><strong>Name:</strong> {bookingRequest.assigned_sitter?.user?.first_name} {bookingRequest.assigned_sitter?.user?.last_name}</p>
-              <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
+                            <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
+                            <ul>
+                                {bookingRequest.booking_sitter_recipients?.map((recipient: NotifiedSitter) => (
+                                    <li key={recipient.sitters?.id}>
+                                        {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Booking</h2>
@@ -178,7 +209,16 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                             <p><strong>Status:</strong> {bookingRequest.status}</p>
                             <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
                         </div>
-                        <PaymentBreakdown booking={bookingRequest} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
+                        {bookingRequest.status === 'PENDING_SITTER_ACCEPTANCE' ? (
+                            notifiedSitters.map(sitter => (
+                                <div key={sitter.id}>
+                                    <h3 className="text-xl font-bold mt-6 mb-2">Cost Breakdown for {sitter.user.first_name} {sitter.user.last_name}</h3>
+                                    <PaymentBreakdown booking={bookingRequest} sitter={sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
+                                </div>
+                            ))
+                        ) : (
+                            bookingRequest.assigned_sitter && <PaymentBreakdown booking={bookingRequest} sitter={bookingRequest.assigned_sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
+                        )}
                         <div>
                             <h2 className="text-2xl font-bold mb-4">Pets</h2>
                             <ul>
@@ -192,16 +232,6 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                             <ul>
                                 {bookingRequest.booking_addons?.map(({ sitter_addons }: { sitter_addons: { id: string; name: string; price_cents: number } }) => (
                                     <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
-                            <ul>
-                                {bookingRequest.booking_sitter_recipients?.map((recipient: NotifiedSitter) => (
-                                    <li key={recipient.sitters?.id}>
-                                        {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
-                                    </li>
                                 ))}
                             </ul>
                         </div>

@@ -54,6 +54,7 @@ DECLARE
   base_cost_cents integer;
   discount_amount_cents integer;
   calculated_total_cost_cents integer;
+  addon_record record;
 BEGIN
   -- Get the sitter's profile ID and base rate
   SELECT id, base_rate_cents INTO sitter_profile_id, sitter_base_rate_cents FROM sitters WHERE user_id = sitter_user_id;
@@ -64,10 +65,22 @@ BEGIN
     RAISE EXCEPTION 'Booking has already been taken';
   END IF;
 
+  -- Update addon prices before calculating total
+  FOR addon_record IN
+    SELECT ba.sitter_addon_id, sa.price_cents
+    FROM booking_addons ba
+    JOIN sitter_addons sa ON ba.sitter_addon_id = sa.id
+    WHERE ba.booking_request_id = booking_id
+  LOOP
+    UPDATE booking_addons
+    SET price_cents_at_booking = addon_record.price_cents
+    WHERE booking_request_id = booking_id AND sitter_addon_id = addon_record.sitter_addon_id;
+  END LOOP;
+
   -- Calculate base cost
   base_cost_cents := sitter_base_rate_cents * num_days;
 
-  -- Calculate addons cost
+  -- Calculate addons cost from the now-updated prices
   SELECT COALESCE(SUM(price_cents_at_booking), 0) INTO addons_cost_cents
   FROM booking_addons
   WHERE booking_request_id = booking_id;
