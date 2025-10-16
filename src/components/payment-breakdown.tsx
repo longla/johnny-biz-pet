@@ -4,7 +4,13 @@ import { Calendar } from 'lucide-react';
 
 interface PaymentBreakdownProps {
   booking: BookingRequest & {
-    booking_addons?: { sitter_addons: { price_cents: number } }[];
+    booking_addons?: {
+      price_cents_at_booking: number;
+      sitter_addons: {
+        id: string;
+        name: string;
+      };
+    }[];
   };
   nights: number;
 }
@@ -19,8 +25,9 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
 
 export default function PaymentBreakdown({ booking, nights }: PaymentBreakdownProps) {
   const baseRate = (booking.base_rate_at_booking_cents || 0) * nights;
-  const addOnsCost = booking.addons_total_cost_cents || 0;
-  const totalCost = baseRate + addOnsCost;
+  const addOnsCost = booking.booking_addons?.reduce((total, addon) => total + addon.price_cents_at_booking, 0) || 0;
+  const discount = booking.discount_applied_cents || 0;
+  const totalCost = baseRate + addOnsCost - discount;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow mb-6">
@@ -39,6 +46,10 @@ export default function PaymentBreakdown({ booking, nights }: PaymentBreakdownPr
             value={`$${addon.price_cents_at_booking / 100}`}
           />
         ))}
+        <InfoRow
+          label="Discount"
+          value={`-$${discount / 100}`}
+        />
         <InfoRow
           label="Total Cost"
           value={`$${totalCost ? totalCost / 100 : 'N/A'}`}
