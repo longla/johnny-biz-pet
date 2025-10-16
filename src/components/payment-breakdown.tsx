@@ -29,7 +29,7 @@ export default function PaymentBreakdown({ booking, sitter, nights }: PaymentBre
     cost = calculateBookingCost(booking, sitter);
   } else {
     cost = {
-      baseRate: (booking.base_rate_at_booking_cents || 0) * nights,
+      baseRate: booking.base_rate_at_booking_cents || 0,
       addOnsCost: booking.addons_total_cost_cents || 0,
       discount: booking.discount_applied_cents || 0,
       totalCost: booking.total_cost_cents || 0,
