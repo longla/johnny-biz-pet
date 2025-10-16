@@ -1,6 +1,12 @@
-import { type BookingRequest, type Customer, type Pet, type BookingNote, type Sitter } from "@/core/types";
-import { type User } from "@supabase/supabase-js";
+import {
+  type BookingNote,
+  type BookingRequest,
+  type Customer,
+  type Pet,
+  type Sitter,
+} from "@/core/types";
 import { createClient } from "@/utils/supabase/client";
+import { type User } from "@supabase/supabase-js";
 import {
   Calendar,
   Check,
@@ -36,8 +42,8 @@ interface InfoRowProps {
   value: string | number | null | undefined;
 }
 
-import PaymentBreakdown from "@/components/payment-breakdown";
 import BookingNotes from "@/components/booking-notes";
+import PaymentBreakdown from "@/components/payment-breakdown";
 
 // ... (rest of the file)
 
@@ -51,8 +57,11 @@ export default function BookingDetailPage() {
   const [actionStatus, setActionStatus] = useState<ActionStatus>("idle");
   const [actionError, setActionError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [requestPaymentStatus, setRequestPaymentStatus] = useState<ActionStatus>("idle");
-  const [requestPaymentError, setRequestPaymentError] = useState<string | null>(null);
+  const [requestPaymentStatus, setRequestPaymentStatus] =
+    useState<ActionStatus>("idle");
+  const [requestPaymentError, setRequestPaymentError] = useState<string | null>(
+    null
+  );
 
   const supabase = createClient();
 
@@ -98,13 +107,13 @@ export default function BookingDetailPage() {
         if (!data) throw new Error("Booking not found.");
 
         const { data: sitterProfile, error: sitterError } = await supabase
-            .from('sitters')
-            .select('*, sitter_addons(*), sitter_discounts(*)')
-            .eq('user_id', user.id)
-            .single();
+          .from("sitters")
+          .select("*, sitter_addons(*), sitter_discounts(*)")
+          .eq("user_id", user.id)
+          .single();
 
         if (sitterError || !sitterProfile) {
-            throw new Error('Could not find sitter profile.');
+          throw new Error("Could not find sitter profile.");
         }
         setSitter(sitterProfile as Sitter);
 
@@ -126,7 +135,9 @@ export default function BookingDetailPage() {
           if (recipientError) throw recipientError;
 
           if (recipientData && recipientData.status === "DECLINED") {
-            setError("You have declined this booking and can no longer view it.");
+            setError(
+              "You have declined this booking and can no longer view it."
+            );
             setRequest(null);
             setLoading(false);
             return;
@@ -222,11 +233,10 @@ export default function BookingDetailPage() {
     </div>
   );
 
-
   return (
     <SitterLayout>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">
           Booking Details
         </h1>
 
@@ -235,7 +245,11 @@ export default function BookingDetailPage() {
             Customer Information
           </h2>
           <div className="space-y-3">
-            <InfoRow icon={UserIcon} label="Name" value={request.customers?.name} />
+            <InfoRow
+              icon={UserIcon}
+              label="Name"
+              value={request.customers?.name}
+            />
             <InfoRow
               icon={Mail}
               label="Email"
@@ -280,7 +294,13 @@ export default function BookingDetailPage() {
           </ul>
         </div>
 
-        {sitter && <PaymentBreakdown booking={request} sitter={sitter} nights={calculateNights(request.start_date, request.end_date)} />}
+        {sitter && (
+          <PaymentBreakdown
+            booking={request}
+            sitter={sitter}
+            nights={calculateNights(request.start_date, request.end_date)}
+          />
+        )}
 
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">
@@ -295,18 +315,13 @@ export default function BookingDetailPage() {
           </ul>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow mb-6">
-          <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">
-            Booking Notes
-          </h2>
-          {user && (
-            <BookingNotes
-              bookingId={request.id}
-              notes={request.booking_notes || []}
-              user={user}
-            />
-          )}
-        </div>
+        {user && (
+          <BookingNotes
+            bookingId={request.id}
+            notes={request.booking_notes || []}
+            user={user}
+          />
+        )}
 
         {request.status === "PENDING_SITTER_ACCEPTANCE" && (
           <div className="bg-white p-6 rounded-lg shadow">
@@ -345,34 +360,35 @@ export default function BookingDetailPage() {
           </div>
         )}
 
-        {request.status === "ACCEPTED" && request.payment_status === "UNPAID" && (
+        {request.status === "ACCEPTED" &&
+          request.payment_status === "UNPAID" && (
             <div className="bg-white p-6 rounded-lg shadow">
-                <h2 className="text-xl font-bold text-gray-700 mb-4">Actions</h2>
-                {requestPaymentStatus === "idle" && (
-                    <button
-                        onClick={() => handleRequestPayment()}
-                        className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
-                    >
-                        <Mail className="mr-2" /> Request Payment
-                    </button>
-                )}
-                {requestPaymentStatus === "loading" && (
-                    <div className="text-center">
-                        <Loader className="mx-auto animate-spin" />
-                    </div>
-                )}
-                {requestPaymentStatus === "success" && (
-                    <div className="text-center text-green-600 font-bold">
-                        Payment request sent successfully!
-                    </div>
-                )}
-                {requestPaymentStatus === "error" && (
-                    <div className="text-center text-red-600 font-bold">
-                        {requestPaymentError}
-                    </div>
-                )}
+              <h2 className="text-xl font-bold text-gray-700 mb-4">Actions</h2>
+              {requestPaymentStatus === "idle" && (
+                <button
+                  onClick={() => handleRequestPayment()}
+                  className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
+                >
+                  <Mail className="mr-2" /> Request Payment
+                </button>
+              )}
+              {requestPaymentStatus === "loading" && (
+                <div className="text-center">
+                  <Loader className="mx-auto animate-spin" />
+                </div>
+              )}
+              {requestPaymentStatus === "success" && (
+                <div className="text-center text-green-600 font-bold">
+                  Payment request sent successfully!
+                </div>
+              )}
+              {requestPaymentStatus === "error" && (
+                <div className="text-center text-red-600 font-bold">
+                  {requestPaymentError}
+                </div>
+              )}
             </div>
-        )}
+          )}
       </div>
     </SitterLayout>
   );
