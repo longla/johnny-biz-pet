@@ -1,4 +1,4 @@
-import { type BookingRequest, type Customer, type Pet, type BookingNote } from "@/core/types";
+import { type BookingRequest, type Customer, type Pet, type BookingNote, type Sitter } from "@/core/types";
 import { type User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import {
@@ -36,6 +36,7 @@ interface InfoRowProps {
   value: string | number | null | undefined;
 }
 
+import PaymentBreakdown from "@/components/payment-breakdown";
 import BookingNotes from "@/components/booking-notes";
 
 // ... (rest of the file)
@@ -44,6 +45,7 @@ export default function BookingDetailPage() {
   const router = useRouter();
   const { id } = router.query;
   const [request, setRequest] = useState<FullBookingRequest | null>(null);
+  const [sitter, setSitter] = useState<Sitter | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionStatus, setActionStatus] = useState<ActionStatus>("idle");
@@ -53,6 +55,14 @@ export default function BookingDetailPage() {
   const [requestPaymentError, setRequestPaymentError] = useState<string | null>(null);
 
   const supabase = createClient();
+
+  const calculateNights = (startDate: string, endDate: string) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -74,9 +84,10 @@ export default function BookingDetailPage() {
           .select(
             `
                         *,
+                        total_cost_cents,
                         customers (*),
                         booking_pets(pets(*)),
-                        booking_addons(sitter_addons(*)),
+                        booking_addons(*, sitter_addons(*)),
                         booking_notes(*, user:users(first_name, last_name))
                     `
           )
@@ -86,34 +97,25 @@ export default function BookingDetailPage() {
         if (error) throw error;
         if (!data) throw new Error("Booking not found.");
 
-        if (data.status === "ACCEPTED") {
-          const { data: sitterProfile, error: sitterError } = await supabase
-            .from("sitters")
-            .select("id")
-            .eq("user_id", user.id)
+        const { data: sitterProfile, error: sitterError } = await supabase
+            .from('sitters')
+            .select('*, sitter_addons(*), sitter_discounts(*)')
+            .eq('user_id', user.id)
             .single();
 
-          if (
-            sitterError ||
-            !sitterProfile ||
-            sitterProfile.id !== data.assigned_sitter_id
-          ) {
+        if (sitterError || !sitterProfile) {
+            throw new Error('Could not find sitter profile.');
+        }
+        setSitter(sitterProfile as Sitter);
+
+        if (data.status === "ACCEPTED") {
+          if (sitterProfile.id !== data.assigned_sitter_id) {
             setError("You are not authorized to view this booking.");
             setRequest(null);
             setLoading(false);
             return;
           }
         } else if (data.status === "PENDING_SITTER_ACCEPTANCE") {
-          const { data: sitterProfile, error: sitterError } = await supabase
-            .from("sitters")
-            .select("id")
-            .eq("user_id", user.id)
-            .single();
-
-          if (sitterError || !sitterProfile) {
-            throw new Error("Could not find sitter profile.");
-          }
-
           const { data: recipientData, error: recipientError } = await supabase
             .from("booking_sitter_recipients")
             .select("status")
@@ -220,6 +222,7 @@ export default function BookingDetailPage() {
     </div>
   );
 
+
   return (
     <SitterLayout>
       <div className="container mx-auto p-4">
@@ -255,6 +258,11 @@ export default function BookingDetailPage() {
                 request.end_date
               ).toLocaleDateString()}`}
             />
+            <InfoRow
+              icon={Calendar}
+              label="Nights"
+              value={calculateNights(request.start_date, request.end_date)}
+            />
             <InfoRow icon={MapPin} label="County" value={request.county} />
           </div>
         </div>
@@ -271,6 +279,9 @@ export default function BookingDetailPage() {
             ))}
           </ul>
         </div>
+
+        {sitter && <PaymentBreakdown booking={request} sitter={sitter} nights={calculateNights(request.start_date, request.end_date)} />}
+
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-bold text-gray-700 mb-4 border-b pb-2">
             Add-ons

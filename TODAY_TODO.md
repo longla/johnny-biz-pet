@@ -1,3 +1,1 @@
-- [x] admin dashboard, allow admin to edit booking all fields, only admin can change booking details
-- [x] Sitter dasboard after sitter accepted, booking status should changed to PENDING_BOOKING, sitter can request payment and after payment is made, status of booking request should change to BOOKED
-- [x] sitter dasboard home  now should have tab for new requests and pending booking request
+[] Create a script to call direct booking-v2 to create new booking, so that we can test pricing calculation

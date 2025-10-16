@@ -4,32 +4,9 @@ import AdminLayout from '../_layout';
 import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import PaymentBreakdown from '@/components/payment-breakdown';
 import BookingNotes from '@/components/booking-notes';
-import { type BookingRequest, type Customer, type Pet, type BookingNote, type Sitter } from '@/core/types';
-import { User } from '@supabase/supabase-js';
-
-interface NotifiedSitter {
-    status: string;
-    sitters: {
-        id: string;
-        users: {
-            first_name: string;
-            last_name: string;
-        } | null
-    } | null;
-}
-
-interface FullBookingRequest extends BookingRequest {
-    customers: Customer | null;
-    pets: Pet[];
-    booking_notes: BookingNote[];
-    booking_sitter_recipients: NotifiedSitter[];
-}
-
-interface BookingDetailsPageProps {
-    user: User;
-    booking: FullBookingRequest;
-}
+import { type BookingRequest, type Pet, type NotifiedSitter, type Sitter } from '@/core/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const supabase = createServerClient(
@@ -57,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const { data: booking, error } = await supabase
         .from('booking_requests')
-    .select('*, customers(*), booking_pets(pets(*)), booking_addons(sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters!booking_requests_assigned_sitter_id_fkey(*, user:users(*)))')
+        .select('*, customers(*), booking_pets(pets(*)), booking_addons(*, sitter_addons(*)), booking_notes(*, user:users(first_name, last_name)), booking_sitter_recipients(*, sitters(*, users(first_name, last_name))), assigned_sitter:sitters!booking_requests_assigned_sitter_id_fkey(*, user:users(*)))')
         .eq('id', id)
         .single();
 
@@ -65,19 +42,61 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { notFound: true };
     }
 
-    return { props: { user, booking } };
+    let notifiedSitters: Sitter[] = [];
+    // @ts-ignore
+    if (booking.status === 'PENDING_SITTER_ACCEPTANCE') {
+        // @ts-ignore
+        const sitterIds = booking.booking_sitter_recipients.map(r => r.sitters.id);
+        const { data: sitters, error: sittersError } = await supabase
+            .from('sitters')
+            .select('*, user:users(*), sitter_addons(*), sitter_discounts(*)')
+            .in('id', sitterIds);
+        if (sitters) {
+            notifiedSitters = sitters as Sitter[];
+        }
+    // @ts-ignore
+    } else if (booking.assigned_sitter) {
+        const { data: sitter, error: sitterError } = await supabase
+            .from('sitters')
+            .select('*, users(*), sitter_addons(*), sitter_discounts(*)')
+            // @ts-ignore
+            .eq('id', booking.assigned_sitter.id)
+            .single();
+        if (sitter) {
+            // @ts-ignore
+            booking.assigned_sitter = sitter as Sitter;
+        }
+    }
+
+    return { props: { user, booking, notifiedSitters } };
 };
 
-function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPageProps) {
+interface BookingDetailsPageProps {
+    user: any; // Replace with a more specific user type if available
+    booking: BookingRequest;
+    notifiedSitters: Sitter[];
+}
+
+function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: BookingDetailsPageProps) {
     const [bookingRequest, setBookingRequest] = useState(initialBooking);
     const supabase = createBrowserClient();
     const router = useRouter();
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedBooking, setEditedBooking] = useState<Partial<FullBookingRequest>>(initialBooking);
+    const [editedBooking, setEditedBooking] = useState<Partial<BookingRequest>>(initialBooking);
+
+    const calculateNights = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end.getTime() - start.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
 
     useEffect(() => {
+        if (!bookingRequest) return;
+
         const channel = supabase
             .channel(`booking-details-${bookingRequest.id}`)
             .on(
@@ -89,7 +108,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
                     filter: `id=eq.${bookingRequest.id}`,
                 },
                 (payload) => {
-                    setBookingRequest(prev => ({ ...prev, ...payload.new as BookingRequest }));
+                    setBookingRequest((prev: BookingRequest) => ({ ...prev, ...payload.new as BookingRequest }));
                 }
             )
             .subscribe();
@@ -97,7 +116,7 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
         return () => {
             supabase.removeChannel(channel);
         };
-    }, [supabase, bookingRequest.id]);
+    }, [supabase, bookingRequest]);
 
     const handleSave = async () => {
         setError('');
@@ -166,83 +185,96 @@ function BookingDetailsPage({ user, booking: initialBooking }: BookingDetailsPag
         <AdminLayout>
             <div className="p-8">
                 <h1 className="text-3xl font-bold mb-8">Booking Details</h1>
-                <div className="bg-white rounded-lg shadow p-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-2">
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Booking</h2>
+                            <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
+                            <p><strong>Nights:</strong> {calculateNights(bookingRequest.start_date, bookingRequest.end_date)}</p>
+                            <p><strong>Status:</strong> {bookingRequest.status}</p>
+                            <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
+                        </div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Customer</h2>
                             <p><strong>Name:</strong> {bookingRequest.customers?.name}</p>
                             <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
                         </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Sitter</h2>
-                            <p><strong>Name:</strong> {bookingRequest.assigned_sitter?.user?.first_name} {bookingRequest.assigned_sitter?.user?.last_name}</p>
-              <p><strong>Email:</strong> {bookingRequest.assigned_sitter?.user?.email || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Booking</h2>
-                            <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
-                            <p><strong>Status:</strong> {bookingRequest.status}</p>
-                            <p><strong>Total Cost:</strong> ${bookingRequest.total_cost_cents ? bookingRequest.total_cost_cents / 100 : 'N/A'}</p>
-                            <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Pets</h2>
-                            <ul>
-                                {bookingRequest.booking_pets?.map(({ pets }) => (
-                                    <li key={pets.id}>{pets.name} ({pets.breed})</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
-                            <ul>
-                                {bookingRequest.booking_addons?.map(({ sitter_addons }) => (
-                                    <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
                             <ul>
-                                {bookingRequest.booking_sitter_recipients?.map(recipient => (
+                                {bookingRequest.booking_sitter_recipients?.map((recipient: NotifiedSitter) => (
                                     <li key={recipient.sitters?.id}>
                                         {recipient.sitters?.users?.first_name} {recipient.sitters?.users?.last_name} - {recipient.status}
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                        <div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Pets</h2>
+                            <ul>
+                                {bookingRequest.booking_pets?.map(({ pets }: { pets: Pet }) => (
+                                    <li key={pets.id}>{pets.name} ({pets.breed})</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
+                            <ul>
+                                {bookingRequest.booking_addons?.map(({ sitter_addons }: { sitter_addons: { id: string; name: string; price_cents: number } }) => (
+                                    <li key={sitter_addons.id}>{sitter_addons.name} (${sitter_addons.price_cents / 100})</li>
+                                ))}
+                            </ul>
+                        </div>
+                        {bookingRequest.status === 'PENDING_SITTER_ACCEPTANCE' ? (
+                            notifiedSitters.map(sitter => (
+                                <div key={sitter.id} className="bg-white rounded-lg shadow p-6 mb-6">
+                                    <h3 className="text-xl font-bold mb-2">Cost Breakdown for {sitter.user.first_name} {sitter.user.last_name}</h3>
+                                    <PaymentBreakdown booking={bookingRequest} sitter={sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="bg-white rounded-lg shadow p-6 mb-6">
+                                <h2 className="text-2xl font-bold mb-4">Cost Breakdown</h2>
+                                {bookingRequest.assigned_sitter && <PaymentBreakdown booking={bookingRequest} sitter={bookingRequest.assigned_sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />}
+                            </div>
+                        )}
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Booking Notes</h2>
                             <BookingNotes bookingId={bookingRequest.id} notes={bookingRequest.booking_notes || []} user={user} />
                         </div>
                     </div>
-                    <div className="mt-8 flex space-x-4">
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={handleUpdatePaymentStatus}
-                            disabled={isSubmitting || bookingRequest.payment_status === 'PAID'}
-                            className="px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
-                        >
-                            Mark as Paid
-                        </button>
-                        <button
-                            onClick={handleCancelBooking}
-                            disabled={isSubmitting || bookingRequest.status === 'CANCELED_BY_ADMIN'}
-                            className="px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:bg-gray-400"
-                        >
-                            Cancel Booking
-                        </button>
-                    </div>
-                    {error && (
-                        <div className="mt-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
-                            {error}
+                    <div className="md:col-span-1">
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Actions</h2>
+                            <div className="flex flex-col space-y-4">
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleUpdatePaymentStatus}
+                                    disabled={isSubmitting || bookingRequest.payment_status === 'PAID'}
+                                    className="px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
+                                >
+                                    Mark as Paid
+                                </button>
+                                <button
+                                    onClick={handleCancelBooking}
+                                    disabled={isSubmitting || bookingRequest.status === 'CANCELED_BY_ADMIN'}
+                                    className="px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:bg-gray-400"
+                                >
+                                    Cancel Booking
+                                </button>
+                            </div>
+                            {error && (
+                                <div className="mt-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                                    {error}
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
             {isEditing && (

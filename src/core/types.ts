@@ -33,10 +33,22 @@ export type Pet = {
 export type Sitter = {
     id: string;
     user: {
+        id: string;
         email: string;
         first_name: string;
         last_name: string;
-    }
+    };
+    base_rate_cents: number;
+    sitter_addons: {
+        id: string;
+        name: string;
+        price_cents: number;
+    }[];
+    sitter_discounts: {
+        id: string;
+        min_days: number;
+        percentage: number;
+    }[];
 }
 
 export type BookingNote = {
@@ -82,6 +94,7 @@ export type BookingRequest = {
     pets: Pet;
   }[];
   booking_addons: {
+    price_cents_at_booking: number;
     sitter_addons: {
       id: string;
       name: string;
