@@ -185,14 +185,21 @@ function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: 
         <AdminLayout>
             <div className="p-8">
                 <h1 className="text-3xl font-bold mb-8">Booking Details</h1>
-                <div className="bg-white rounded-lg shadow p-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-2">
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Booking</h2>
+                            <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
+                            <p><strong>Nights:</strong> {calculateNights(bookingRequest.start_date, bookingRequest.end_date)}</p>
+                            <p><strong>Status:</strong> {bookingRequest.status}</p>
+                            <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
+                        </div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Customer</h2>
                             <p><strong>Name:</strong> {bookingRequest.customers?.name}</p>
                             <p><strong>Email:</strong> {bookingRequest.customers?.email}</p>
                         </div>
-                        <div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Notified Sitters</h2>
                             <ul>
                                 {bookingRequest.booking_sitter_recipients?.map((recipient: NotifiedSitter) => (
@@ -202,24 +209,7 @@ function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: 
                                 ))}
                             </ul>
                         </div>
-                        <div>
-                            <h2 className="text-2xl font-bold mb-4">Booking</h2>
-                            <p><strong>Dates:</strong> {bookingRequest.start_date} to {bookingRequest.end_date}</p>
-                            <p><strong>Nights:</strong> {calculateNights(bookingRequest.start_date, bookingRequest.end_date)}</p>
-                            <p><strong>Status:</strong> {bookingRequest.status}</p>
-                            <p><strong>Payment Status:</strong> {bookingRequest.payment_status}</p>
-                        </div>
-                        {bookingRequest.status === 'PENDING_SITTER_ACCEPTANCE' ? (
-                            notifiedSitters.map(sitter => (
-                                <div key={sitter.id}>
-                                    <h3 className="text-xl font-bold mt-6 mb-2">Cost Breakdown for {sitter.user.first_name} {sitter.user.last_name}</h3>
-                                    <PaymentBreakdown booking={bookingRequest} sitter={sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
-                                </div>
-                            ))
-                        ) : (
-                            bookingRequest.assigned_sitter && <PaymentBreakdown booking={bookingRequest} sitter={bookingRequest.assigned_sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
-                        )}
-                        <div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Pets</h2>
                             <ul>
                                 {bookingRequest.booking_pets?.map(({ pets }: { pets: Pet }) => (
@@ -227,7 +217,7 @@ function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: 
                                 ))}
                             </ul>
                         </div>
-                        <div>
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Add-ons</h2>
                             <ul>
                                 {bookingRequest.booking_addons?.map(({ sitter_addons }: { sitter_addons: { id: string; name: string; price_cents: number } }) => (
@@ -235,38 +225,56 @@ function BookingDetailsPage({ user, booking: initialBooking, notifiedSitters }: 
                                 ))}
                             </ul>
                         </div>
-                        <div>
+                        {bookingRequest.status === 'PENDING_SITTER_ACCEPTANCE' ? (
+                            notifiedSitters.map(sitter => (
+                                <div key={sitter.id} className="bg-white rounded-lg shadow p-6 mb-6">
+                                    <h3 className="text-xl font-bold mb-2">Cost Breakdown for {sitter.user.first_name} {sitter.user.last_name}</h3>
+                                    <PaymentBreakdown booking={bookingRequest} sitter={sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="bg-white rounded-lg shadow p-6 mb-6">
+                                <h2 className="text-2xl font-bold mb-4">Cost Breakdown</h2>
+                                {bookingRequest.assigned_sitter && <PaymentBreakdown booking={bookingRequest} sitter={bookingRequest.assigned_sitter} nights={calculateNights(bookingRequest.start_date, bookingRequest.end_date)} />}
+                            </div>
+                        )}
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
                             <h2 className="text-2xl font-bold mb-4">Booking Notes</h2>
                             <BookingNotes bookingId={bookingRequest.id} notes={bookingRequest.booking_notes || []} user={user} />
                         </div>
                     </div>
-                    <div className="mt-8 flex space-x-4">
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={handleUpdatePaymentStatus}
-                            disabled={isSubmitting || bookingRequest.payment_status === 'PAID'}
-                            className="px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
-                        >
-                            Mark as Paid
-                        </button>
-                        <button
-                            onClick={handleCancelBooking}
-                            disabled={isSubmitting || bookingRequest.status === 'CANCELED_BY_ADMIN'}
-                            className="px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:bg-gray-400"
-                        >
-                            Cancel Booking
-                        </button>
-                    </div>
-                    {error && (
-                        <div className="mt-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
-                            {error}
+                    <div className="md:col-span-1">
+                        <div className="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 className="text-2xl font-bold mb-4">Actions</h2>
+                            <div className="flex flex-col space-y-4">
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleUpdatePaymentStatus}
+                                    disabled={isSubmitting || bookingRequest.payment_status === 'PAID'}
+                                    className="px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
+                                >
+                                    Mark as Paid
+                                </button>
+                                <button
+                                    onClick={handleCancelBooking}
+                                    disabled={isSubmitting || bookingRequest.status === 'CANCELED_BY_ADMIN'}
+                                    className="px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:bg-gray-400"
+                                >
+                                    Cancel Booking
+                                </button>
+                            </div>
+                            {error && (
+                                <div className="mt-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                                    {error}
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
             {isEditing && (
