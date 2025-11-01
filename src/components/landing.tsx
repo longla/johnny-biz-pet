@@ -540,7 +540,7 @@ function LandingComponent() {
                 delay: 0.6,
               }}
             >
-              Ruh-Roh Retreat - Not Your Average Pet Sitter
+              Boutique In-Home Dog Sitting — Structured Care, Happy Tails
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl mb-8 text-white/90"
@@ -552,9 +552,7 @@ function LandingComponent() {
                 delay: 0.7,
               }}
             >
-              Trustworthy, reliable pet care where dogs can have fun, be goofy,
-              and feel at ease. Customize their experience with unique add-ons
-              tailored to their needs!
+              Your dog deserves more than just care — they deserve a vacation.
             </motion.p>
             <motion.p
               className="text-lg md:text-xl mb-8 text-white/90"
@@ -566,7 +564,7 @@ function LandingComponent() {
                 delay: 0.75,
               }}
             >
-              Over 60 5-star reviews from happy pet parents on Rover
+              Ruh-Roh Retreat connects pet parents with independent sitters who share our boutique philosophy of structure, comfort, and personalized attention.
             </motion.p>
           </motion.div>
         </div>
@@ -589,19 +587,13 @@ function LandingComponent() {
                 onClick={scrollToBooking}
                 className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
               >
-                Book Now
+                🐾 Find a Sitter
               </button>
               <button
                 onClick={scrollToMeetGreet}
                 className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
               >
-                Meet & Greet
-              </button>
-              <button
-                onClick={scrollToTestimonials}
-                className="bg-transparent hover:bg-[#F28C38] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 border-2 border-[#F28C38]"
-              >
-                Read Reviews
+                📩 Submit a Request
               </button>
             </motion.div>
 
@@ -650,22 +642,86 @@ function LandingComponent() {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-[#F4F4F4]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              💛 Why Pet Parents Choose Ruh-Roh Retreat
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Our boutique philosophy is built around four pillars of comfort, structure, and trust.
+              Each independent sitter in our network chooses to align with these values, helping pups feel safe, happy, and right at home.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Pillar 1: Boutique Comfort */}
+            <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
+              <div className="text-5xl mb-4">🏡</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Boutique Comfort
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Small groups, cozy home stays, and personalized attention.
+                Sitters who align with this pillar host fewer dogs to ensure calm, low-stress stays.
+              </p>
+            </div>
+
+            {/* Pillar 2: Structured & Safe */}
+            <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
+              <div className="text-5xl mb-4">🧘</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Structured & Safe
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Balanced routines, mindful introductions, and calm environments.
+                Sitters emphasize consistency and smooth transitions to help dogs settle comfortably.
+              </p>
+            </div>
+
+            {/* Pillar 3: Transparent Communication */}
+            <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
+              <div className="text-5xl mb-4">📸</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Transparent Communication
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Daily photo and video updates keep you connected, no matter where you are.
+                Many sitters also offer live video check-ins or meet-and-greets before your dog’s stay.
+              </p>
+            </div>
+
+            {/* Pillar 4: Personalized Vacations */}
+            <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
+              <div className="text-5xl mb-4">🎨</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Personalized Vacations
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Every pup deserves a tailored experience.
+                Pet parents can choose fun enrichment add-ons to make their dog’s stay feel like a true retreat.
+                Add-ons vary by sitter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section id="services" className="py-20 bg-gray-50 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              A La Carte Services
+              ✨ Vacation-Style Add-Ons
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Every pet's stay includes my full attention, but you can enhance
-              their experience with these specialized add-ons. Mix and match to
-              create the perfect retreat for your furry friend.
+              Make your dog’s stay extra special with enrichment activities that balance fun, comfort, and relaxation.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Standard Care Card */}
+            {/* Add-on 1: Sniffari Nature Walks */}
             <motion.div
               className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-blue-500"
               whileHover={{
@@ -675,39 +731,15 @@ function LandingComponent() {
               }}
             >
               <div className="text-center mb-6">
-                <div className="text-5xl text-blue-500">🐾</div>
+                <div className="text-5xl text-blue-500">🌳</div>
                 <h3 className="text-2xl font-bold text-gray-800 mt-4">
-                  Standard Care
+                  Sniffari Nature Walks
                 </h3>
-                <p className="text-2xl font-bold text-blue-500 mt-4">
-                  $45/night
-                </p>
+                <p className="text-gray-600">adventure walks that engage your dog’s senses</p>
               </div>
-              <ul className="space-y-4 text-gray-600">
-                <li className="flex items-center">
-                  <FaCheckCircle className="text-blue-500 mr-3" />
-                  Four 15-minute walks daily
-                </li>
-                <li className="flex items-center">
-                  <FaCheckCircle className="text-blue-500 mr-3" />
-                  Potty breaks & yard cleanup
-                </li>
-                <li className="flex items-center">
-                  <FaCheckCircle className="text-blue-500 mr-3" />
-                  Fresh water & scheduled feeding
-                </li>
-                <li className="flex items-center">
-                  <FaCheckCircle className="text-blue-500 mr-3" />
-                  Daily photo & video updates
-                </li>
-                <li className="flex items-center">
-                  <FaCheckCircle className="text-blue-500 mr-3" />
-                  Constant companionship & affection
-                </li>
-              </ul>
             </motion.div>
 
-            {/* Enrichment Activities Card */}
+            {/* Add-on 2: PAW-casso Painting */}
             <motion.div
               className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-green-500"
               whileHover={{
@@ -717,45 +749,15 @@ function LandingComponent() {
               }}
             >
               <div className="text-center mb-6">
-                <div className="text-5xl text-green-500">🧠</div>
+                <div className="text-5xl text-green-500">🎨</div>
                 <h3 className="text-2xl font-bold text-gray-800 mt-4">
-                  Enrichment Activities
+                  PAW-casso Painting
                 </h3>
-                <p className="text-gray-500">Stimulate their mind & body</p>
+                <p className="text-gray-600">a keepsake masterpiece created by your pup</p>
               </div>
-              <ul className="space-y-3 text-gray-700">
-                <li>
-                  Sniffari Walk -{" "}
-                  <span className="font-semibold text-green-600">$10</span>
-                </li>
-                <li>
-                  Extended Walk (20 min) -{" "}
-                  <span className="font-semibold text-green-600">$15</span>
-                </li>
-                <li>
-                  Jogging Session (20 min) -{" "}
-                  <span className="font-semibold text-green-600">$15</span>
-                </li>
-                <li>
-                  Dog Park Trip -{" "}
-                  <span className="font-semibold text-green-600">$15</span>
-                </li>
-                <li>
-                  Puzzle Feeder / Frozen Kong -{" "}
-                  <span className="font-semibold text-green-600">$5</span>
-                </li>
-                <li>
-                  PAW-casso Painting -{" "}
-                  <span className="font-semibold text-green-600">$20</span>
-                </li>
-                <li>
-                  Puppuccino & Treat Outing -{" "}
-                  <span className="font-semibold text-green-600">$15</span>
-                </li>
-              </ul>
             </motion.div>
 
-            {/* Wellness & Spa Card */}
+            {/* Add-on 3: Pup Cup & Treat Outings */}
             <motion.div
               className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-purple-500"
               whileHover={{
@@ -765,46 +767,73 @@ function LandingComponent() {
               }}
             >
               <div className="text-center mb-6">
-                <div className="text-5xl text-purple-500">💆‍♂️</div>
+                <div className="text-5xl text-purple-500">☕</div>
                 <h3 className="text-2xl font-bold text-gray-800 mt-4">
-                  Wellness & Spa
+                  Pup Cup & Treat Outings
                 </h3>
-                <p className="text-gray-500">For extra pampering & care</p>
+                <p className="text-gray-600">coffee-shop trips for wagging tails</p>
               </div>
-              <ul className="space-y-3 text-gray-700">
-                <li>
-                  Bath & Blow Dry -{" "}
-                  <span className="font-semibold text-purple-600">$40</span>
-                </li>
-                <li>
-                  Massage & Brushing -{" "}
-                  <span className="font-semibold text-purple-600">$15</span>
-                </li>
-                <li>
-                  Calming Aromatherapy -{" "}
-                  <span className="font-semibold text-purple-600">$10</span>
-                </li>
-                <li>
-                  Teeth Brushing -{" "}
-                  <span className="font-semibold text-purple-600">$5</span>
-                </li>
-                <li>
-                  Nail Trim -{" "}
-                  <span className="font-semibold text-purple-600">$10</span>
-                </li>
-                <li>
-                  Basic Obedience Reinforcement -{" "}
-                  <span className="font-semibold text-purple-600">$15</span>
-                </li>
-                <li>
-                  Cuddle & Movie Night -{" "}
-                  <span className="font-semibold text-purple-600">$10</span>
-                </li>
-              </ul>
+            </motion.div>
+
+            {/* Add-on 4: Cuddle & Movie Night */}
+            <motion.div
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-red-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              <div className="text-center mb-6">
+                <div className="text-5xl text-red-500">🎥</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Cuddle & Movie Night
+                </h3>
+                <p className="text-gray-600">cozy downtime with cuddles and a film</p>
+              </div>
+            </motion.div>
+
+            {/* Add-on 5: Massage & Brushing */}
+            <motion.div
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-yellow-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              <div className="text-center mb-6">
+                <div className="text-5xl text-yellow-500">💆</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Massage & Brushing
+                </h3>
+                <p className="text-gray-600">spa-style care for coat and comfort</p>
+              </div>
+            </motion.div>
+
+            {/* Add-on 6: Calming Aromatherapy */}
+            <motion.div
+              className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-indigo-500"
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              <div className="text-center mb-6">
+                <div className="text-5xl text-indigo-500">🪷</div>
+                <h3 className="text-2xl font-bold text-gray-800 mt-4">
+                  Calming Aromatherapy
+                </h3>
+                <p className="text-gray-600">helps anxious pups unwind and rest easy</p>
+              </div>
             </motion.div>
           </div>
 
           <div className="text-center mt-16">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+              Additional options such as obedience refreshers or puzzle feeders may be available. Add-ons vary by sitter.
+            </p>
             <button
               onClick={scrollToBooking}
               className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-4 px-10 rounded-full text-xl transition-transform transform hover:scale-105 duration-300 shadow-lg"
@@ -814,6 +843,102 @@ function LandingComponent() {
           </div>
         </div>
         <FloatingYogaDog />
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              🧭 How It Works
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Booking through Ruh-Roh Retreat is simple, transparent, and stress-free.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div className="flex flex-col items-center">
+              <div className="text-5xl text-[#F28C38] mb-4">🐶</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Browse Sitters
+              </h3>
+              <p className="text-gray-600">
+                View sitter profiles with photos, reviews, home details, and Ruh-Roh Badges.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="text-5xl text-[#1A9CB0] mb-4">📝</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Submit a Request
+              </h3>
+              <p className="text-gray-600">
+                Choose your sitter, enter dates, and share details about your pup.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="text-5xl text-[#F28C38] mb-4">👋</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Meet & Greet
+              </h3>
+              <p className="text-gray-600">
+                Your chosen sitter contacts you to schedule a meet-and-greet and confirm fit.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="text-5xl text-[#1A9CB0] mb-4">✅</div>
+              <h3 className="text-xl font-semibold mb-2 text-[#333333]">
+                Book & Relax
+              </h3>
+              <p className="text-gray-600">
+                Once booked, your sitter provides updates while your dog enjoys their boutique retreat.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-16">
+            <p className="text-sm text-gray-500 italic">
+              Ruh-Roh Retreat connects clients and independent sitters but does not set pricing, guarantee services, or supervise sitters.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Meet Our Sitters Section */}
+      <section className="py-20 bg-[#F4F4F4]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
+              🐕‍🦺 Meet Our Sitters
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Our sitters are independent professionals who share the Ruh-Roh philosophy of structure, calm, and compassion.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <ul className="list-disc list-inside space-y-3 text-lg text-gray-700">
+              <li>
+                <span className="font-semibold">Verified client reviews</span>
+              </li>
+              <li>
+                <span className="font-semibold">Ruh-Roh Badges earned</span>
+              </li>
+              <li>
+                <span className="font-semibold">Home environment details</span>
+              </li>
+              <li>
+                <span className="font-semibold">Personalized bio</span>
+              </li>
+            </ul>
+            <p className="text-center text-sm text-gray-500 italic mt-8">
+              Sitters manage their own schedules, pricing, and bookings.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Photo Gallery Section */}
@@ -1027,117 +1152,7 @@ function LandingComponent() {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-20 bg-[#F4F4F4]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Why Pet Parents Book With Me
-            </h2>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Benefit 1 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">👩‍⚕️</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Vet Assistant Trained
-                </h3>
-                <p className="text-gray-600">
-                  Confident in handling everything from medication to post-op
-                  care.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 2 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">🏡</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Safe, Calm Home
-                </h3>
-                <p className="text-gray-600">
-                  I host only friendly, house-trained dogs for a peaceful &
-                  stress-free stay.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 3 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">💎</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Boutique Experience
-                </h3>
-                <p className="text-gray-600">
-                  Your dog stays in a calm, cozy environment with access to
-                  enrichment, relaxation, and personalized care — more like a
-                  luxury retreat than a kennel.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 4 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">💖</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  I'm Home All Day
-                </h3>
-                <p className="text-gray-600">
-                  Your pup gets full-day attention, comfort, and supervision.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 5 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">🧼</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Sparkling Clean Space
-                </h3>
-                <p className="text-gray-600">
-                  I deep-clean after every stay to ensure a healthy environment.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 6 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">🌳</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Outdoor Fun
-                </h3>
-                <p className="text-gray-600">
-                  Private dog park, walking trails, and grassy areas just steps
-                  from my door.
-                </p>
-              </div>
-            </div>
-
-            {/* Benefit 7 */}
-            <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
-              <div className="text-4xl mr-4">🤝</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-[#333333]">
-                  Trust & Transparency
-                </h3>
-                <p className="text-gray-600">
-                  I give pet parents peace of mind with a home tour during the
-                  Meet & Greet so you know exactly where your dog will stay. I’m
-                  always upfront about how I run my home and will check with you
-                  before doing anything out of the ordinary with your dog.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       {renderTestimonialsSection()}
@@ -1466,144 +1481,9 @@ function LandingComponent() {
         </div>
       </section>
 
-      {/* Meet & Greet Section */}
-      <section id="meet-greet" ref={meetGreetRef} className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">
-              Schedule a Meet & Greet
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              I believe in building trust before service begins. Schedule a free
-              30-minute Meet & Greet to introduce your pets to me, discuss your
-              specific needs, and take a tour of my space.
-            </p>
-          </div>
 
-          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/hello-ruhrohretreat/30min"
-              style={{ minWidth: "320px", height: "700px" }}
-            >
-              {isCalendlyLoading && (
-                <p className="text-center py-16 text-gray-500">
-                  Loading calendar...
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Call-to-Action Section */}
-      <section id="contact" className="py-16 bg-[#1A9CB0]">
-        <div className="container mx-auto px-4 text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready for the Ruh-Roh Retreat experience?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            My luxury overnight boarding with premium add-on services will make
-            your pet's stay truly special while you're away.
-          </p>
-          <div className="mb-8 flex flex-wrap gap-4 justify-center">
-            <button
-              onClick={scrollToBooking}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
-            >
-              Book Now
-            </button>
-            <button
-              onClick={scrollToMeetGreet}
-              className="bg-white text-[#1A9CB0] hover:bg-[#158294] hover:text-white border-2 border-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300"
-            >
-              Meet & Greet
-            </button>
-          </div>
-          <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-            <a
-              href="tel:+17143294534"
-              className="flex items-center text-xl hover:underline"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                />
-              </svg>
-              +1 (714) 329-4534
-            </a>
-            <a
-              href="mailto:hello@ruhrohretreat.com"
-              className="flex items-center text-xl hover:underline"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              hello@ruhrohretreat.com
-            </a>
-          </div>
 
-          {/* Location Information */}
-          <div className="mt-12">
-            <div className="flex items-center justify-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span className="text-xl">Irvine, CA, 92618</span>
-            </div>
-
-            <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53126.19753549337!2d-117.77879015134555!3d33.67303311505977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcc2ab294505d5%3A0xc632aac341d153b4!2sIrvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1754622274377!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Ruh-Roh Retreat Location"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Schema Markup for Local Business - Keeping this to provide structured data */}
       <script
