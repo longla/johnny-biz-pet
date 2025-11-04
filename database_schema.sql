@@ -2,9 +2,24 @@
 
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(50),
     role VARCHAR(50) NOT NULL CHECK (role IN ('ADMIN', 'SITTER')),
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- ### Sitters & Services ###
+
+CREATE TABLE sitters (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    address TEXT,
+    county VARCHAR(100),
+    base_rate_cents INT, -- Store currency in cents to avoid floating point issues
+    signature_url TEXT,
+    is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
@@ -32,20 +47,9 @@ CREATE TABLE signed_waivers (
     customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
     sitter_id UUID REFERENCES sitters(id) ON DELETE CASCADE,
     storage_path TEXT NOT NULL,
-    signed_at TIMESTAMTZO DEFAULT now()
+    signed_at TIMESTAMPTZ DEFAULT now()
 );
 
--- ### Sitters & Services ###
-
-CREATE TABLE sitters (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID UNIQUE REFERENCES users(id) ON DELETE CASCADE,
-    county VARCHAR(100) NOT NULL,
-    base_rate_cents INT NOT NULL, -- Store currency in cents to avoid floating point issues
-    signature_url TEXT,
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFAULT now()
-);
 
 CREATE TABLE sitter_addons (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
