@@ -12,6 +12,8 @@ import FloatingBone from "./floating-bone";
 import FloatingYogaDog from "./floating-yoga-dog";
 import PhotoGallery from "./photo-gallery";
 
+import MultiLocationMap from './MultiLocationMap';
+
 type Testimonial = {
   id: number;
   name: string;
@@ -21,9 +23,31 @@ type Testimonial = {
   date: string;
 };
 
+const locations = [
+  {
+    id: "irvine",
+    name: "Irvine, CA, 92618",
+    city: "Irvine",
+    showAddons: true,
+    lat: 33.673033,
+    lng: -117.778790,
+  },
+  {
+    id: "wildomar",
+    name: "Wildomar, CA, 92595",
+    city: "Wildomar",
+    showAddons: false,
+    lat: 33.603568,
+    lng: -117.293535,
+  },
+];
+
 function LandingComponent() {
+  const [selectedLocation, setSelectedLocation] = useState(locations[0]);
+
   // Booking form state
   const [bookingForm, setBookingForm] = useState({
+    city: selectedLocation.name,
     firstName: "",
     lastName: "",
     email: "",
@@ -215,6 +239,19 @@ function LandingComponent() {
     });
   };
 
+  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const locationId = e.target.value;
+    const newLocation = locations.find((loc) => loc.id === locationId);
+    if (newLocation) {
+      setSelectedLocation(newLocation);
+      setBookingForm({
+        ...bookingForm,
+        city: newLocation.name,
+        addons: {}, // Reset addons when location changes
+      });
+    }
+  };
+
   // Handle checkbox changes
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
@@ -269,6 +306,7 @@ function LandingComponent() {
 
       // Reset form
       setBookingForm({
+        city: selectedLocation.name,
         firstName: "",
         lastName: "",
         email: "",
@@ -1196,6 +1234,29 @@ function LandingComponent() {
           ) : (
             <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
               <form onSubmit={handleSubmit}>
+                <div className="mb-6">
+                  <label
+                    htmlFor="city"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Location *
+                  </label>
+                  <select
+                    id="city"
+                    name="city"
+                    required
+                    value={selectedLocation.id}
+                    onChange={handleLocationChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                  >
+                    {locations.map((loc) => (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label
@@ -1367,41 +1428,45 @@ function LandingComponent() {
                   </div>
                 )}
 
-                <div className="mb-6">
-                  <label className="block text-gray-700 font-medium mb-3">
-                    Additional Services (Optional)
-                  </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(services).map(([category, addons]) => (
-                      <div key={category}>
-                        <h4 className="font-semibold text-gray-800 mb-2">
-                          {category}
-                        </h4>
-                        {addons.map((addon) => (
-                          <div
-                            key={addon.name}
-                            className="flex items-center mb-2"
-                          >
-                            <input
-                              type="checkbox"
-                              id={addon.name}
-                              name={addon.name}
-                              checked={bookingForm.addons[addon.name] || false}
-                              onChange={handleCheckboxChange}
-                              className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
-                            />
-                            <label
-                              htmlFor={addon.name}
-                              className="ml-2 text-gray-700"
+                {selectedLocation.showAddons && (
+                  <div className="mb-6">
+                    <label className="block text-gray-700 font-medium mb-3">
+                      Additional Services (Optional)
+                    </label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(services).map(([category, addons]) => (
+                        <div key={category}>
+                          <h4 className="font-semibold text-gray-800 mb-2">
+                            {category}
+                          </h4>
+                          {addons.map((addon) => (
+                            <div
+                              key={addon.name}
+                              className="flex items-center mb-2"
                             >
-                              {addon.name} ({addon.price})
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
+                              <input
+                                type="checkbox"
+                                id={addon.name}
+                                name={addon.name}
+                                checked={
+                                  bookingForm.addons[addon.name] || false
+                                }
+                                onChange={handleCheckboxChange}
+                                className="w-5 h-5 text-[#1A9CB0] border-gray-300 rounded focus:ring-[#1A9CB0]"
+                              />
+                              <label
+                                htmlFor={addon.name}
+                                className="ml-2 text-gray-700"
+                              >
+                                {addon.name} ({addon.price})
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="mb-6">
                   <label
@@ -1565,41 +1630,36 @@ function LandingComponent() {
 
           {/* Location Information */}
           <div className="mt-12">
-            <div className="flex items-center justify-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span className="text-xl">Irvine, CA, 92618</span>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
+              {locations.map((loc) => (
+                <div key={loc.id} className="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span className="text-xl">{loc.name}</span>
+                </div>
+              ))}
             </div>
 
             <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53126.19753549337!2d-117.77879015134555!3d33.67303311505977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcc2ab294505d5%3A0xc632aac341d153b4!2sIrvine%2C%20CA%2092618!5e0!3m2!1sen!2sus!4v1754622274377!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Ruh-Roh Retreat Location"
-              ></iframe>
+              <MultiLocationMap locations={locations} />
             </div>
           </div>
         </div>

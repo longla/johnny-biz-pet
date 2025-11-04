@@ -27,6 +27,7 @@ export default async function handler(
 
   try {
     const {
+      city,
       firstName,
       lastName,
       email,
@@ -41,6 +42,7 @@ export default async function handler(
 
     // Basic validation
     if (
+      !city ||
       !firstName ||
       !lastName ||
       !email ||
@@ -110,6 +112,7 @@ export default async function handler(
     // Create email content for the business
     const businessEmailContent = `
       <h2>New Booking Request</h2>
+      <p><strong>Location:</strong> ${city}</p>
       <p><strong>Customer:</strong> ${firstName} ${lastName}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone}</p>
@@ -145,9 +148,10 @@ export default async function handler(
     const customerEmailContent = `
       <h2>Booking Request Confirmation</h2>
       <p>Dear ${firstName},</p>
-      <p>Thank you for your booking request for ${petName}. I have received your request and will get back to you within 24 hours to confirm your booking.</p>
+      <p>Thank you for your booking request for ${petName} at the ${city} location. I have received your request and will get back to you within 24 hours to confirm your booking.</p>
       <p><strong>Booking Summary:</strong></p>
       <ul>
+        <li><strong>Location:</strong> ${city}</li>
         <li><strong>Pet Name:</strong> ${petName}</li>
         <li><strong>Service Period:</strong> ${formattedStartDate} to ${formattedEndDate}</li>
         <li><strong>Number of Nights:</strong> ${nights}</li>
@@ -177,7 +181,7 @@ export default async function handler(
         process.env.EMAIL_FROM || "hello@ruhrohretreat.com"
       }>`,
       to: EMAIL_CONFIG.recipientEmail,
-      subject: EMAIL_CONFIG.subject,
+      subject: `${EMAIL_CONFIG.subject} - ${city}`,
       html: businessEmailContent,
       replyTo: email,
     });
