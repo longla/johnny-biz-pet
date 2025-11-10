@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, cubicBezier } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -10,7 +10,7 @@ type HeroSectionProps = {
 };
 
 const HERO_ROTATION_INTERVAL = 5000;
-const HERO_FADE_EASE = [0.4, 0, 0.2, 1];
+const HERO_FADE_EASE = cubicBezier(0.4, 0, 0.2, 1);
 
 function HeroSection({ onBookNow, onMeetGreet, onReadReviews }: HeroSectionProps) {
   const [heroImages, setHeroImages] = useState<string[]>([]);

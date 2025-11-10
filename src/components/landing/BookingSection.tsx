@@ -41,6 +41,7 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dateError, setDateError] = useState("");
   const [nightsCount, setNightsCount] = useState<number | null>(null);
+  const todayISO = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     if (bookingForm.startDate && bookingForm.endDate) {
@@ -317,6 +318,7 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
                     id="startDate"
                     name="startDate"
                     required
+                    min={todayISO}
                     value={bookingForm.startDate}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
@@ -331,9 +333,12 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
                     id="endDate"
                     name="endDate"
                     required
+                    min={bookingForm.startDate || todayISO}
                     value={bookingForm.endDate}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1A9CB0]"
+                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                      dateError ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-[#1A9CB0]"
+                    }`}
                   />
                 </div>
               </div>
@@ -359,7 +364,7 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
                       <div key={category} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                         <h4 className="text-lg font-semibold text-gray-800 mb-3">{category}</h4>
                         <div className="space-y-2">
-                          {addons.map((addon: { name: string; price: string; description: string }) => (
+                          {addons.map((addon: { name: string; price: string; description?: string }) => (
                             <label key={addon.name} className="flex items-start">
                               <input
                                 type="checkbox"
@@ -370,7 +375,7 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
                               />
                               <div>
                                 <p className="font-medium text-gray-800">{addon.name}</p>
-                                <p className="text-sm text-gray-600">{addon.description}</p>
+                                {addon.description && <p className="text-sm text-gray-600">{addon.description}</p>}
                                 <p className="text-sm font-semibold text-[#F28C38]">{addon.price}</p>
                               </div>
                             </label>
