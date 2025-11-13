@@ -57,8 +57,9 @@ function HowItWorksSection() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <span className="inline-flex items-center rounded-full bg-[#F4F4F9] px-4 py-1 text-sm font-semibold text-[#1A9CB0] uppercase tracking-wide">
-            🧭 How It Works
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#1A9CB0]/10 px-4 py-2 text-sm font-semibold text-[#1A9CB0] uppercase tracking-widest">
+            <FaCompass className="text-base" aria-hidden="true" />
+            How It Works
           </span>
           <h2
             id="how-it-works-heading"

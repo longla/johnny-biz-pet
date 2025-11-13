@@ -6,6 +6,7 @@ import {
   FaFilm,
   FaHandSparkles,
   FaLeaf,
+  FaSuitcaseRolling,
 } from "react-icons/fa";
 
 const addOns = [
@@ -58,9 +59,10 @@ function VacationAddOnsSection() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-[#1A9CB0] font-semibold">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#1A9CB0]/10 text-[#1A9CB0] px-4 py-2 text-sm font-semibold uppercase tracking-widest">
+            <FaSuitcaseRolling className="text-base" aria-hidden="true" />
             Vacation-Style Add-Ons
-          </p>
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mt-4">
             Make Their Stay Extra Special
           </h2>
