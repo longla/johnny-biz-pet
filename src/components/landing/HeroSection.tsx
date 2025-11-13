@@ -5,14 +5,13 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 type HeroSectionProps = {
   onBookNow: () => void;
-  onMeetGreet: () => void;
   onReadReviews: () => void;
 };
 
 const HERO_ROTATION_INTERVAL = 5000;
 const HERO_FADE_EASE = cubicBezier(0.4, 0, 0.2, 1);
 
-function HeroSection({ onBookNow, onMeetGreet, onReadReviews }: HeroSectionProps) {
+function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
   const [heroImages, setHeroImages] = useState<string[]>([]);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const heroIntervalRef = useRef<NodeJS.Timeout>();
@@ -161,12 +160,6 @@ function HeroSection({ onBookNow, onMeetGreet, onReadReviews }: HeroSectionProps
               className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
             >
               Book Now
-            </button>
-            <button
-              onClick={onMeetGreet}
-              className="bg-[#1A9CB0] hover:bg-[#158294] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
-            >
-              Meet & Greet
             </button>
             <button
               onClick={onReadReviews}

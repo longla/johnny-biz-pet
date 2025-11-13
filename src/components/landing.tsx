@@ -5,7 +5,6 @@ import BenefitsSection from "./landing/BenefitsSection";
 import BookingSection from "./landing/BookingSection";
 import CallToActionSection from "./landing/CallToActionSection";
 import HeroSection from "./landing/HeroSection";
-import MeetGreetSection from "./landing/MeetGreetSection";
 import PhotoGallerySection from "./landing/PhotoGallerySection";
 import ServicesSection from "./landing/ServicesSection";
 import TestimonialsSection from "./landing/TestimonialsSection";
@@ -32,7 +31,6 @@ const locations: Location[] = [
 
 function LandingComponent() {
   const bookingRef = useRef<HTMLElement>(null);
-  const meetGreetRef = useRef<HTMLElement>(null);
   const testimonialsRef = useRef<HTMLElement>(null);
 
   const scrollToSection = (ref: RefObject<HTMLElement>) => {
@@ -40,14 +38,12 @@ function LandingComponent() {
   };
 
   const scrollToBooking = () => scrollToSection(bookingRef);
-  const scrollToMeetGreet = () => scrollToSection(meetGreetRef);
   const scrollToTestimonials = () => scrollToSection(testimonialsRef);
 
   return (
     <div className="relative overflow-x-hidden">
       <HeroSection
         onBookNow={scrollToBooking}
-        onMeetGreet={scrollToMeetGreet}
         onReadReviews={scrollToTestimonials}
       />
       <ServicesSection onBookNow={scrollToBooking} />
@@ -56,10 +52,8 @@ function LandingComponent() {
       <BenefitsSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
-      <MeetGreetSection sectionRef={meetGreetRef} />
       <CallToActionSection
         onBookNow={scrollToBooking}
-        onMeetGreet={scrollToMeetGreet}
         locations={locations}
       />
 
