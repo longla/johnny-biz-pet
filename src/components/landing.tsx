@@ -45,9 +45,9 @@ function LandingComponent() {
         onBookNow={scrollToBooking}
         onReadReviews={scrollToTestimonials}
       />
+      <BenefitsSection />
       <PhotoGallerySection />
       <AboutSection />
-      <BenefitsSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
       <CallToActionSection
