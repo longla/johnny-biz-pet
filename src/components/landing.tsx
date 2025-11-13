@@ -5,7 +5,6 @@ import BenefitsSection from "./landing/BenefitsSection";
 import BookingSection from "./landing/BookingSection";
 import CallToActionSection from "./landing/CallToActionSection";
 import HeroSection from "./landing/HeroSection";
-import ServicesSection from "./landing/ServicesSection";
 import PhotoGallerySection from "./landing/PhotoGallerySection";
 import TestimonialsSection from "./landing/TestimonialsSection";
 import { Location } from "./landing/types";
@@ -47,7 +46,6 @@ function LandingComponent() {
         onReadReviews={scrollToTestimonials}
       />
       <BenefitsSection />
-      <ServicesSection onBookNow={scrollToBooking} />
       <PhotoGallerySection />
       <AboutSection />
       <TestimonialsSection sectionRef={testimonialsRef} />

@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { LuHome, LuShieldCheck, LuCamera, LuPalette } from "react-icons/lu";
+import { FaHome, FaShieldAlt, FaCamera, FaPalette } from "react-icons/fa";
 
 const pillars = [
   {
     title: "Boutique Comfort",
     description: "Small groups, cozy home stays, and personalized attention.",
     detail: "Sitters who align with this pillar host fewer dogs to ensure calm, low-stress stays.",
-    icon: LuHome,
+    icon: FaHome,
     accentBorder: "border-[#F28C38]",
     accentText: "text-[#F28C38]",
   },
@@ -14,7 +14,7 @@ const pillars = [
     title: "Structured & Safe",
     description: "Balanced routines, mindful introductions, and calm environments.",
     detail: "Sitters emphasize consistency and smooth transitions to help dogs settle comfortably.",
-    icon: LuShieldCheck,
+    icon: FaShieldAlt,
     accentBorder: "border-[#1A9CB0]",
     accentText: "text-[#1A9CB0]",
   },
@@ -22,7 +22,7 @@ const pillars = [
     title: "Transparent Communication",
     description: "Daily photo and video updates keep you connected, no matter where you are.",
     detail: "Many sitters also offer live video check-ins or meet-and-greets before your dog’s stay.",
-    icon: LuCamera,
+    icon: FaCamera,
     accentBorder: "border-[#6C63FF]",
     accentText: "text-[#6C63FF]",
   },
@@ -31,7 +31,7 @@ const pillars = [
     description: "Every pup deserves a tailored experience.",
     detail: "Pet parents can choose fun enrichment add-ons to make their dog’s stay feel like a true retreat.",
     footer: "Add-ons vary by sitter.",
-    icon: LuPalette,
+    icon: FaPalette,
     accentBorder: "border-[#E4572E]",
     accentText: "text-[#E4572E]",
   },
