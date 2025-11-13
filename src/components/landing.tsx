@@ -9,6 +9,7 @@ import HowItWorksSection from "./landing/HowItWorksSection";
 import HeroSection from "./landing/HeroSection";
 import PhotoGallerySection from "./landing/PhotoGallerySection";
 import RatesTransparencySection from "./landing/RatesTransparencySection";
+import SafetyTrustSection from "./landing/SafetyTrustSection";
 import VacationAddOnsSection from "./landing/VacationAddOnsSection";
 import TestimonialsSection from "./landing/TestimonialsSection";
 import { Location } from "./landing/types";
@@ -51,6 +52,7 @@ function LandingComponent() {
       />
       <BenefitsSection />
       <BadgeSystemSection />
+      <SafetyTrustSection />
       <VacationAddOnsSection />
       <PhotoGallerySection />
       <HowItWorksSection />
@@ -58,10 +60,7 @@ function LandingComponent() {
       <AboutSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
-      <CallToActionSection
-        onBookNow={scrollToBooking}
-        locations={locations}
-      />
+      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
 
       <script
         type="application/ld+json"
@@ -85,7 +84,13 @@ function LandingComponent() {
             openingHoursSpecification: [
               {
                 "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                dayOfWeek: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                ],
                 opens: "08:00",
                 closes: "18:00",
               },
