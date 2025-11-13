@@ -8,6 +8,7 @@ import CallToActionSection from "./landing/CallToActionSection";
 import HowItWorksSection from "./landing/HowItWorksSection";
 import HeroSection from "./landing/HeroSection";
 import PhotoGallerySection from "./landing/PhotoGallerySection";
+import RatesTransparencySection from "./landing/RatesTransparencySection";
 import VacationAddOnsSection from "./landing/VacationAddOnsSection";
 import TestimonialsSection from "./landing/TestimonialsSection";
 import { Location } from "./landing/types";
@@ -53,6 +54,7 @@ function LandingComponent() {
       <VacationAddOnsSection />
       <PhotoGallerySection />
       <HowItWorksSection />
+      <RatesTransparencySection />
       <AboutSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
