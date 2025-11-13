@@ -2,6 +2,7 @@ import { RefObject, useRef } from "react";
 
 import AboutSection from "./landing/AboutSection";
 import BenefitsSection from "./landing/BenefitsSection";
+import BadgeSystemSection from "./landing/BadgeSystemSection";
 import BookingSection from "./landing/BookingSection";
 import CallToActionSection from "./landing/CallToActionSection";
 import HowItWorksSection from "./landing/HowItWorksSection";
@@ -48,6 +49,7 @@ function LandingComponent() {
         onReadReviews={scrollToTestimonials}
       />
       <BenefitsSection />
+      <BadgeSystemSection />
       <VacationAddOnsSection />
       <PhotoGallerySection />
       <HowItWorksSection />
