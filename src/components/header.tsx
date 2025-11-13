@@ -27,6 +27,7 @@ export default function Header() {
         <nav className="hidden md:flex space-x-8 h-[80px] items-center">
           <Link href="/" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Home</Link>
           <Link href="/#services" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Services</Link>
+          <Link href="/#benefits" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Why Ruh-Roh</Link>
           <Link href="/#about" className="text-gray-800 hover:text-[#1A9CB0] font-medium">About</Link>
           <Link href="/#testimonials" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Testimonials</Link>
           <Link href="/blog" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Blog</Link>
@@ -76,6 +77,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
+            </Link>
+            <Link
+              href="/#benefits"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Why Ruh-Roh
             </Link>
             <Link
               href="/#about"
