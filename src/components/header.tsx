@@ -63,14 +63,55 @@ export default function Header() {
             </button>
           </div>
           <nav className="flex-1 flex flex-col p-4 space-y-4">
-            <Link href="/" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-            <Link href="/#services" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Services</Link>
-            <Link href="/#about" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>About</Link>
-            <Link href="/#testimonials" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Testimonials</Link>
-            <Link href="/#booking" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Book Now</Link>
-            <Link href="/#meet-greet" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Meet & Greet</Link>
-            <Link href="/blog" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
-            <Link href="/waiver" className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]" onClick={() => setMobileMenuOpen(false)}>Waiver</Link>
+            <Link
+              href="/"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/#services"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Services
+            </Link>
+            <Link
+              href="/#about"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              href="/#testimonials"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Testimonials
+            </Link>
+            <Link
+              href="/#booking"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Book Now
+            </Link>
+            <Link
+              href="/blog"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Blog
+            </Link>
+            <Link
+              href="/waiver"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Waiver
+            </Link>
           </nav>
         </div>
       </div>

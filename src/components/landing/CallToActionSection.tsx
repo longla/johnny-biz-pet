@@ -3,11 +3,10 @@ import { Location } from "./types";
 
 type CallToActionSectionProps = {
   onBookNow: () => void;
-  onMeetGreet: () => void;
   locations: Location[];
 };
 
-function CallToActionSection({ onBookNow, onMeetGreet, locations }: CallToActionSectionProps) {
+function CallToActionSection({ onBookNow, locations }: CallToActionSectionProps) {
   return (
     <section id="contact" className="py-16 bg-[#1A9CB0]">
       <div className="container mx-auto px-4 text-center text-white">
@@ -21,12 +20,6 @@ function CallToActionSection({ onBookNow, onMeetGreet, locations }: CallToAction
             className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
           >
             Book Now
-          </button>
-          <button
-            onClick={onMeetGreet}
-            className="bg-white text-[#1A9CB0] hover:bg-[#158294] hover:text-white border-2 border-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300"
-          >
-            Meet & Greet
           </button>
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
