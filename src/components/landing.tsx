@@ -58,13 +58,9 @@ function LandingComponent() {
       <PhotoGallerySection />
       <HowItWorksSection />
       <RatesTransparencySection />
-      <AboutSection />
-      <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
       <LegalTransparencySection />
       <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
-      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
