@@ -61,8 +61,8 @@ function LandingComponent() {
       <AboutSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
-      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
       <LegalTransparencySection />
+      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
       <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
 
       <script

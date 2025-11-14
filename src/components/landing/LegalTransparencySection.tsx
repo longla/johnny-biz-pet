@@ -29,13 +29,13 @@ function LegalTransparencySection() {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <motion.span
-            className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white shadow-sm text-sm font-semibold text-[#1A9CB0] uppercase tracking-wide"
+            className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm text-sm font-semibold text-[#1A9CB0] uppercase tracking-wide"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            ⚖️ Legal Transparency
+            <FaBalanceScale className="text-base" aria-hidden="true" /> Legal Transparency
           </motion.span>
           <motion.p
             className="mt-6 text-lg text-gray-600 leading-relaxed"
