@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import MultiLocationMap from "../MultiLocationMap";
 import { Location } from "./types";
 
@@ -12,15 +14,20 @@ function CallToActionSection({ onBookNow, locations }: CallToActionSectionProps)
       <div className="container mx-auto px-4 text-center text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready for the Ruh-Roh Retreat experience?</h2>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          Our boutique sitters pair luxury overnight boarding with premium add-ons so every pup enjoys a vacation-style stay while
-          you travel.
+          Small-group stays, structured care, and personalized experiences await.
         </p>
         <div className="mb-8 flex flex-wrap gap-4 justify-center">
+          <Link
+            href="/sitters"
+            className="bg-white text-[#1A9CB0] font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 hover:bg-white/90"
+          >
+            Find a Sitter
+          </Link>
           <button
             onClick={onBookNow}
-            className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+            className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 hover:bg-white/10"
           >
-            Book Now
+            Submit a Request
           </button>
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
@@ -48,8 +55,11 @@ function CallToActionSection({ onBookNow, locations }: CallToActionSectionProps)
           </a>
         </div>
 
-        <div className="mt-12">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
+        <div className="mt-12 space-y-6">
+          <div>
+            <p className="uppercase tracking-widest text-sm font-semibold text-white/80">Serving Orange County & Surrounding Areas</p>
+          </div>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
             {locations.map((loc) => (
               <div key={loc.id} className="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,9 +81,10 @@ function CallToActionSection({ onBookNow, locations }: CallToActionSectionProps)
             ))}
           </div>
 
-          <div className="w-full h-96 mt-4 rounded-lg overflow-hidden shadow-lg">
+          <div className="w-full h-96 rounded-lg overflow-hidden shadow-lg">
             <MultiLocationMap locations={locations} />
           </div>
+          <p className="text-lg text-white/90 mt-6">Your Dog Deserves a Vacation Too. 🐾</p>
         </div>
       </div>
     </section>
