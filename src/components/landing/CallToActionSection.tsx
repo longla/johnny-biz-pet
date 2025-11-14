@@ -12,7 +12,8 @@ function CallToActionSection({ onBookNow, locations }: CallToActionSectionProps)
       <div className="container mx-auto px-4 text-center text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready for the Ruh-Roh Retreat experience?</h2>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          My luxury overnight boarding with premium add-on services will make your pet's stay truly special while you're away.
+          Our boutique sitters pair luxury overnight boarding with premium add-ons so every pup enjoys a vacation-style stay while
+          you travel.
         </p>
         <div className="mb-8 flex flex-wrap gap-4 justify-center">
           <button

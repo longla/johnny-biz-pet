@@ -1,4 +1,5 @@
 import { motion, cubicBezier } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -167,6 +168,12 @@ function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
             >
               Read Reviews
             </button>
+            <Link
+              href="/sitters"
+              className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 border-2 border-white/40"
+            >
+              Meet Our Sitters
+            </Link>
           </motion.div>
 
           {heroImages.length > 1 && (

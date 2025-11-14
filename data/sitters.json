@@ -1,0 +1,216 @@
+[
+  {
+    "id": "johnny-irvine",
+    "name": "Johnny",
+    "tagline": "Boutique staycations crafted in Irvine",
+    "avatar": "/about-image.jpg",
+    "heroImage": "/about-image.jpg",
+    "locations": [
+      {
+        "city": "Irvine",
+        "state": "CA",
+        "postalCode": "92618",
+        "lat": 33.673033,
+        "lng": -117.77879,
+        "serviceRadiusMiles": 20
+      }
+    ],
+    "bio": [
+      "Hi, I'm Johnny! I run a boutique-style dog care experience out of my peaceful home, where your pup is treated like family and pampered like they are on vacation. After over 15 years of hands-on experience, including time as a vet assistant, I left the corporate world behind to do what I love full-time: caring for dogs.",
+      "Every stay is customized to your dog's personality and needs. Whether they are shy and sensitive or playful and high-energy, I create a calm, nurturing space where they can thrive. I'm home all day, which means your pup gets round-the-clock attention, comfort, and companionship. No crowded kennels, no rushed potty breaks, just a safe, cozy retreat designed for relaxation and joy.",
+      "And yes, I go the extra mile. From enrichment walks and cuddle time to optional extras like PAW-casso paintings and storytime, I make sure each dog feels safe, engaged, and loved while you're away. My place is kept sparkling clean, and I send tons of updates so you'll always know your pup is happy and in good hands."
+    ],
+    "homeEnvironment": [
+      "Single-family home with open sight lines and soft gating to keep introductions calm",
+      "Dedicated nap dens, sanitized enrichment toys, and daily laundry service",
+      "Secure side yard play space plus on-leash sniffari walks through the neighborhood",
+      "On-site sitter 24/7 with hourly wellness checks during boarding weeks"
+    ],
+    "badges": [
+      {
+        "key": "clean-cozy",
+        "title": "Clean & Cozy Environment",
+        "description": "Hygienic, peaceful spaces for stress-free stays",
+        "earned": true
+      },
+      {
+        "key": "structure-stability",
+        "title": "Structure & Stability",
+        "description": "Consistent routines and thoughtful introductions",
+        "earned": true
+      },
+      {
+        "key": "transparent-communication",
+        "title": "Transparent Communication",
+        "description": "Reliable photo and video updates",
+        "earned": true
+      },
+      {
+        "key": "personalized-care",
+        "title": "Personalized Care",
+        "description": "Fun add-ons and vacation-style enrichment",
+        "earned": true
+      }
+    ],
+    "services": {
+      "primary": ["Dog Boarding", "Doggy Daycare", "Special-needs care"],
+      "addOns": ["PAW-casso painting", "Storytime + enrichment walks", "Spa bath"]
+    },
+    "reviews": [
+      {
+        "id": "akiko-2025-08",
+        "client": "Akiko F.",
+        "pet": "Archie",
+        "rating": 5,
+        "date": "2025-08-01",
+        "text": "Johnny sent nonstop updates and pictures so I never had to worry about Archie. Communication and care were both flawless.",
+        "image": "/reviews/HEIF Image.jpeg",
+        "source": "Rover"
+      },
+      {
+        "id": "vicky-2025-07",
+        "client": "Vicky L.",
+        "pet": "Thanos",
+        "rating": 5,
+        "date": "2025-07-27",
+        "text": "My dog has literally never been happier than when he stays with Johnny. I always have total peace of mind.",
+        "image": "/reviews/HEIF Image 2.jpeg",
+        "source": "Rover"
+      },
+      {
+        "id": "missy-2025-07",
+        "client": "Missy R.",
+        "pet": "Apollo",
+        "rating": 5,
+        "date": "2025-07-27",
+        "text": "Super knowledgeable about dog care, safety, and comfort. Apollo loved his stay and made new friends.",
+        "image": "/reviews/HEIF Image 3.jpeg",
+        "source": "Rover"
+      },
+      {
+        "id": "alice-2025-07",
+        "client": "Alice G.",
+        "pet": "Hazel and Moose",
+        "rating": 5,
+        "date": "2025-07-10",
+        "text": "We left our dogs with Johnny for two weeks and they came home relaxed. He followed every feeding and medication detail and the add-on adventures were a hit.",
+        "image": "/reviews/HEIF Image 5.jpeg",
+        "source": "Rover"
+      },
+      {
+        "id": "deena-2025-06",
+        "client": "Deena F.",
+        "pet": "Coconut",
+        "rating": 5,
+        "date": "2025-06-27",
+        "text": "Johnny goes above and beyond for our anxious girl. He keeps us comfortable while we travel and plans games to keep her engaged.",
+        "image": "/reviews/HEIF Image 7.jpeg",
+        "source": "Rover"
+      },
+      {
+        "id": "kerry-2025-06",
+        "client": "Kerry B.",
+        "pet": "Ellie",
+        "rating": 5,
+        "date": "2025-06-22",
+        "text": "Our dog does not do well in kennels, but she was so happy here. We received daily photo and video updates showing how much fun she was having.",
+        "image": "/reviews/HEIF Image 6.jpeg",
+        "source": "Rover"
+      }
+    ],
+    "availabilityNotes": "Accepting boarding reservations up to three weeks for dogs under 80 lbs.",
+    "contactEmail": "bookings@ruhrohretreat.com"
+  },
+  {
+    "id": "juli-wildomar",
+    "name": "Juli",
+    "tagline": "Lakeview adventures from a calm Wildomar home",
+    "avatar": "/images/gallery/IMG_1759.jpg",
+    "heroImage": "/images/gallery/IMG_1786.jpg",
+    "locations": [
+      {
+        "city": "Wildomar",
+        "state": "CA",
+        "postalCode": "92595",
+        "lat": 33.603568,
+        "lng": -117.293535,
+        "serviceRadiusMiles": 25
+      }
+    ],
+    "bio": [
+      "I'm Juli, a lifelong dog nerd who traded agency life for lake breezes and full-time pet hospitality. My Wildomar home sits on a quiet cul-de-sac minutes from hiking trails, so pups get both a peaceful basecamp and plenty of adventure.",
+      "I specialize in confident-but-sensitive pups who need slow introductions and predictable routines. Morning sniffaris around the lake, shaded midday lounge sessions, and evening puzzle games are standard fare.",
+      "Communication is my love language: every stay includes twice-daily video recaps plus wellness notes summarizing meals, potty breaks, and enrichment moments."
+    ],
+    "homeEnvironment": [
+      "Single-story ranch layout with no stairs and slip-free runners",
+      "Half-acre fenced yard featuring shade sails, splash trough, and agility tunnels",
+      "Resident senior Lab named Maple who helps demonstrate calm greetings",
+      "Backup power and Nest security so indoor temps and safety cams stay online"
+    ],
+    "badges": [
+      {
+        "key": "clean-cozy",
+        "title": "Clean & Cozy Environment",
+        "description": "Hygienic, peaceful spaces for stress-free stays",
+        "earned": true
+      },
+      {
+        "key": "structure-stability",
+        "title": "Structure & Stability",
+        "description": "Consistent routines and thoughtful introductions",
+        "earned": true
+      },
+      {
+        "key": "transparent-communication",
+        "title": "Transparent Communication",
+        "description": "Reliable photo and video updates",
+        "earned": true
+      },
+      {
+        "key": "personalized-care",
+        "title": "Personalized Care",
+        "description": "Fun add-ons and vacation-style enrichment",
+        "earned": false
+      }
+    ],
+    "services": {
+      "primary": ["Dog Boarding", "Trail Adventure Drop-ins", "Puppy Social Hours"],
+      "addOns": ["Lakeview hike & photo report", "Post-play paw balm treatment"]
+    },
+    "reviews": [
+      {
+        "id": "laura-2025-06",
+        "client": "Laura M.",
+        "pet": "Ranger",
+        "rating": 5,
+        "date": "2025-06-12",
+        "text": "Ranger came home tired, clean, and so content. Juli's trail updates and structured playdates were perfect for his working-dog brain.",
+        "image": "/testimonial-pet-1.jpeg",
+        "source": "Community"
+      },
+      {
+        "id": "devon-2025-05",
+        "client": "Devon P.",
+        "pet": "Miso",
+        "rating": 5,
+        "date": "2025-05-30",
+        "text": "Miso can be nervous with new people, but Juli's gradual introductions and Maple the Lab made her feel instantly safe.",
+        "image": "/testimonial-pet-2.jpeg",
+        "source": "Community"
+      },
+      {
+        "id": "angelica-2025-04",
+        "client": "Angelica R.",
+        "pet": "Churro",
+        "rating": 5,
+        "date": "2025-04-18",
+        "text": "Loved the twice-daily videos and wellness notes. The fenced yard and splash spot kept Churro entertained the whole weekend.",
+        "image": "/testimonial-pet-3.jpeg",
+        "source": "Community"
+      }
+    ],
+    "availabilityNotes": "Best suited for medium-size adventure pups; holiday weeks book out two months in advance.",
+    "contactEmail": "bookings@ruhrohretreat.com"
+  }
+]
