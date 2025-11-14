@@ -52,14 +52,14 @@ function LandingComponent() {
         onReadReviews={scrollToTestimonials}
       />
       <BenefitsSection />
-      <BadgeSystemSection />
-      <SafetyTrustSection />
       <VacationAddOnsSection />
-      <PhotoGallerySection />
       <HowItWorksSection />
+      <PhotoGallerySection />
+      <BadgeSystemSection />
       <RatesTransparencySection />
-      <BookingSection sectionRef={bookingRef} locations={locations} />
+      <SafetyTrustSection />
       <LegalTransparencySection />
+      <BookingSection sectionRef={bookingRef} locations={locations} />
       <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
       <script
         type="application/ld+json"
