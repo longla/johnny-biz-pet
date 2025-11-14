@@ -7,6 +7,7 @@ import BookingSection from "./landing/BookingSection";
 import CallToActionSection from "./landing/CallToActionSection";
 import HowItWorksSection from "./landing/HowItWorksSection";
 import HeroSection from "./landing/HeroSection";
+import LegalTransparencySection from "./landing/LegalTransparencySection";
 import PhotoGallerySection from "./landing/PhotoGallerySection";
 import RatesTransparencySection from "./landing/RatesTransparencySection";
 import SafetyTrustSection from "./landing/SafetyTrustSection";
@@ -60,6 +61,8 @@ function LandingComponent() {
       <AboutSection />
       <TestimonialsSection sectionRef={testimonialsRef} />
       <BookingSection sectionRef={bookingRef} locations={locations} />
+      <LegalTransparencySection />
+      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
       <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
 
       <script
