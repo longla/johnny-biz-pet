@@ -1,7 +1,8 @@
 import { motion, cubicBezier } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaEnvelope, FaPaw } from "react-icons/fa";
 
 type HeroSectionProps = {
   onBookNow: () => void;
@@ -125,7 +126,7 @@ function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: HERO_FADE_EASE, delay: 0.6 }}
           >
-            Ruh-Roh Retreat - Not Your Average Pet Sitter
+            Boutique In-Home Dog Sitting — Structured Care, Happy Tails
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl mb-8 text-white/90"
@@ -133,8 +134,7 @@ function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: HERO_FADE_EASE, delay: 0.7 }}
           >
-            Trustworthy, reliable pet care where dogs can have fun, be goofy, and feel at ease. Customize their experience with
-            unique add-ons tailored to their needs!
+            Your dog deserves more than just care — they deserve a vacation.
           </motion.p>
           <motion.p
             className="text-lg md:text-xl mb-8 text-white/90"
@@ -142,7 +142,8 @@ function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: HERO_FADE_EASE, delay: 0.75 }}
           >
-            Over 60 5-star reviews from happy pet parents on Rover
+            Ruh-Roh Retreat connects pet parents with independent sitters who share our boutique philosophy of structure,
+            comfort, and personalized attention.
           </motion.p>
         </motion.div>
       </div>
@@ -155,17 +156,19 @@ function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: HERO_FADE_EASE, delay: 0.8 }}
           >
+            <Link
+              href="/sitters"
+              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 inline-flex items-center gap-2"
+            >
+              <FaPaw className="h-5 w-5" aria-hidden="true" />
+              Find a Sitter
+            </Link>
             <button
               onClick={onBookNow}
-              className="bg-[#F28C38] hover:bg-[#e07a26] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300"
+              className="bg-transparent hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 border-2 border-white/60 inline-flex items-center gap-2"
             >
-              Book Now
-            </button>
-            <button
-              onClick={onReadReviews}
-              className="bg-transparent hover:bg-[#F28C38] text-white font-bold py-3 px-8 rounded-full text-lg transition-colors duration-300 border-2 border-[#F28C38]"
-            >
-              Read Reviews
+              <FaEnvelope className="h-5 w-5" aria-hidden="true" />
+              Submit a Request
             </button>
           </motion.div>
 

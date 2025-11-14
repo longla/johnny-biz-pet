@@ -8,7 +8,6 @@ import CallToActionSection from "./landing/CallToActionSection";
 import HowItWorksSection from "./landing/HowItWorksSection";
 import HeroSection from "./landing/HeroSection";
 import LegalTransparencySection from "./landing/LegalTransparencySection";
-import PhotoGallerySection from "./landing/PhotoGallerySection";
 import RatesTransparencySection from "./landing/RatesTransparencySection";
 import SafetyTrustSection from "./landing/SafetyTrustSection";
 import VacationAddOnsSection from "./landing/VacationAddOnsSection";
@@ -52,19 +51,14 @@ function LandingComponent() {
         onReadReviews={scrollToTestimonials}
       />
       <BenefitsSection />
-      <BadgeSystemSection />
-      <SafetyTrustSection />
       <VacationAddOnsSection />
-      <PhotoGallerySection />
       <HowItWorksSection />
+      <BadgeSystemSection />
       <RatesTransparencySection />
-      <AboutSection />
-      <TestimonialsSection sectionRef={testimonialsRef} />
-      <BookingSection sectionRef={bookingRef} locations={locations} />
+      <SafetyTrustSection />
       <LegalTransparencySection />
+      <BookingSection sectionRef={bookingRef} locations={locations} />
       <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
-      <CallToActionSection onBookNow={scrollToBooking} locations={locations} />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

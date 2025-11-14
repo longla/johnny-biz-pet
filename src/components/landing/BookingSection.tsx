@@ -154,9 +154,9 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
     <section id="booking" ref={sectionRef} className="py-20 bg-[#F4F4F9]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">Book My Services</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#333333] mb-4">Book a Stay</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Fill out the form below to request pet care services. I'll get back to you within 24 hours to confirm your booking.
+            Share your trip details and preferred location. A Ruh-Roh sitter will reply within 24 hours to confirm availability.
           </p>
         </div>
 
@@ -175,7 +175,7 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Booking Request Received!</h3>
             <p className="text-lg text-gray-600 mb-6">
-              Thank you for your request. I've received your booking details and will contact you shortly to confirm your reservation.
+              Thank you for your request. Our team has your booking details and will contact you shortly to confirm your reservation.
             </p>
             <button
               onClick={() => {

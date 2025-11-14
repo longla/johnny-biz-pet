@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,13 +25,30 @@ export default function Header() {
           </Link>
         </div>
         <nav className="hidden md:flex space-x-8 h-[80px] items-center">
-          <Link href="/" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Home</Link>
-          <Link href="/#services" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Services</Link>
-          <Link href="/#benefits" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Why Ruh-Roh</Link>
-          <Link href="/#about" className="text-gray-800 hover:text-[#1A9CB0] font-medium">About</Link>
-          <Link href="/#testimonials" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Testimonials</Link>
-          <Link href="/blog" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Blog</Link>
-          <Link href="/waiver" className="text-gray-800 hover:text-[#1A9CB0] font-medium">Waiver</Link>
+          <Link href="/" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Home
+          </Link>
+          <Link href="/#services" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Services
+          </Link>
+          <Link href="/#benefits" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Why Ruh-Roh
+          </Link>
+          <Link href="/#about" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            About
+          </Link>
+          <Link href="/sitters" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Meet Our Sitters
+          </Link>
+          <Link href="/#testimonials" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Testimonials
+          </Link>
+          <Link href="/blog" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Blog
+          </Link>
+          <Link href="/waiver" className="text-gray-800 hover:text-[#1A9CB0] font-medium">
+            Waiver
+          </Link>
         </nav>
         <button
           onClick={toggleMobileMenu}
@@ -91,6 +108,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               About
+            </Link>
+            <Link
+              href="/sitters"
+              className="text-xl font-medium text-gray-800 hover:text-[#1A9CB0]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Meet Our Sitters
             </Link>
             <Link
               href="/#testimonials"
