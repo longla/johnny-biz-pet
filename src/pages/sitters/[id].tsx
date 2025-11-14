@@ -1,11 +1,13 @@
+import fs from "fs";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import path from "path";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import SitterDetail from "@/components/sitters/SitterDetail";
-import { getSitterById, Sitter, sitters } from "@/data/sitters";
+import { getSitterById, Sitter, sitters, SitterGalleryPhoto } from "@/data/sitters";
 
 type SitterPageProps = {
   sitter: Sitter;
@@ -55,9 +57,30 @@ export const getStaticProps: GetStaticProps<SitterPageProps> = ({ params }) => {
     return { notFound: true };
   }
 
+  let gallery: SitterGalleryPhoto[] = [];
+  const galleryDir = path.join(process.cwd(), "public", "images", "gallery", sitter.id);
+  try {
+    if (fs.existsSync(galleryDir)) {
+      const files = fs.readdirSync(galleryDir);
+      gallery = files
+        .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+        .map((file) => ({
+          src: `/images/gallery/${sitter.id}/${file}`,
+          alt: file.replace(/\.[^/.]+$/, "").replace(/-/g, " "),
+        }));
+    }
+  } catch (error) {
+    console.error(`Error loading gallery for sitter ${sitter.id}:`, error);
+  }
+
+  const sitterWithGallery: Sitter = {
+    ...sitter,
+    gallery,
+  };
+
   return {
     props: {
-      sitter,
+      sitter: sitterWithGallery,
     },
   };
 };

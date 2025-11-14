@@ -8,7 +8,6 @@ import CallToActionSection from "./landing/CallToActionSection";
 import HowItWorksSection from "./landing/HowItWorksSection";
 import HeroSection from "./landing/HeroSection";
 import LegalTransparencySection from "./landing/LegalTransparencySection";
-import PhotoGallerySection from "./landing/PhotoGallerySection";
 import RatesTransparencySection from "./landing/RatesTransparencySection";
 import SafetyTrustSection from "./landing/SafetyTrustSection";
 import VacationAddOnsSection from "./landing/VacationAddOnsSection";
@@ -54,7 +53,6 @@ function LandingComponent() {
       <BenefitsSection />
       <VacationAddOnsSection />
       <HowItWorksSection />
-      <PhotoGallerySection />
       <BadgeSystemSection />
       <RatesTransparencySection />
       <SafetyTrustSection />

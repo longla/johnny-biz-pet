@@ -3,6 +3,7 @@
     "id": "johnny-irvine",
     "name": "Johnny",
     "tagline": "Boutique staycations crafted in Irvine",
+    "uid": "sr-001",
     "avatar": "/about-image.jpg",
     "heroImage": "/about-image.jpg",
     "locations": [
@@ -125,6 +126,7 @@
     "id": "juli-wildomar",
     "name": "Juli",
     "tagline": "Lakeview adventures from a calm Wildomar home",
+    "uid": "sr-002",
     "avatar": "/images/gallery/IMG_1759.jpg",
     "heroImage": "/images/gallery/IMG_1786.jpg",
     "locations": [

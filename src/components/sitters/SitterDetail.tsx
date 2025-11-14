@@ -5,6 +5,8 @@ import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 
 import { Sitter } from "@/data/sitters";
+import PhotoGallerySection from "../landing/PhotoGallerySection";
+import { Photo } from "../photo-gallery";
 
 type SitterDetailProps = {
   sitter: Sitter;
@@ -15,6 +17,14 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
   const reviews = sitter.reviews ?? [];
   const reviewsToDisplay = showAllReviews ? reviews : reviews.slice(0, 1);
   const canToggleReviews = reviews.length > 1;
+  const galleryPhotos: Photo[] =
+    sitter.gallery?.map((photo, index) => ({
+      id: `${sitter.id}-gallery-${index}`,
+      src: photo.src,
+      alt: photo.alt,
+      width: photo.width ?? 1200,
+      height: photo.height ?? 800,
+    })) ?? [];
 
   return (
     <section className="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto">
@@ -87,6 +97,15 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
               ))}
             </div>
           </div>
+
+          {galleryPhotos.length > 0 && (
+            <PhotoGallerySection
+              photos={galleryPhotos}
+              title={`Inside ${sitter.name}'s Retreat`}
+              description={`A peek at daily life with ${sitter.name} in ${sitter.locations[0]?.city ?? "our homes"}.`}
+              variant="profile"
+            />
+          )}
 
           <div>
             <h2 className="text-xl font-semibold text-[#333333] mb-3">Verified Reviews</h2>
