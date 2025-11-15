@@ -1,5 +1,13 @@
 import { motion } from "framer-motion";
-import { FaBroom, FaClock, FaCameraRetro, FaHeart } from "react-icons/fa";
+import {
+  FaBroom,
+  FaClock,
+  FaCameraRetro,
+  FaHeart,
+  FaBookOpen,
+  FaHandshake,
+  FaStar,
+} from "react-icons/fa";
 import { GiLaurelCrown } from "react-icons/gi";
 
 const badges = [
@@ -26,6 +34,27 @@ const badges = [
     description: "Fun add-ons and vacation-style enrichment",
     icon: FaHeart,
     accent: "from-[#FDC5F5] to-[#FF9A9E]",
+  },
+  {
+    title: "Playbook Excellence",
+    description:
+      "Sitters who naturally incorporate the Ruh-Roh Playbook to deliver a calm, boutique retreat experience.",
+    icon: FaBookOpen,
+    accent: "from-[#D7FFD9] to-[#A7F0BA]",
+  },
+  {
+    title: "Client Loyalty",
+    description:
+      "Sitters with strong repeat bookings and long-term trusted client relationships.",
+    icon: FaHandshake,
+    accent: "from-[#FFE8D6] to-[#FFC3A0]",
+  },
+  {
+    title: "Five-Star Consistency",
+    description:
+      "Sitters who consistently receive excellent reviews and provide a dependable guest experience.",
+    icon: FaStar,
+    accent: "from-[#FFF6B7] to-[#FECF6A]",
   },
 ];
 
@@ -85,6 +114,11 @@ function BadgeSystemSection() {
           ))}
         </div>
 
+        <p className="mt-12 text-center text-base text-gray-600 leading-relaxed">
+          Badges help pet parents easily identify sitters who voluntarily go above and beyond to create the signature Ruh-Roh
+          Retreat experience.
+        </p>
+
         <motion.div
           className="mt-16 max-w-2xl mx-auto text-center bg-[#1A9CB0]/5 border border-[#1A9CB0]/20 rounded-2xl p-8"
           initial={{ opacity: 0, y: 24 }}
@@ -96,7 +130,7 @@ function BadgeSystemSection() {
             <GiLaurelCrown aria-hidden="true" />
           </div>
           <p className="mt-6 text-lg font-semibold text-[#333333]">
-            Sitters who earn all four badges achieve the Ruh-Roh Gold Standard, representing the complete boutique-vacation experience.
+            Sitters who earn all seven badges achieve the Ruh-Roh Gold Standard, representing the complete boutique-vacation experience.
           </p>
         </motion.div>
       </div>

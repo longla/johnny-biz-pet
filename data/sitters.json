@@ -51,6 +51,24 @@
         "title": "Personalized Care",
         "description": "Fun add-ons and vacation-style enrichment",
         "earned": true
+      },
+      {
+        "key": "playbook-excellence",
+        "title": "Playbook Excellence",
+        "description": "Sitters who naturally incorporate the Ruh-Roh Playbook to deliver a calm, boutique retreat experience.",
+        "earned": true
+      },
+      {
+        "key": "client-loyalty",
+        "title": "Client Loyalty",
+        "description": "Sitters with strong repeat bookings and long-term trusted client relationships.",
+        "earned": true
+      },
+      {
+        "key": "five-star-consistency",
+        "title": "Five-Star Consistency",
+        "description": "Sitters who consistently receive excellent reviews and provide a dependable guest experience.",
+        "earned": true
       }
     ],
     "services": {
@@ -174,6 +192,24 @@
         "title": "Personalized Care",
         "description": "Fun add-ons and vacation-style enrichment",
         "earned": false
+      },
+      {
+        "key": "playbook-excellence",
+        "title": "Playbook Excellence",
+        "description": "Sitters who naturally incorporate the Ruh-Roh Playbook to deliver a calm, boutique retreat experience.",
+        "earned": true
+      },
+      {
+        "key": "client-loyalty",
+        "title": "Client Loyalty",
+        "description": "Sitters with strong repeat bookings and long-term trusted client relationships.",
+        "earned": true
+      },
+      {
+        "key": "five-star-consistency",
+        "title": "Five-Star Consistency",
+        "description": "Sitters who consistently receive excellent reviews and provide a dependable guest experience.",
+        "earned": true
       }
     ],
     "services": {
