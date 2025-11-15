@@ -82,14 +82,16 @@ function VacationAddOnsSection() {
               viewport={{ once: true }}
               whileHover={{ y: -12 }}
             >
-              <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${accent}`}
-                aria-hidden="true"
-              >
-                <Icon />
+              <div className="flex items-center gap-4">
+                <div
+                  className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl ${accent}`}
+                  aria-hidden="true"
+                >
+                  <Icon />
+                </div>
+                <h3 className="text-xl font-semibold text-[#333333]">{title}</h3>
               </div>
-              <h3 className="text-xl font-semibold text-[#333333] mt-6">{title}</h3>
-              <p className="text-gray-600 text-base leading-relaxed mt-3">{description}</p>
+              <p className="text-gray-600 text-base leading-relaxed mt-4">{description}</p>
             </motion.article>
           ))}
         </div>
