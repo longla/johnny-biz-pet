@@ -58,14 +58,14 @@ export const getStaticProps: GetStaticProps<SitterPageProps> = ({ params }) => {
   }
 
   let gallery: SitterGalleryPhoto[] = [];
-  const galleryDir = path.join(process.cwd(), "public", "images", "gallery", sitter.id);
+  const galleryDir = path.join(process.cwd(), "public", "sitters", sitter.uid, "gallery");
   try {
     if (fs.existsSync(galleryDir)) {
       const files = fs.readdirSync(galleryDir);
       gallery = files
         .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
         .map((file) => ({
-          src: `/images/gallery/${sitter.id}/${file}`,
+          src: `/sitters/${sitter.uid}/gallery/${file}`,
           alt: file.replace(/\.[^/.]+$/, "").replace(/-/g, " "),
         }));
     }
