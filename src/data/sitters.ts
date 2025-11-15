@@ -1,4 +1,5 @@
 import sitterData from "../../data/sitters.json";
+import testimonialsBySitter from "./testimonials";
 
 export type SitterLocation = {
   city: string;
@@ -16,9 +17,26 @@ export type SitterBadge = {
   earned: boolean;
 };
 
+export type SitterAddOn = {
+  name: string;
+  price?: string;
+  description?: string;
+};
+
+export type SitterAddOnCategory = {
+  category: string;
+  items: SitterAddOn[];
+};
+
+export type SitterPrimaryService = {
+  name: string;
+  description: string;
+  price?: string;
+};
+
 export type SitterServices = {
-  primary: string[];
-  addOns?: string[];
+  primary: SitterPrimaryService[];
+  addOns?: SitterAddOnCategory[];
 };
 
 export type SitterGalleryPhoto = {
@@ -57,7 +75,12 @@ export type Sitter = {
   contactEmail?: string;
 };
 
-export const sitters: Sitter[] = sitterData;
+const parsedSitters = sitterData as Sitter[];
+
+export const sitters: Sitter[] = parsedSitters.map((sitter) => ({
+  ...sitter,
+  reviews: testimonialsBySitter[sitter.uid] ?? sitter.reviews ?? [],
+}));
 
 export function getSitterById(id: string): Sitter | undefined {
   return sitters.find((sitter) => sitter.id === id);

@@ -1,0 +1,80 @@
+import johnnyReviewsData from "../../public/sitters/sr-001/reviews.json";
+import highlightedJohnnyReviewsData from "../../public/sitters/sr-001/highlighted-reviews.json";
+import juliReviewsData from "../../public/sitters/sr-002/reviews.json";
+import type { SitterReview } from "./sitters";
+
+type RawReview = {
+  id: number;
+  name: string;
+  date: string;
+  text: string;
+  image?: string;
+  rating: number;
+  pet?: string;
+  service?: string;
+};
+
+type RawHighlightedReview = {
+  id: number;
+  name: string;
+  service?: string;
+  date: string;
+  text: string;
+  image?: string;
+  rating: number;
+};
+
+const mapReviews = (
+  reviews: RawReview[],
+  options: { prefix: string; defaultPet: string; defaultSource: string }
+): SitterReview[] =>
+  reviews.map((review) => ({
+    id: `${options.prefix}-${review.id}`,
+    client: review.name,
+    pet: review.pet ?? options.defaultPet,
+    rating: review.rating,
+    date: review.date,
+    text: review.text,
+    image: review.image,
+    source: review.service ?? options.defaultSource,
+  }));
+
+const johnnyTestimonials = mapReviews(johnnyReviewsData as RawReview[], {
+  prefix: "johnny",
+  defaultPet: "Family Pup",
+  defaultSource: "Rover",
+});
+
+const juliTestimonials = mapReviews(juliReviewsData as RawReview[], {
+  prefix: "juli",
+  defaultPet: "Guest Pup",
+  defaultSource: "Community",
+});
+
+const testimonialsBySitter: Record<string, SitterReview[]> = {
+  "sr-001": johnnyTestimonials,
+  "sr-002": juliTestimonials,
+};
+
+export function getTestimonialsForSitter(uid: string): SitterReview[] {
+  return testimonialsBySitter[uid] ?? [];
+}
+
+const highlightedTestimonialsBySitter: Record<string, SitterReview[]> = {
+  "sr-001": (highlightedJohnnyReviewsData as RawHighlightedReview[]).map((review) => ({
+    id: `johnny-highlight-${review.id}`,
+    client: review.name,
+    pet: review.service ?? "Guest Pup",
+    rating: review.rating,
+    date: review.date,
+    text: review.text,
+    image: review.image,
+    source: "Highlight",
+  })),
+};
+
+export function getHighlightedTestimonialsForSitter(uid: string): SitterReview[] {
+  return highlightedTestimonialsBySitter[uid] ?? [];
+}
+
+export default testimonialsBySitter;

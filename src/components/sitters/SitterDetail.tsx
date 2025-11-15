@@ -2,9 +2,10 @@ import { useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaStar } from "react-icons/fa";
+import { FaChevronDown, FaStar } from "react-icons/fa";
 
-import { Sitter } from "@/data/sitters";
+import { Sitter, SitterReview } from "@/data/sitters";
+import { getHighlightedTestimonialsForSitter } from "@/data/testimonials";
 import PhotoGallerySection from "../landing/PhotoGallerySection";
 import { Photo } from "../photo-gallery";
 
@@ -14,9 +15,21 @@ type SitterDetailProps = {
 
 const SitterDetail = ({ sitter }: SitterDetailProps) => {
   const [showAllReviews, setShowAllReviews] = useState(false);
-  const reviews = sitter.reviews ?? [];
-  const reviewsToDisplay = showAllReviews ? reviews : reviews.slice(0, 1);
-  const canToggleReviews = reviews.length > 1;
+  const sitterUid = sitter.uid;
+  const baseReviews = sitter.reviews ?? [];
+  const highlightedReviews = getHighlightedTestimonialsForSitter(sitterUid);
+  const signature = (review: { client: string; date: string; text: string }) =>
+    `${review.client}-${review.date}-${review.text}`;
+  const highlightedSignatures = new Set(highlightedReviews.map(signature));
+  const remainingReviews = baseReviews.filter(
+    (review) => !highlightedSignatures.has(signature(review))
+  );
+  const orderedReviews = [...highlightedReviews, ...remainingReviews];
+  const defaultVisible = highlightedReviews.length
+    ? highlightedReviews
+    : orderedReviews.slice(0, 1);
+  const reviewsToDisplay = showAllReviews ? orderedReviews : defaultVisible;
+  const canToggleReviews = orderedReviews.length > defaultVisible.length;
   const galleryPhotos: Photo[] =
     sitter.gallery?.map((photo, index) => ({
       id: `${sitter.id}-gallery-${index}`,
@@ -25,6 +38,29 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
       width: photo.width ?? 1200,
       height: photo.height ?? 800,
     })) ?? [];
+  const addOnCategories = sitter.services.addOns ?? [];
+  const [openServices, setOpenServices] = useState<Record<string, boolean>>({});
+  const renderReviewAvatar = (review: SitterReview) =>
+    review.image ? (
+      <Image
+        src={review.image}
+        alt={`${review.client}'s pet`}
+        width={48}
+        height={48}
+        className="h-12 w-12 rounded-full object-cover"
+      />
+    ) : (
+      <div className="h-12 w-12 rounded-full bg-[#1A9CB0]/10 text-[#1A9CB0] flex items-center justify-center font-semibold">
+        {review.client.charAt(0)}
+      </div>
+    );
+
+  const toggleService = (name: string) => {
+    setOpenServices((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
 
   return (
     <section className="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto">
@@ -43,7 +79,6 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
             <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#1A9CB0]/10 text-[#1A9CB0] text-sm font-semibold">
               {sitter.locations.map((location) => `${location.city}, ${location.state}`).join(" • ")}
             </span>
-            <span className="text-gray-500 text-sm">Serving {sitter.locations[0]?.postalCode ?? ""}</span>
           </div>
           <h1 className="text-4xl font-bold text-[#333333]">{sitter.name}</h1>
           <p className="text-lg text-gray-600 mt-2">{sitter.tagline}</p>
@@ -84,17 +119,84 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
 
           <div>
             <h2 className="text-xl font-semibold text-[#333333] mb-3">Services & Add-ons</h2>
-            <div className="flex flex-wrap gap-3">
-              {sitter.services.primary.map((service) => (
-                <span key={`${sitter.id}-${service}`} className="px-4 py-2 bg-[#F4F4F9] rounded-full text-sm font-semibold text-[#333333] border border-gray-100">
-                  {service}
-                </span>
-              ))}
-              {sitter.services.addOns?.map((addon) => (
-                <span key={`${sitter.id}-addon-${addon}`} className="px-4 py-2 bg-white rounded-full text-sm text-[#1A9CB0] border border-[#1A9CB0]/30">
-                  {addon}
-                </span>
-              ))}
+            <p className="text-sm text-gray-500 mb-4">
+              Tap to explore core services or browse optional upgrades offered by this sitter.
+            </p>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div>
+                <h3 className="text-lg font-semibold text-[#333333] mb-3">Primary Services</h3>
+                <div className="space-y-3">
+                  {sitter.services.primary.map((service, index) => {
+                    const serviceId = `${sitter.id}-service-${index}`;
+                    const isOpen = openServices[service.name];
+                    return (
+                      <div key={serviceId} className="rounded-2xl border border-gray-200 bg-white shadow-sm">
+                        <button
+                          type="button"
+                          aria-expanded={isOpen}
+                          aria-controls={`${serviceId}-content`}
+                          onClick={() => toggleService(service.name)}
+                          className="w-full px-4 py-3 text-left"
+                        >
+                          <div className="flex items-center justify-between gap-3 flex-wrap">
+                            <div>
+                              <span className="font-semibold text-[#333333]">{service.name}</span>
+                              {service.price && (
+                                <span className="block text-sm text-[#1A9CB0] font-semibold sm:hidden mt-1">
+                                  {service.price}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-3 ml-auto">
+                              {service.price && (
+                                <span className="hidden sm:inline text-sm text-[#1A9CB0] font-semibold">
+                                  {service.price}
+                                </span>
+                              )}
+                              <FaChevronDown
+                                className={`h-4 w-4 text-[#1A9CB0] transition-transform duration-200 ${
+                                  isOpen ? "rotate-180" : ""
+                                }`}
+                                aria-hidden="true"
+                              />
+                            </div>
+                          </div>
+                        </button>
+                        {isOpen && (
+                          <p
+                            id={`${serviceId}-content`}
+                            className="px-4 pb-4 text-sm text-gray-600 leading-relaxed"
+                          >
+                            {service.description}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {addOnCategories.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-[#333333] mb-3">Vacation-Style Add-ons</h3>
+                  <div className="space-y-4">
+                    {addOnCategories.map(({ category, items }) => (
+                      <div key={`${sitter.id}-${category}`} className="rounded-2xl bg-[#F4F4F9] p-4 border border-gray-200">
+                        <p className="text-sm uppercase tracking-wide text-[#1A9CB0] font-semibold mb-2">
+                          {category}
+                        </p>
+                        <ul className="space-y-2">
+                          {items.map((addon) => (
+                            <li key={`${category}-${addon.name}`} className="flex flex-wrap justify-between text-sm text-gray-700">
+                              <span className="font-medium text-[#333333]">{addon.name}</span>
+                              {addon.price && <span className="text-[#F28C38] font-semibold">{addon.price}</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -109,18 +211,21 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
 
           <div>
             <h2 className="text-xl font-semibold text-[#333333] mb-3">Verified Reviews</h2>
-            {reviews.length === 0 ? (
+            {orderedReviews.length === 0 ? (
               <p className="text-gray-500">No reviews yet. Check back soon!</p>
             ) : (
               <div className="space-y-4">
                 {reviewsToDisplay.map((review, reviewIndex) => (
                   <div key={`${review.id}-${reviewIndex}`} className="rounded-2xl bg-[#F4F4F9] p-4 border border-gray-100">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <p className="font-semibold text-[#333333]">{review.client}</p>
-                        <p className="text-sm text-gray-500">{`Pet: ${review.pet}`}</p>
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        {renderReviewAvatar(review)}
+                        <div>
+                          <p className="font-semibold text-[#333333]">{review.client}</p>
+                          <p className="text-sm text-gray-500">{`Pet: ${review.pet}`}</p>
+                        </div>
                       </div>
-                      <p className="text-sm text-gray-500">{review.date}</p>
+                      <p className="text-sm text-gray-500 ml-auto">{review.date}</p>
                     </div>
                     <div className="flex items-center gap-1 text-[#F6C343] mt-2" aria-label={`${review.rating} out of 5 stars`}>
                       {Array.from({ length: review.rating }).map((_, starIndex) => (
@@ -135,7 +240,9 @@ const SitterDetail = ({ sitter }: SitterDetailProps) => {
                     onClick={() => setShowAllReviews((prev) => !prev)}
                     className="text-[#1A9CB0] font-semibold hover:underline"
                   >
-                    {showAllReviews ? "Hide additional reviews" : `View ${reviews.length - 1} more reviews`}
+                    {showAllReviews
+                      ? "Hide additional reviews"
+                      : `View ${orderedReviews.length - defaultVisible.length} more reviews`}
                   </button>
                 )}
               </div>

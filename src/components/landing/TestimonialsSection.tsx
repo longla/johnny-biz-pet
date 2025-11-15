@@ -4,6 +4,7 @@ import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from "re
 import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 
 import { getSitterById, SitterReview } from "@/data/sitters";
+import { getTestimonialsForSitter } from "@/data/testimonials";
 
 type TestimonialsSectionProps = {
   sectionRef: RefObject<HTMLElement>;
@@ -15,7 +16,8 @@ const TESTIMONIAL_SLIDE_INTERVAL = 5000;
 
 function TestimonialsSection({ sectionRef }: TestimonialsSectionProps) {
   const sitter = getSitterById("johnny-irvine");
-  const testimonials = useMemo(() => sitter?.reviews ?? [], [sitter]);
+  const sitterUid = sitter?.uid ?? "sr-001";
+  const testimonials = useMemo(() => getTestimonialsForSitter(sitterUid), [sitterUid]);
   const highlightedTestimonials = useMemo(() => testimonials.slice(0, Math.min(5, testimonials.length)), [testimonials]);
   const sitterName = sitter?.name ?? "Our sitters";
   const sitterPossessive = sitter?.name ? `${sitter.name}'s` : "Our sitters'";

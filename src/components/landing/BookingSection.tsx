@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, RefObject, useEffect, useState } from "react";
 
-import services from "../../lib/services.js";
+import { getSitterById } from "@/data/sitters";
 import { Location } from "./types";
 
 type BookingForm = {
@@ -42,6 +42,10 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
   const [dateError, setDateError] = useState("");
   const [nightsCount, setNightsCount] = useState<number | null>(null);
   const todayISO = new Date().toISOString().split("T")[0];
+  const selectedSitter = selectedLocation?.sitterId
+    ? getSitterById(selectedLocation.sitterId)
+    : undefined;
+  const sitterAddOns = selectedSitter?.services.addOns ?? [];
 
   useEffect(() => {
     if (bookingForm.startDate && bookingForm.endDate) {
@@ -353,19 +357,19 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
 
               {dateError && <p className="text-red-500 mb-6">{dateError}</p>}
 
-              {selectedLocation?.showAddons && (
+              {selectedLocation?.showAddons && sitterAddOns.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">Enhance Your Pet's Stay</h3>
                   <p className="text-gray-600 mb-4">
                     Select any add-ons you'd like to include. You can always modify these later during our meet & greet.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(services).map(([category, addons]) => (
+                    {sitterAddOns.map(({ category, items }) => (
                       <div key={category} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                         <h4 className="text-lg font-semibold text-gray-800 mb-3">{category}</h4>
                         <div className="space-y-2">
-                          {addons.map((addon: { name: string; price: string; description?: string }) => (
-                            <label key={addon.name} className="flex items-start">
+                          {items.map((addon) => (
+                            <label key={`${category}-${addon.name}`} className="flex items-start">
                               <input
                                 type="checkbox"
                                 name={addon.name}
@@ -376,7 +380,9 @@ function BookingSection({ sectionRef, locations }: BookingSectionProps) {
                               <div>
                                 <p className="font-medium text-gray-800">{addon.name}</p>
                                 {addon.description && <p className="text-sm text-gray-600">{addon.description}</p>}
-                                <p className="text-sm font-semibold text-[#F28C38]">{addon.price}</p>
+                                {addon.price && (
+                                  <p className="text-sm font-semibold text-[#F28C38]">{addon.price}</p>
+                                )}
                               </div>
                             </label>
                           ))}

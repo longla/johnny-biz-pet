@@ -1,39 +1,24 @@
 import { motion } from "framer-motion";
-import {
-  FaCompass,
-  FaClipboardCheck,
-  FaHandshake,
-  FaDog,
-} from "react-icons/fa";
-
 const steps = [
   {
     title: "Browse Sitters",
     description:
       "View sitter profiles with photos, reviews, home details, and Ruh-Roh Badges.",
-    icon: FaCompass,
-    accent: "from-[#F28C38] to-[#F7B267]",
   },
   {
     title: "Submit a Request",
     description:
       "Choose your sitter, enter dates, and share details about your pup.",
-    icon: FaClipboardCheck,
-    accent: "from-[#1A9CB0] to-[#4EB8C3]",
   },
   {
     title: "Meet & Greet",
     description:
       "Your chosen sitter contacts you to schedule a meet-and-greet and confirm fit.",
-    icon: FaHandshake,
-    accent: "from-[#6C63FF] to-[#9E95FF]",
   },
   {
     title: "Book & Relax",
     description:
       "Once booked, your sitter provides updates while your dog enjoys their boutique retreat.",
-    icon: FaDog,
-    accent: "from-[#E4572E] to-[#F48B64]",
   },
 ];
 
@@ -58,7 +43,6 @@ function HowItWorksSection() {
           viewport={{ once: true }}
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-[#1A9CB0]/10 px-4 py-2 text-sm font-semibold text-[#1A9CB0] uppercase tracking-widest">
-            <FaCompass className="text-base" aria-hidden="true" />
             How It Works
           </span>
           <h2
@@ -70,7 +54,7 @@ function HowItWorksSection() {
         </motion.div>
 
         <div className="flex flex-col gap-8">
-          {steps.map(({ title, description, icon: Icon, accent }, index) => (
+          {steps.map(({ title, description }, index) => (
             <motion.div
               key={title}
               className="group relative bg-white rounded-2xl border border-gray-100 shadow-lg p-8 overflow-hidden"
@@ -88,12 +72,7 @@ function HowItWorksSection() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1A9CB0] text-white text-lg font-bold mr-4">
                   {index + 1}
                 </span>
-                <div
-                  className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${accent} text-white shadow-lg shadow-[#1A9CB0]/20`}
-                >
-                  <Icon aria-hidden="true" className="text-2xl" />
-                </div>
-                <h3 className="ml-4 text-xl font-semibold text-[#333333]">
+                <h3 className="text-xl font-semibold text-[#333333]">
                   {title}
                 </h3>
               </div>
