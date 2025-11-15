@@ -4,8 +4,8 @@
     "name": "Johnny",
     "tagline": "Boutique staycations crafted in Irvine",
     "uid": "sr-001",
-    "avatar": "/about-image.jpg",
-    "heroImage": "/about-image.jpg",
+    "avatar": "/sitters/sr-001/profile.jpg",
+    "heroImage": "/hero/johnny-hero.png",
     "locations": [
       {
         "city": "Irvine",
@@ -72,71 +72,52 @@
       }
     ],
     "services": {
-      "primary": ["Dog Boarding", "Doggy Daycare", "Special-needs care"],
-      "addOns": ["PAW-casso painting", "Storytime + enrichment walks", "Spa bath"]
+      "primary": [
+        {
+          "name": "Dog Boarding",
+          "description": "Boutique overnight stays with cozy suites, hourly wellness checks, and 24/7 supervision.",
+          "price": "$50/night"
+        },
+        {
+          "name": "Doggy Daycare",
+          "description": "Structured daytime care with enrichment walks, rest dens, and constant communication.",
+          "price": "$50/night"
+        }
+      ],
+      "addOns": [
+        {
+          "category": "Mental Stimulation & Exercise",
+          "items": [
+            { "name": "Sniffari Walk", "price": "$10" },
+            { "name": "Extended Walk (20 min extra)", "price": "$15" },
+            { "name": "Jogging Session (20 min)", "price": "$15" },
+            { "name": "Dog Park Trip", "price": "$15" },
+            { "name": "Puzzle Feeder or Frozen Kong", "price": "$5" }
+          ]
+        },
+        {
+          "category": "Fun & Unique Experiences",
+          "items": [
+            { "name": "PAW-casso Painting", "price": "$20" },
+            { "name": "Puppuccino & Pup Treat Outing", "price": "$15" },
+            { "name": "Cuddle & Movie Night", "price": "$10" },
+            { "name": "Morning or Evening Storytime", "price": "$5" }
+          ]
+        },
+        {
+          "category": "Wellness & Comfort",
+          "items": [
+            { "name": "Basic Obedience Reinforcement", "price": "$15" },
+            { "name": "Bath & Blow Dry", "price": "$40" },
+            { "name": "Massage & Brushing", "price": "$15" },
+            { "name": "Calming Aromatherapy", "price": "$10" },
+            { "name": "Teeth Brushing", "price": "$5" },
+            { "name": "Nail Trim", "price": "$10" }
+          ]
+        }
+      ]
     },
-    "reviews": [
-      {
-        "id": "akiko-2025-08",
-        "client": "Akiko F.",
-        "pet": "Archie",
-        "rating": 5,
-        "date": "2025-08-01",
-        "text": "Johnny sent nonstop updates and pictures so I never had to worry about Archie. Communication and care were both flawless.",
-        "image": "/reviews/HEIF Image.jpeg",
-        "source": "Rover"
-      },
-      {
-        "id": "vicky-2025-07",
-        "client": "Vicky L.",
-        "pet": "Thanos",
-        "rating": 5,
-        "date": "2025-07-27",
-        "text": "My dog has literally never been happier than when he stays with Johnny. I always have total peace of mind.",
-        "image": "/reviews/HEIF Image 2.jpeg",
-        "source": "Rover"
-      },
-      {
-        "id": "missy-2025-07",
-        "client": "Missy R.",
-        "pet": "Apollo",
-        "rating": 5,
-        "date": "2025-07-27",
-        "text": "Super knowledgeable about dog care, safety, and comfort. Apollo loved his stay and made new friends.",
-        "image": "/reviews/HEIF Image 3.jpeg",
-        "source": "Rover"
-      },
-      {
-        "id": "alice-2025-07",
-        "client": "Alice G.",
-        "pet": "Hazel and Moose",
-        "rating": 5,
-        "date": "2025-07-10",
-        "text": "We left our dogs with Johnny for two weeks and they came home relaxed. He followed every feeding and medication detail and the add-on adventures were a hit.",
-        "image": "/reviews/HEIF Image 5.jpeg",
-        "source": "Rover"
-      },
-      {
-        "id": "deena-2025-06",
-        "client": "Deena F.",
-        "pet": "Coconut",
-        "rating": 5,
-        "date": "2025-06-27",
-        "text": "Johnny goes above and beyond for our anxious girl. He keeps us comfortable while we travel and plans games to keep her engaged.",
-        "image": "/reviews/HEIF Image 7.jpeg",
-        "source": "Rover"
-      },
-      {
-        "id": "kerry-2025-06",
-        "client": "Kerry B.",
-        "pet": "Ellie",
-        "rating": 5,
-        "date": "2025-06-22",
-        "text": "Our dog does not do well in kennels, but she was so happy here. We received daily photo and video updates showing how much fun she was having.",
-        "image": "/reviews/HEIF Image 6.jpeg",
-        "source": "Rover"
-      }
-    ],
+    "reviews": [],
     "availabilityNotes": "Accepting boarding reservations up to three weeks for dogs under 80 lbs.",
     "contactEmail": "bookings@ruhrohretreat.com"
   },
@@ -145,8 +126,8 @@
     "name": "Juli",
     "tagline": "Lakeview adventures from a calm Wildomar home",
     "uid": "sr-002",
-    "avatar": "/images/gallery/IMG_1759.jpg",
-    "heroImage": "/images/gallery/IMG_1786.jpg",
+    "avatar": "/sitters/sr-002/avatar.jpg",
+    "heroImage": "/hero/juli-hero.png",
     "locations": [
       {
         "city": "Wildomar",
@@ -213,41 +194,34 @@
       }
     ],
     "services": {
-      "primary": ["Dog Boarding", "Trail Adventure Drop-ins", "Puppy Social Hours"],
-      "addOns": ["Lakeview hike & photo report", "Post-play paw balm treatment"]
+      "primary": [
+        {
+          "name": "Dog Boarding",
+          "description": "Lakeview retreats limited to a handful of pups with calm introductions and sunset yard time.",
+          "price": "$110/night"
+        },
+        {
+          "name": "Trail Adventure Drop-ins",
+          "description": "Guided hikes around the lake plus detailed wellness reports for each outing.",
+          "price": "$55/visit"
+        },
+        {
+          "name": "Puppy Social Hours",
+          "description": "Small supervised puppy groups that practice polite play and confidence-building games.",
+          "price": "$45/session"
+        }
+      ],
+      "addOns": [
+        {
+          "category": "Adventure Enhancements",
+          "items": [
+            { "name": "Lakeview hike & photo report" },
+            { "name": "Post-play paw balm treatment" }
+          ]
+        }
+      ]
     },
-    "reviews": [
-      {
-        "id": "laura-2025-06",
-        "client": "Laura M.",
-        "pet": "Ranger",
-        "rating": 5,
-        "date": "2025-06-12",
-        "text": "Ranger came home tired, clean, and so content. Juli's trail updates and structured playdates were perfect for his working-dog brain.",
-        "image": "/testimonial-pet-1.jpeg",
-        "source": "Community"
-      },
-      {
-        "id": "devon-2025-05",
-        "client": "Devon P.",
-        "pet": "Miso",
-        "rating": 5,
-        "date": "2025-05-30",
-        "text": "Miso can be nervous with new people, but Juli's gradual introductions and Maple the Lab made her feel instantly safe.",
-        "image": "/testimonial-pet-2.jpeg",
-        "source": "Community"
-      },
-      {
-        "id": "angelica-2025-04",
-        "client": "Angelica R.",
-        "pet": "Churro",
-        "rating": 5,
-        "date": "2025-04-18",
-        "text": "Loved the twice-daily videos and wellness notes. The fenced yard and splash spot kept Churro entertained the whole weekend.",
-        "image": "/testimonial-pet-3.jpeg",
-        "source": "Community"
-      }
-    ],
+    "reviews": [],
     "availabilityNotes": "Best suited for medium-size adventure pups; holiday weeks book out two months in advance.",
     "contactEmail": "bookings@ruhrohretreat.com"
   }

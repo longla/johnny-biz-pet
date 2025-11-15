@@ -12,7 +12,7 @@ const ABOUT_FALLBACK_PARAGRAPHS = [
 function AboutSection() {
   const johnny = getSitterById("johnny-irvine");
   const paragraphs = johnny?.bio ?? ABOUT_FALLBACK_PARAGRAPHS;
-  const heroImage = johnny?.heroImage ?? "/about-image.jpg";
+  const heroImage = johnny?.heroImage ?? "/sitters/sr-001/profile.jpg";
   const sitterName = johnny?.name ?? "Johnny";
 
   return (

@@ -5,4 +5,5 @@ export type Location = {
   showAddons: boolean;
   lat: number;
   lng: number;
+  sitterId?: string;
 };
