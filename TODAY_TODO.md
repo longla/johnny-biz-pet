@@ -1,0 +1,1 @@
+[] How It Works section, remove icons, keep number step
