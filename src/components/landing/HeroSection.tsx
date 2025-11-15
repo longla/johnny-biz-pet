@@ -6,13 +6,12 @@ import { FaArrowLeft, FaArrowRight, FaEnvelope, FaPaw } from "react-icons/fa";
 
 type HeroSectionProps = {
   onBookNow: () => void;
-  onReadReviews: () => void;
 };
 
 const HERO_ROTATION_INTERVAL = 5000;
 const HERO_FADE_EASE = cubicBezier(0.4, 0, 0.2, 1);
 
-function HeroSection({ onBookNow, onReadReviews }: HeroSectionProps) {
+function HeroSection({ onBookNow }: HeroSectionProps) {
   const [heroImages, setHeroImages] = useState<string[]>([]);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const heroIntervalRef = useRef<NodeJS.Timeout>();

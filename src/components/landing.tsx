@@ -11,7 +11,6 @@ import LegalTransparencySection from "./landing/LegalTransparencySection";
 import RatesTransparencySection from "./landing/RatesTransparencySection";
 import SafetyTrustSection from "./landing/SafetyTrustSection";
 import VacationAddOnsSection from "./landing/VacationAddOnsSection";
-import TestimonialsSection from "./landing/TestimonialsSection";
 import { Location } from "./landing/types";
 
 const locations: Location[] = [
@@ -37,20 +36,17 @@ const locations: Location[] = [
 
 function LandingComponent() {
   const bookingRef = useRef<HTMLElement>(null);
-  const testimonialsRef = useRef<HTMLElement>(null);
 
   const scrollToSection = (ref: RefObject<HTMLElement>) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const scrollToBooking = () => scrollToSection(bookingRef);
-  const scrollToTestimonials = () => scrollToSection(testimonialsRef);
 
   return (
     <div className="relative overflow-x-hidden">
       <HeroSection
         onBookNow={scrollToBooking}
-        onReadReviews={scrollToTestimonials}
       />
       <BenefitsSection />
       <VacationAddOnsSection />
