@@ -5,7 +5,7 @@
     "tagline": "Boutique staycations crafted in Irvine",
     "uid": "sr-001",
     "avatar": "/sitters/sr-001/profile.jpg",
-    "heroImage": "/sitters/sr-001/profile.jpg",
+    "heroImage": "/hero/johnny-hero.png",
     "locations": [
       {
         "city": "Irvine",
@@ -127,7 +127,7 @@
     "tagline": "Lakeview adventures from a calm Wildomar home",
     "uid": "sr-002",
     "avatar": "/sitters/sr-002/avatar.jpg",
-    "heroImage": "/sitters/sr-002/hero.jpg",
+    "heroImage": "/hero/juli-hero.png",
     "locations": [
       {
         "city": "Wildomar",

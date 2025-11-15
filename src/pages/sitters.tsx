@@ -44,11 +44,22 @@ function SittersPage() {
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <h2 className="text-2xl font-bold text-[#333333]">{sitter.name}</h2>
-                        <p className="text-sm text-gray-500">
-                          {sitter.locations.map((location) => `${location.city}, ${location.state}`).join(" • ")}
-                        </p>
+                      <div className="flex items-center gap-4">
+                        <div className="relative h-16 w-16 rounded-full ring-4 ring-white shadow-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={sitter.avatar || sitter.heroImage}
+                            alt={`${sitter.name} avatar`}
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-bold text-[#333333]">{sitter.name}</h2>
+                          <p className="text-sm text-gray-500">
+                            {sitter.locations.map((location) => `${location.city}, ${location.state}`).join(" • ")}
+                          </p>
+                        </div>
                       </div>
                       {averageRating && (
                         <div className="flex items-center gap-1 text-[#F6C343]" aria-label={`${averageRating.toFixed(1)} out of 5 stars`}>
