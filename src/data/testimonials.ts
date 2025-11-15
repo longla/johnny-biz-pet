@@ -1,6 +1,6 @@
-import johnnyReviewsData from "../../public/sitters/sr-001/reviews.json";
-import highlightedJohnnyReviewsData from "../../public/sitters/sr-001/highlighted-reviews.json";
-import juliReviewsData from "../../public/sitters/sr-002/reviews.json";
+import johnnyReviewsData from "../../public/sitters/sr-001/reviews/reviews.json";
+import highlightedJohnnyReviewsData from "../../public/sitters/sr-001/reviews/highlighted-reviews.json";
+import juliReviewsData from "../../public/sitters/sr-002/reviews/reviews.json";
 import type { SitterReview } from "./sitters";
 
 type RawReview = {
