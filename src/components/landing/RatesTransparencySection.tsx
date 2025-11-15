@@ -36,7 +36,7 @@ const rateDetails = [
   },
   {
     label: "Doggy Daycare",
-    value: "from $45/day",
+    value: "from $50/day",
   },
 ];
 
