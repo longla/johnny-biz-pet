@@ -69,7 +69,7 @@ function HowItWorksSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="flex flex-col gap-8">
           {steps.map(({ title, description, icon: Icon, accent }, index) => (
             <motion.div
               key={title}
@@ -85,6 +85,9 @@ function HowItWorksSection() {
             >
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white via-white/90 to-white" />
               <div className="relative flex items-center mb-6">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1A9CB0] text-white text-lg font-bold mr-4">
+                  {index + 1}
+                </span>
                 <div
                   className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${accent} text-white shadow-lg shadow-[#1A9CB0]/20`}
                 >
